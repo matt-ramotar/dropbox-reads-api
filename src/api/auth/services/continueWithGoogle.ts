@@ -29,7 +29,7 @@ export default async function continueWithGoogle(
   user.isLoggedIn = true;
   await user.save();
 
-  const token = jwt.sign({ userId: user.id }, KEYS!);
+  const token = jwt.sign({ userId: user._id }, KEYS!);
 
   return response.json(new ContinueWithGoogleSuccess(user.toSafeUser(), token));
 }
