@@ -3,10 +3,6 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type Mutation {
-  createUser(email: String!, firstName: String!, lastName: String!, password: String!, username: String!): User!
-}
-
 type Query {
   user(id: String!): User
 }
@@ -15,10 +11,10 @@ type Query {
 type User {
   email: String!
   firstName: String!
+  googleId: String!
   id: ID!
   isLoggedIn: Boolean!
   lastName: String!
-  password: String!
   picture: String!
   username: String!
   usersFollowedBy: ID!
