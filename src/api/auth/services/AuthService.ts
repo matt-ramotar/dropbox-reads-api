@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { ContinueWithGoogleSuccess } from "../entities/responses";
+import { UnsuccessfulAuth } from "../entities/errors";
+import { ContinueWithGoogleSuccess, SuccessfulAuth } from "../entities/responses";
 import continueWithGoogle from "./continueWithGoogle";
+import validateToken from "./validateToken";
 
 interface AuthService {
   continueWithGoogle(
@@ -8,6 +10,12 @@ interface AuthService {
     response: Response,
     next: NextFunction
   ): Promise<Response<ContinueWithGoogleSuccess>>;
+
+  validateToken(
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ): Promise<Response<SuccessfulAuth | UnsuccessfulAuth>>;
 }
 
 export default class RealAuthService implements AuthService {
@@ -17,5 +25,13 @@ export default class RealAuthService implements AuthService {
     next: NextFunction
   ): Promise<Response<ContinueWithGoogleSuccess>> {
     return await continueWithGoogle(request, response, next);
+  }
+
+  public async validateToken(
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ): Promise<Response<SuccessfulAuth | UnsuccessfulAuth>> {
+    return await validateToken(request, response, next);
   }
 }

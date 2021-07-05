@@ -5,6 +5,7 @@ import RealSpecService from "./api/spec/services/SpecService";
 const router = express.Router();
 
 router.post("/auth/continue/google", new RealAuthService().continueWithGoogle);
+router.post("/auth/token/validate", new RealAuthService().validateToken);
 
 router.get("/spec", new RealSpecService().getSpec);
 
