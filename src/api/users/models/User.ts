@@ -1,6 +1,7 @@
 import { DocumentType, prop, Ref } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import { RealSafeUser, SafeUser } from "./SafeUser";
+import { RealUserProfile, UserProfile } from "./UserProfile";
 
 /**
  * @tsoaModel
@@ -58,5 +59,9 @@ export default class User {
       this.picture,
       this.isLoggedIn
     );
+  }
+
+  public toUserProfile(this: DocumentType<User>): UserProfile {
+    return new RealUserProfile(this.toSafeUser());
   }
 }
