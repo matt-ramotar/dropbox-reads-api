@@ -13,7 +13,7 @@ export class UserController extends Controller {
   }
 
   /** Get user profile by username */
-  @Get("{username}")
+  @Get("{username}/profile")
   async getUserProfile(@Path() username: string): Promise<UserProfile | null> {
     return await new RealUserService().getUserProfile(username);
   }
