@@ -1,4 +1,5 @@
-import { Body, Controller, Hidden, Post, Route, Tags } from "tsoa";
+import { Body, Controller, Post, Route, Tags } from "tsoa";
+import { AddBookInput } from "../entities/AddBookInput";
 import { CreateBookshelfInput } from "../entities/CreateBookshelfInput";
 import Bookshelf from "../models/Bookshelf";
 import RealBookshelfService from "../services/BookshelfService";
@@ -7,9 +8,14 @@ import RealBookshelfService from "../services/BookshelfService";
 @Tags("Bookshelf")
 export class BookshelfController extends Controller {
   /** Create bookshelf */
-  @Hidden()
   @Post()
   async createBookshelf(@Body() input: CreateBookshelfInput): Promise<Bookshelf> {
     return await new RealBookshelfService().createBookshelf(input);
+  }
+
+  /** Add book to bookshelf */
+  @Post()
+  async addBook(@Body() input: AddBookInput): Promise<Bookshelf> {
+    return await new RealBookshelfService().addBook(input);
   }
 }
