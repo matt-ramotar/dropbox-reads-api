@@ -1,5 +1,6 @@
 import { prop, Ref } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
+import Reaction from "../../reactions/models/Reaction";
 import { default as Review, default as User } from "../../reviews/models/Review";
 
 /**
