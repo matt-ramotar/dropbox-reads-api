@@ -1,6 +1,7 @@
 import { prop, Ref } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
+import ReviewUpvote from "../../reviewupvotes/models/ReviewUpvote";
 import User from "../../users/models/User";
 
 /**
