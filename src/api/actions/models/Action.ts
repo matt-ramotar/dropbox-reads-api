@@ -22,7 +22,7 @@ export default class Action {
 
   @Field()
   @prop()
-  type!: ActionType;
+  type!: string;
 
   @Field()
   @prop()
