@@ -14,7 +14,7 @@ export class BookshelfController extends Controller {
   }
 
   /** Add book to bookshelf */
-  @Post()
+  @Post("{bookshelfId}/books")
   async addBook(@Body() input: AddBookInput): Promise<Bookshelf> {
     return await new RealBookshelfService().addBook(input);
   }
