@@ -1,7 +1,7 @@
 import { prop, Ref } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Author from "../../authors/models/Author";
-import Tag from "../../tags/models/Tag";
+import BookTag from "../../booktags/models/BookTag";
 import User from "../../users/models/User";
 
 /**
@@ -31,8 +31,8 @@ export default class Book {
   author!: Ref<Author, string>;
 
   @Field(() => ID)
-  @prop({ ref: () => Tag })
-  tags?: Ref<Tag, string>[];
+  @prop({ ref: () => BookTag })
+  tags?: Ref<BookTag, string>[];
 
   @Field(() => ID)
   @prop({ ref: () => User })
