@@ -1,5 +1,5 @@
 export interface CreateBookTagInput {
-  book: string;
-  tag: string;
-  userAddedBy: string;
+  bookId: string;
+  tagId: string;
+  userId: string;
 }
