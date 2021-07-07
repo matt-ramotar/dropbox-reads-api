@@ -1,4 +1,5 @@
 import { getModelForClass } from "@typegoose/typegoose";
+import Action from "./api/actions/models/Action";
 import Author from "./api/authors/models/Author";
 import Book from "./api/books/models/Book";
 import Bookshelf from "./api/bookshelves/models/Bookshelf";
@@ -12,6 +13,7 @@ import Role from "./api/roles/models/Role";
 import Tag from "./api/tags/models/Tag";
 import User from "./api/users/models/User";
 
+export const ActionModel = getModelForClass(Action);
 export const AuthorModel = getModelForClass(Author);
 export const BookModel = getModelForClass(Book);
 export const BookshelfModel = getModelForClass(Bookshelf);

@@ -1,5 +1,6 @@
 import { DocumentType, prop, Ref } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
+import Action from "../../actions/models/Action";
 import Book from "../../books/models/Book";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookTag from "../../booktags/models/BookTag";
@@ -93,6 +94,14 @@ export default class User {
   @Field(() => ID)
   @prop({ ref: () => BookTagUpvote })
   bookTagUpvotes?: Ref<BookTagUpvote, string>[];
+
+  @Field(() => ID)
+  @prop({ ref: () => Action })
+  actions?: Ref<Action, string>[];
+
+  @Field(() => ID)
+  @prop({ ref: () => Action })
+  feed?: Ref<Action, string>[];
 
   public toSafeUser(this: DocumentType<User>): SafeUser {
     return new RealSafeUser(
