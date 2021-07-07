@@ -3,6 +3,7 @@ import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookTag from "../../booktags/models/BookTag";
+import BookTagUpvote from "../../booktagupvotes/models/BookTagUpvote";
 import ReviewReaction from "../../reviewreactions/models/ReviewReaction";
 import Review from "../../reviews/models/Review";
 import ReviewUpvote from "../../reviewupvotes/models/ReviewUpvote";
@@ -88,6 +89,10 @@ export default class User {
   @Field(() => ID)
   @prop({ ref: () => BookTag })
   bookTagsAdded?: Ref<BookTag, string>[];
+
+  @Field(() => ID)
+  @prop({ ref: () => BookTagUpvote })
+  bookTagUpvotes?: Ref<BookTagUpvote, string>[];
 
   public toSafeUser(this: DocumentType<User>): SafeUser {
     return new RealSafeUser(
