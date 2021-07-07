@@ -1,5 +1,6 @@
 import { DocumentType, prop, Ref } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
+import Role from "../../roles/models/Role";
 import { RealSafeUser, SafeUser } from "./SafeUser";
 import { RealUserProfile, UserProfile } from "./UserProfile";
 
@@ -32,6 +33,10 @@ export default class User {
   @Field()
   @prop()
   picture?: string;
+
+  @Field(() => ID)
+  @prop({ ref: () => Role })
+  role?: Ref<Role, string>;
 
   @Field()
   @prop()
