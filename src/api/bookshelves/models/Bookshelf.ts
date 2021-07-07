@@ -32,5 +32,5 @@ export default class Bookshelf {
 
   @Field(() => ID)
   @prop({ ref: () => Tag })
-  tags?: Ref<Tag, string>;
+  tags?: Ref<Tag, string>[];
 }
