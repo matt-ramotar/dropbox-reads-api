@@ -24,7 +24,7 @@ export default class Bookshelf {
 
   @Field(() => ID)
   @prop({ ref: () => Book })
-  books?: Ref<Book, string>;
+  books?: Ref<Book, string>[];
 
   @Field(() => ID)
   @prop({ ref: () => User })
