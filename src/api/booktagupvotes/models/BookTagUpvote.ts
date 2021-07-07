@@ -1,5 +1,6 @@
 import { prop, Ref } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
+import BookTag from "../../booktags/models/BookTag";
 import User from "../../users/models/User";
 
 /**
