@@ -23,6 +23,7 @@ export default async function createBook(input: CreateBookInput): Promise<Book> 
 
     if (user.booksAdded) user.booksAdded.push(book.id);
     else user.booksAdded = [book.id];
+    await user.save();
 
     return book;
   } catch (error) {
