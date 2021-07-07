@@ -1,4 +1,4 @@
-import { Body, Controller, Hidden, Post, Route, Tags } from "tsoa";
+import { Body, Controller, Get, Hidden, Post, Route, Tags } from "tsoa";
 import { CreateTagInput } from "../entities/CreateTagInput";
 import Tag from "../models/Tag";
 import RealTagService from "../services/TagService";
@@ -14,7 +14,7 @@ export class TagController extends Controller {
   }
 
   /** Get tags */
-  @Post()
+  @Get()
   async getTags(): Promise<Tag[]> {
     return await new RealTagService().getTags();
   }
