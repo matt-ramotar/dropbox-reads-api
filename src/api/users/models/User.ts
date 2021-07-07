@@ -118,4 +118,17 @@ export default class User {
   public toUserProfile(this: DocumentType<User>): UserProfile {
     return new RealUserProfile(this.toSafeUser());
   }
+
+  public async publishAction(this: DocumentType<User>, actionId: string) {
+    await this.populate("usersFollowedBy")
+      .execPopulate()
+      .then((user: DocumentType<User>) => user.usersFollowing as DocumentType<User>[])
+      .then((followers: DocumentType<User>[]) =>
+        followers.forEach((follower: DocumentType<User>) => {
+          if (follower.feed) follower.feed.push(actionId);
+          else follower.feed = [actionId];
+          follower.save();
+        })
+      );
+  }
 }
