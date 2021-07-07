@@ -12,4 +12,10 @@ export class TagController extends Controller {
   async createTag(@Body() input: CreateTagInput): Promise<Tag> {
     return await new RealTagService().createTag(input);
   }
+
+  /** Get tags */
+  @Post()
+  async getTags(): Promise<Tag[]> {
+    return await new RealTagService().getTags();
+  }
 }
