@@ -1,6 +1,7 @@
 import { DocumentType, prop, Ref } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Role from "../../roles/models/Role";
+import Tag from "../../tags/models/Tag";
 import { RealSafeUser, SafeUser } from "./SafeUser";
 import { RealUserProfile, UserProfile } from "./UserProfile";
 
@@ -53,6 +54,10 @@ export default class User {
   @Field(() => ID)
   @prop({ ref: () => User })
   usersFollowedBy?: Ref<User, string>[];
+
+  @Field(() => ID)
+  @prop({ ref: () => Tag })
+  tagsFollowing?: Ref<Tag, string>[];
 
   public toSafeUser(this: DocumentType<User>): SafeUser {
     return new RealSafeUser(
