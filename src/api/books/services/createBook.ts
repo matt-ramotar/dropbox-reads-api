@@ -1,4 +1,4 @@
-import { AuthorModel, BookModel, UserModel } from "../../../models";
+import { AuthorModel, BookModel, BookTagModel, UserModel } from "../../../models";
 import { CreateBookInput } from "../entities/CreateBookInput";
 import Book from "../models/Book";
 
@@ -12,17 +12,29 @@ export default async function createBook(input: CreateBookInput): Promise<Book> 
     const author = await AuthorModel.findById(authorId);
     if (!author) throw new Error();
 
-    const book = await BookModel.create({
+    const book = new BookModel({
       googleId,
       title,
       coverImage,
       author: author.id,
-      tags: tagIds,
       userAddedBy: user.id
     });
 
+    const bookTags = [];
+
+    for (const tagId of tagIds) {
+      const bookTag = await BookTagModel.create({ book: book.id, tag: tagId, userAddedBy: user.id });
+      bookTags.push(bookTag.id);
+    }
+
+    book.tags = bookTags;
+    await book.save();
+
     if (user.booksAdded) user.booksAdded.push(book.id);
     else user.booksAdded = [book.id];
+
+    if (user.bookTagsAdded) user.bookTagsAdded.push(...bookTags);
+    else user.bookTagsAdded = [...bookTags];
     await user.save();
 
     return book;
