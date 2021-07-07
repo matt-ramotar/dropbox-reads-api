@@ -3,6 +3,7 @@ import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookTag from "../../booktags/models/BookTag";
+import CommentReaction from "../../commentreactions/models/CommentReaction";
 import Comment from "../../comments/models/Comment";
 import ReviewReaction from "../../reviewreactions/models/ReviewReaction";
 import Review from "../../reviews/models/Review";
