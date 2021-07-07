@@ -1,6 +1,7 @@
 import { DocumentType, prop, Ref } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
+import ReviewReaction from "../../reviewreactions/models/ReviewReaction";
 import Review from "../../reviews/models/Review";
 import ReviewUpvote from "../../reviewupvotes/models/ReviewUpvote";
 import Role from "../../roles/models/Role";
@@ -73,6 +74,10 @@ export default class User {
   @Field(() => ID)
   @prop({ ref: () => ReviewUpvote })
   reviewUpvotes?: Ref<ReviewUpvote, string>[];
+
+  @Field(() => ID)
+  @prop({ ref: () => ReviewReaction })
+  reviewReactions?: Ref<ReviewReaction, string>[];
 
   public toSafeUser(this: DocumentType<User>): SafeUser {
     return new RealSafeUser(
