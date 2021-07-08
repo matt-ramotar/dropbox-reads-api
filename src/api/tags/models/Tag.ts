@@ -17,6 +17,6 @@ export default class Tag {
   tag!: string;
 
   @Field(() => [ID])
-  @prop({ ref: () => Book })
+  @prop({ ref: () => Book, type: () => String })
   books?: Ref<Book, string>[];
 }
