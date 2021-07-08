@@ -1,4 +1,4 @@
-import { prop, Ref } from "@typegoose/typegoose";
+import { prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
 import ReviewUpvote from "../../reviewupvotes/models/ReviewUpvote";
@@ -11,20 +11,20 @@ import User from "../../users/models/User";
 @ObjectType({ description: "Review model" })
 export default class Review {
   @Field(() => ID)
-  @prop({ ref: () => Review })
+  @prop()
   id!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => User })
-  reviewer!: Ref<User, string>;
+  @prop({ ref: () => User, type: () => String })
+  reviewer!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Book })
-  book!: Ref<Book, string>;
+  @prop({ ref: () => Book, type: () => String })
+  book!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => ReviewUpvote })
-  upvotes?: Ref<ReviewUpvote, string>[];
+  @prop({ ref: () => ReviewUpvote, type: () => String })
+  upvotes?: string[];
 
   @Field()
   @prop()
