@@ -22,12 +22,12 @@ export default async function createBookTag(input: CreateBookTagInput): Promise<
     else user.bookTagsAdded = [bookTag.id];
     await user.save();
 
-    if (book.tags) book.tags.push(bookTag.id);
-    else book.tags = [bookTag.id];
-    await book.save();
+    // if (book.tags) book.tags.push(bookTag.id);
+    // else book.tags = [bookTag.id];
+    // await book.save();
 
-    if (tag.books) tag.books.push(book.id);
-    else tag.books = [book.id];
+    // if (tag.books) tag.books.push(book.id);
+    // else tag.books = [book.id];
 
     return bookTag;
   } catch (error) {

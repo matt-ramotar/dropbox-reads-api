@@ -1,8 +1,5 @@
-import { prop, Ref } from "@typegoose/typegoose";
+import { prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
-import Book from "../../books/models/Book";
-import Tag from "../../tags/models/Tag";
-import User from "../../users/models/User";
 
 /**
  * @tsoaModel
@@ -11,7 +8,7 @@ import User from "../../users/models/User";
 @ObjectType({ description: "Bookshelf model" })
 export default class Bookshelf {
   @Field(() => ID)
-  @prop({ ref: () => Bookshelf })
+  @prop()
   id!: string;
 
   @Field()
@@ -22,15 +19,15 @@ export default class Bookshelf {
   @prop()
   description!: string;
 
-  @Field(() => ID)
-  @prop({ ref: () => Book })
-  books?: Ref<Book, string>[];
+  // @Field(() => ID)
+  // @prop({ ref: () => Book })
+  // books?: Ref<Book, string>[];
 
-  @Field(() => ID)
-  @prop({ ref: () => User })
-  owner!: Ref<User, string>;
+  // @Field(() => ID)
+  // @prop({ ref: () => User })
+  // owner!: Ref<User, string>;
 
-  @Field(() => ID)
-  @prop({ ref: () => Tag })
-  tags?: Ref<Tag, string>[];
+  // @Field(() => ID)
+  // @prop({ ref: () => Tag })
+  // tags?: Ref<Tag, string>[];
 }

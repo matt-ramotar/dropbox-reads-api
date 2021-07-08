@@ -1,6 +1,5 @@
 import { UserModel } from "../../../models";
 import { SafeUser } from "../models/SafeUser";
-import User from "../models/User";
 
 export default async function unfollowOtherUser(userId: string, otherUserId: string): Promise<SafeUser | null> {
   try {
@@ -11,8 +10,10 @@ export default async function unfollowOtherUser(userId: string, otherUserId: str
     if (!user.usersFollowing) throw new Error();
     if (!otherUser.usersFollowedBy) throw new Error();
 
-    user.usersFollowing = (user.usersFollowing as User[]).filter((otherUser: User) => otherUser.id !== otherUserId);
-    otherUser.usersFollowedBy = (user.usersFollowedBy as User[]).filter((user: User) => user.id !== userId);
+    user.usersFollowing = (user.usersFollowing as string[]).filter(
+      (otherUserId: string) => otherUser.id !== otherUserId
+    );
+    otherUser.usersFollowedBy = (user.usersFollowedBy as string[]).filter((userId: string) => user.id !== userId);
 
     await user.save();
     await otherUser.save();

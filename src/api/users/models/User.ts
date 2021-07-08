@@ -20,7 +20,7 @@ import { RealUserProfile, UserProfile } from "./UserProfile";
 @ObjectType({ description: "User model" })
 export default class User {
   @Field(() => ID)
-  @prop({ ref: () => User })
+  @prop()
   id!: string;
 
   @Field()
@@ -44,7 +44,7 @@ export default class User {
   picture?: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Role })
+  @prop({ ref: () => Role, type: () => String })
   role?: Ref<Role, string>;
 
   @Field()
@@ -55,52 +55,52 @@ export default class User {
   @prop()
   googleId!: string;
 
-  @Field(() => ID)
-  @prop({ ref: () => User })
+  @Field(() => [ID])
+  @prop({ ref: () => User, type: () => String })
   usersFollowing?: Ref<User, string>[];
 
-  @Field(() => ID)
-  @prop({ ref: () => User })
+  @Field(() => [ID])
+  @prop({ ref: () => User, type: () => String })
   usersFollowedBy?: Ref<User, string>[];
 
-  @Field(() => ID)
-  @prop({ ref: () => Tag })
+  @Field(() => [ID])
+  @prop({ ref: () => Tag, type: () => String })
   tagsFollowing?: Ref<Tag, string>[];
 
-  @Field(() => ID)
-  @prop({ ref: () => Bookshelf })
+  @Field(() => [ID])
+  @prop({ ref: () => Bookshelf, type: () => String })
   bookshelves?: Ref<Bookshelf, string>[];
 
-  @Field(() => ID)
-  @prop({ ref: () => Review })
+  @Field(() => [ID])
+  @prop({ ref: () => Review, type: () => String })
   reviews?: Ref<Review, string>[];
 
-  @Field(() => ID)
-  @prop({ ref: () => ReviewUpvote })
+  @Field(() => [ID])
+  @prop({ ref: () => ReviewUpvote, type: () => String })
   reviewUpvotes?: Ref<ReviewUpvote, string>[];
 
-  @Field(() => ID)
-  @prop({ ref: () => ReviewReaction })
+  @Field(() => [ID])
+  @prop({ ref: () => ReviewReaction, type: () => String })
   reviewReactions?: Ref<ReviewReaction, string>[];
 
-  @Field(() => ID)
-  @prop({ ref: () => Book })
+  @Field(() => [ID])
+  @prop({ ref: () => Book, type: () => String })
   booksAdded?: Ref<Book, string>[];
 
-  @Field(() => ID)
-  @prop({ ref: () => BookTag })
+  @Field(() => [ID])
+  @prop({ ref: () => BookTag, type: () => String })
   bookTagsAdded?: Ref<BookTag, string>[];
 
-  @Field(() => ID)
-  @prop({ ref: () => BookTagUpvote })
+  @Field(() => [ID])
+  @prop({ ref: () => BookTagUpvote, type: () => String })
   bookTagUpvotes?: Ref<BookTagUpvote, string>[];
 
-  @Field(() => ID)
-  @prop({ ref: () => Action })
+  @Field(() => [ID])
+  @prop({ ref: () => Action, type: () => String })
   actions?: Ref<Action, string>[];
 
-  @Field(() => ID)
-  @prop({ ref: () => Action })
+  @Field(() => [ID])
+  @prop({ ref: () => Action, type: () => String })
   feed?: Ref<Action, string>[];
 
   public toSafeUser(this: DocumentType<User>): SafeUser {

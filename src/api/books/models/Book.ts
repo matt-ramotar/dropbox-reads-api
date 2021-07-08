@@ -3,7 +3,6 @@ import { Field, ID, ObjectType } from "type-graphql";
 import Author from "../../authors/models/Author";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookTag from "../../booktags/models/BookTag";
-import User from "../../users/models/User";
 
 /**
  * @tsoaModel
@@ -12,7 +11,7 @@ import User from "../../users/models/User";
 @ObjectType({ description: "Book model" })
 export default class Book {
   @Field(() => ID)
-  @prop({ ref: () => Book })
+  @prop()
   id!: string;
 
   @Field()
@@ -28,18 +27,18 @@ export default class Book {
   coverImage?: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Author })
+  @prop({ ref: () => Author, type: () => String })
   author!: Ref<Author, string>;
 
-  @Field(() => ID)
+  @Field(() => [ID])
   @prop({ ref: () => BookTag })
   tags?: Ref<BookTag, string>[];
 
-  @Field(() => ID)
-  @prop({ ref: () => User })
-  userAddedBy!: Ref<User, string>;
+  // @Field(() => ID)
+  // @prop({ ref: () => User, type: () => String })
+  // userAddedBy!: Ref<User, string>;
 
-  @Field(() => ID)
-  @prop({ ref: () => Bookshelf })
+  @Field(() => [ID])
+  @prop({ ref: () => Bookshelf, type: () => String })
   bookshelves?: Ref<Bookshelf, string>[];
 }

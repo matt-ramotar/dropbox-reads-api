@@ -1,4 +1,4 @@
-enum ActionType {
+export enum ActionType {
   AddBookToBookshelf = "ADD BOOK TO BOOKSHELF",
   AddTagToBook = "ADD TAG TO BOOK",
   AddCommentToReview = "ADD COMMENT TO REVIEW",
