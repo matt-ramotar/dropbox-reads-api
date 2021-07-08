@@ -13,9 +13,9 @@ export default async function addBook(input: AddBookInput): Promise<Bookshelf> {
     const book = await BookModel.findById(bookId);
     if (!book) throw new BookNotFound();
 
-    // if (bookshelf.books) bookshelf.books.push(book.id);
-    // else bookshelf.books = [book.id];
-    // await bookshelf.save();
+    if (bookshelf.books) bookshelf.books.push(book.id);
+    else bookshelf.books = [book.id];
+    await bookshelf.save();
 
     if (book.bookshelves) book.bookshelves.push(bookshelf.id);
     else book.bookshelves = [bookshelf.id];
