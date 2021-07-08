@@ -4,16 +4,16 @@ import Bookshelf from "../models/Bookshelf";
 
 export default async function createBookshelf(input: CreateBookshelfInput): Promise<Bookshelf> {
   try {
-    const { name, description, owner } = input;
+    const { name, description, owner, tags } = input;
 
     const user = await UserModel.findById(owner);
     if (!user) throw new Error();
 
     const bookshelf = await BookshelfModel.create({
       name,
-      description
-      // owner,
-      // tags
+      description,
+      owner,
+      tags
     });
 
     if (user.bookshelves) user.bookshelves.push(bookshelf.id);
