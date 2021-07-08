@@ -1,27 +1,14 @@
-import { BookNotFound, BookshelfNotFound } from "../../../errors";
-import { BookModel, BookshelfModel } from "../../../models";
-import { AddBookInput } from "../entities/AddBookInput";
-import Bookshelf from "../models/Bookshelf";
+import { BookshelfNotFound } from "../../../errors";
+import { BookshelfModel } from "../../../models";
 
-export default async function addBook(input: AddBookInput): Promise<Bookshelf> {
+export default async function addBook(bookshelfId: string, bookId: string): Promise<void> {
   try {
-    const { bookId, bookshelfId } = input;
-
     const bookshelf = await BookshelfModel.findById(bookshelfId);
     if (!bookshelf) throw new BookshelfNotFound();
 
-    const book = await BookModel.findById(bookId);
-    if (!book) throw new BookNotFound();
-
-    if (bookshelf.books) bookshelf.books.push(book.id);
-    else bookshelf.books = [book.id];
+    if (bookshelf.books) bookshelf.books.push(bookId);
+    else bookshelf.books = [bookId];
     await bookshelf.save();
-
-    if (book.bookshelves) book.bookshelves.push(bookshelf.id);
-    else book.bookshelves = [bookshelf.id];
-    await book.save();
-
-    return bookshelf;
   } catch (error) {
     throw error;
   }

@@ -1,19 +1,21 @@
 import { BookshelfModel, UserModel } from "../../../models";
-import { CreateBookshelfInput } from "../entities/CreateBookshelfInput";
 import Bookshelf from "../models/Bookshelf";
 
-export default async function createBookshelf(input: CreateBookshelfInput): Promise<Bookshelf> {
+export default async function createBookshelf(
+  name: string,
+  description: string,
+  ownerId: string,
+  tagIds: string[]
+): Promise<Bookshelf> {
   try {
-    const { name, description, owner, tags } = input;
-
-    const user = await UserModel.findById(owner);
+    const user = await UserModel.findById(ownerId);
     if (!user) throw new Error();
 
     const bookshelf = await BookshelfModel.create({
       name,
       description,
-      owner,
-      tags
+      owner: ownerId,
+      tags: tagIds
     });
 
     if (user.bookshelves) user.bookshelves.push(bookshelf.id);
