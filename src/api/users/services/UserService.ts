@@ -4,6 +4,7 @@ import addAction from "./addAction";
 import addBook from "./addBook";
 import addBookshelf from "./addBookshelf";
 import addBookTag from "./addBookTag";
+import addReview from "./addReview";
 import followUser from "./followUser";
 import getUser from "./getUser";
 import getUserProfile from "./getUserProfile";
@@ -20,6 +21,7 @@ interface UserService {
   publishAction(userId: string, actionId: string): Promise<void>;
   addBookTag(bookTagId: string, userId: string): Promise<void>;
   addBook(bookId: string, userId: string): Promise<void>;
+  addReview(reviewId: string, reviewerId: string): Promise<void>;
 }
 
 export default class RealUserService implements UserService {
@@ -57,5 +59,9 @@ export default class RealUserService implements UserService {
 
   public async addBook(bookId: string, userId: string): Promise<void> {
     return await addBook(bookId, userId);
+  }
+
+  public async addReview(reviewId: string, reviewerId: string): Promise<void> {
+    return await addReview(reviewId, reviewerId);
   }
 }
