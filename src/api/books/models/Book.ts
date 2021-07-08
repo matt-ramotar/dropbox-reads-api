@@ -3,6 +3,7 @@ import { Field, ID, ObjectType } from "type-graphql";
 import Author from "../../authors/models/Author";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookTag from "../../booktags/models/BookTag";
+import Review from "../../reviews/models/Review";
 import User from "../../users/models/User";
 
 /**
@@ -42,4 +43,8 @@ export default class Book {
   @Field(() => [ID])
   @prop({ ref: () => Bookshelf, type: () => String })
   bookshelves?: Ref<Bookshelf, string>[];
+
+  @Field(() => [ID])
+  @prop({ ref: () => Review, type: () => String })
+  reviews?: string[];
 }
