@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Path, Post, Route, Tags } from "tsoa";
+import { Body, Controller, Delete, Get, Path, Post, Route, Tags } from "tsoa";
 import { ActionType } from "../../actions/models/ActionType";
 import RealActionService from "../../actions/services/ActionService";
 import { FollowUserInput } from "../entities/FollowUserInput";
+import { UnfollowUserInput } from "../entities/UnfollowUserInput";
 import { SafeUser } from "../models/SafeUser";
 import { UserProfile } from "../models/UserProfile";
 import RealUserService from "../services/UserService";
@@ -38,5 +39,16 @@ export class UserController extends Controller {
 
     await userService.addAction(action.id, userId);
     await userService.publishAction(action.id, userId);
+  }
+
+  /** Unfollow user */
+  @Delete("{userId}/following")
+  async unfollowUser(@Path() userId: string, @Body() input: UnfollowUserInput): Promise<void> {
+    const { userToUnfollowId } = input;
+
+    const userService = new RealUserService();
+
+    await userService.unfollowUser(userId, userToUnfollowId);
+    await userService.removeFollower(userToUnfollowId, userId);
   }
 }
