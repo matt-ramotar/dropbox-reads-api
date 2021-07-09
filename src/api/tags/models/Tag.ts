@@ -1,6 +1,7 @@
 import { prop, Ref } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
+import User from "../../users/models/User";
 
 /**
  * @tsoaModel
@@ -19,4 +20,8 @@ export default class Tag {
   @Field(() => [ID])
   @prop({ ref: () => Book, type: () => String })
   books?: Ref<Book, string>[];
+
+  @Field(() => [ID])
+  @prop({ ref: () => User, type: () => String })
+  users?: string[];
 }
