@@ -1,6 +1,8 @@
 import { Body, Controller, Delete, Get, Path, Post, Route, Tags } from "tsoa";
 import { ActionType } from "../../actions/models/ActionType";
 import RealActionService from "../../actions/services/ActionService";
+import RealTagService from "../../tags/services/TagService";
+import { FollowTagInput } from "../entities/FollowTagInput";
 import { FollowUserInput } from "../entities/FollowUserInput";
 import { UnfollowUserInput } from "../entities/UnfollowUserInput";
 import { SafeUser } from "../models/SafeUser";
@@ -23,7 +25,7 @@ export class UserController extends Controller {
   }
 
   /** Follow user */
-  @Post("{userId}/following")
+  @Post("{userId}/users/following")
   async followUser(@Path() userId: string, @Body() input: FollowUserInput): Promise<void> {
     const { userToFollowId } = input;
     const userService = new RealUserService();
@@ -42,7 +44,7 @@ export class UserController extends Controller {
   }
 
   /** Unfollow user */
-  @Delete("{userId}/following")
+  @Delete("{userId}/users/following")
   async unfollowUser(@Path() userId: string, @Body() input: UnfollowUserInput): Promise<void> {
     const { userToUnfollowId } = input;
 
@@ -50,5 +52,25 @@ export class UserController extends Controller {
 
     await userService.unfollowUser(userId, userToUnfollowId);
     await userService.removeFollower(userToUnfollowId, userId);
+  }
+
+  /** Follow tag */
+  @Post("{userId}/tags/following")
+  async followTag(@Path() userId: string, @Body() input: FollowTagInput): Promise<void> {
+    const { tagId } = input;
+
+    const userService = new RealUserService();
+
+    await userService.followTag(userId, tagId);
+    await new RealTagService().addUser(tagId, userId);
+
+    const action = await new RealActionService().createAction({
+      type: ActionType.FollowTag,
+      userId,
+      tagId
+    });
+
+    await userService.addAction(action.id, userId);
+    await userService.publishAction(action.id, userId);
   }
 }
