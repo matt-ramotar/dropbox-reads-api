@@ -4,12 +4,14 @@ import addBook from "./addBook";
 import addUser from "./addUser";
 import createTag from "./createTag";
 import getTags from "./getTags";
+import removeUser from "./removeUser";
 
 interface TagService {
   createTag(input: CreateTagInput): Promise<Tag>;
   getTags(): Promise<Tag[]>;
   addBook(bookId: string, tagId: string): Promise<void>;
   addUser(tagId: string, userId: string): Promise<void>;
+  removeUser(tagId: string, userId: string): Promise<void>;
 }
 
 export default class RealTagService implements TagService {
@@ -27,5 +29,9 @@ export default class RealTagService implements TagService {
 
   public async addUser(tagId: string, userId: string): Promise<void> {
     return await addUser(tagId, userId);
+  }
+
+  public async removeUser(tagId: string, userId: string): Promise<void> {
+    return await removeUser(tagId, userId);
   }
 }
