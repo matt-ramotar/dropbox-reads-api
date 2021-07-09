@@ -13,10 +13,10 @@ export default class ReviewUpvote {
   id!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Review })
+  @prop({ ref: () => Review, type: () => String })
   review!: Ref<Review, string>;
 
   @Field(() => ID)
-  @prop({ ref: () => User })
-  upvoter!: Ref<User, string>;
+  @prop({ ref: () => User, type: () => String })
+  upvoter!: string;
 }
