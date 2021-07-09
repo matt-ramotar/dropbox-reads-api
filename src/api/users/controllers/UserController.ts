@@ -4,6 +4,7 @@ import RealActionService from "../../actions/services/ActionService";
 import RealTagService from "../../tags/services/TagService";
 import { FollowTagInput } from "../entities/FollowTagInput";
 import { FollowUserInput } from "../entities/FollowUserInput";
+import { UnfollowTagInput } from "../entities/UnfollowTagInput";
 import { UnfollowUserInput } from "../entities/UnfollowUserInput";
 import { SafeUser } from "../models/SafeUser";
 import { UserProfile } from "../models/UserProfile";
@@ -72,5 +73,14 @@ export class UserController extends Controller {
 
     await userService.addAction(action.id, userId);
     await userService.publishAction(action.id, userId);
+  }
+
+  /** Unfollow tag */
+  @Delete("{userId}/tags/following")
+  async unfollowTag(@Path() userId: string, @Body() input: UnfollowTagInput): Promise<void> {
+    const { tagId } = input;
+
+    await new RealUserService().unfollowTag(userId, tagId);
+    await new RealTagService().removeUser(tagId, userId);
   }
 }

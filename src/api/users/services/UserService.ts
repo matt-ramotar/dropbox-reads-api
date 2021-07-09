@@ -12,6 +12,7 @@ import getUser from "./getUser";
 import getUserProfile from "./getUserProfile";
 import publishAction from "./publishAction";
 import removeFollower from "./removeFollower";
+import unfollowTag from "./unfollowTag";
 import unfollowUser from "./unfollowUser";
 
 interface UserService {
@@ -28,6 +29,7 @@ interface UserService {
   addBook(bookId: string, userId: string): Promise<void>;
   addReview(reviewId: string, reviewerId: string): Promise<void>;
   followTag(userId: string, tagId: string): Promise<void>;
+  unfollowTag(userId: string, tagId: string): Promise<void>;
 }
 
 export default class RealUserService implements UserService {
@@ -81,5 +83,9 @@ export default class RealUserService implements UserService {
 
   public async followTag(userId: string, tagId: string): Promise<void> {
     return await followTag(userId, tagId);
+  }
+
+  public async unfollowTag(userId: string, tagId: string): Promise<void> {
+    return await unfollowTag(userId, tagId);
   }
 }
