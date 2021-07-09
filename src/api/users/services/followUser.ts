@@ -1,22 +1,18 @@
+import { UserNotFound } from "../../../errors";
 import { UserModel } from "../../../models";
-import { SafeUser } from "../models/SafeUser";
 
-export default async function followUser(userId: string, otherUserId: string): Promise<SafeUser | null> {
+export default async function followUser(userId: string, userToFollowId: string): Promise<void> {
   try {
     const user = await UserModel.findById(userId);
-    const otherUser = await UserModel.findById(otherUserId);
-    if (!user || !otherUser) throw new Error();
+    if (!user) throw new UserNotFound();
 
-    if (user.usersFollowing) user.usersFollowing.push(otherUserId);
-    else user.usersFollowing = [otherUserId];
+    const userToFollow = await UserModel.findById(userToFollowId);
+    if (!userToFollow) throw new UserNotFound("User to follow not found");
 
-    if (otherUser.usersFollowedBy) otherUser.usersFollowedBy.push(userId);
-    else otherUser.usersFollowedBy = [userId];
+    if (user.usersFollowing) user.usersFollowing.push(userToFollowId);
+    else user.usersFollowing = [userToFollowId];
 
     await user.save();
-    await otherUser.save();
-
-    return user.toSafeUser();
   } catch (error) {
     throw error;
   }

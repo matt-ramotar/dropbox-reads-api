@@ -4,18 +4,22 @@ import addAction from "./addAction";
 import addBook from "./addBook";
 import addBookshelf from "./addBookshelf";
 import addBookTag from "./addBookTag";
+import addFollower from "./addFollower";
 import addReview from "./addReview";
 import followUser from "./followUser";
 import getUser from "./getUser";
 import getUserProfile from "./getUserProfile";
 import publishAction from "./publishAction";
+import removeFollower from "./removeFollower";
 import unfollowUser from "./unfollowUser";
 
 interface UserService {
   getUser(userId: string): Promise<SafeUser | null>;
   getUserProfile(username: string): Promise<UserProfile | null>;
-  followOtherUser(userId: string, otherUserId: string): Promise<SafeUser | null>;
-  unfollowOtherUser(userId: string, otherUserId: string): Promise<SafeUser | null>;
+  followUser(userId: string, userToFollowId: string): Promise<void>;
+  addFollower(userId: string, followerId: string): Promise<void>;
+  unfollowUser(userId: string, userToUnfollowId: string): Promise<void>;
+  removeFollower(userId: string, followerId: string): Promise<void>;
   addBookshelf(userId: string, bookshelfId: string): Promise<SafeUser | null>;
   addAction(actionId: string, userId: string): Promise<void>;
   publishAction(userId: string, actionId: string): Promise<void>;
@@ -33,12 +37,20 @@ export default class RealUserService implements UserService {
     return await getUserProfile(username);
   }
 
-  public async followOtherUser(userId: string, otherUserId: string): Promise<SafeUser | null> {
-    return await followUser(userId, otherUserId);
+  public async followUser(userId: string, userToFollowId: string): Promise<void> {
+    return await followUser(userId, userToFollowId);
   }
 
-  public async unfollowOtherUser(userId: string, otherUserId: string): Promise<SafeUser | null> {
-    return await unfollowUser(userId, otherUserId);
+  public async addFollower(userId: string, followerId: string): Promise<void> {
+    return await addFollower(userId, followerId);
+  }
+
+  public async unfollowUser(userId: string, userToUnfollowId: string): Promise<void> {
+    return await unfollowUser(userId, userToUnfollowId);
+  }
+
+  public async removeFollower(userId: string, followerId: string): Promise<void> {
+    return await removeFollower(userId, followerId);
   }
 
   public async addBookshelf(userId: string, bookshelfId: string): Promise<SafeUser | null> {
