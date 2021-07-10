@@ -2,6 +2,7 @@ import { Body, Controller, Post, Route, Tags } from "tsoa";
 import { ActionType } from "../../actions/models/ActionType";
 import RealActionService from "../../actions/services/ActionService";
 import RealReactionService from "../../reactions/services/ReactionService";
+import RealReviewService from "../../reviews/services/ReviewService";
 import RealUserService from "../../users/services/UserService";
 import { CreateReviewReactionInput } from "../entities/CreateReviewReactionInput";
 import ReviewReaction from "../models/ReviewReaction";
@@ -17,6 +18,7 @@ export class ReviewReactionController extends Controller {
 
     const actionService = new RealActionService();
     const reactionService = new RealReactionService();
+    const reviewService = new RealReviewService();
     const reviewReactionService = new RealReviewReactionService();
     const userService = new RealUserService();
 
@@ -30,6 +32,7 @@ export class ReviewReactionController extends Controller {
       reviewReactionId: reviewReaction.id
     });
 
+    await reviewService.addReviewReaction(reviewId, reviewReaction.id);
     await userService.addAction(action.id, userId);
     await userService.publishAction(action.id, userId);
 
