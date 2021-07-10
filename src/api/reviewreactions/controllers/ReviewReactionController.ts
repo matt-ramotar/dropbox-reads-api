@@ -33,6 +33,8 @@ export class ReviewReactionController extends Controller {
     });
 
     await reviewService.addReviewReaction(reviewId, reviewReaction.id);
+    await userService.addReviewReaction(userId, reviewReaction.id);
+
     await userService.addAction(action.id, userId);
     await userService.publishAction(action.id, userId);
 
