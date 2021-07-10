@@ -3,6 +3,16 @@ export interface DropboxReadsError {
   error?: any;
 }
 
+export class ActionNotFound implements DropboxReadsError {
+  readonly message?: string = "Action not found";
+  readonly error?: any;
+
+  constructor(message?: string, error?: any) {
+    this.message = message;
+    this.error = error;
+  }
+}
+
 export class AuthorNotFound implements DropboxReadsError {
   readonly message?: string = "Author not found";
   readonly error?: any;
