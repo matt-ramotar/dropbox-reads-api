@@ -5,6 +5,7 @@ import Book from "../../books/models/Book";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookTag from "../../booktags/models/BookTag";
 import BookTagUpvote from "../../booktagupvotes/models/BookTagUpvote";
+import Comment from "../../comments/models/Comment";
 import ReviewReaction from "../../reviewreactions/models/ReviewReaction";
 import Review from "../../reviews/models/Review";
 import ReviewUpvote from "../../reviewupvotes/models/ReviewUpvote";
@@ -76,6 +77,10 @@ export default class User {
   reviews?: Ref<Review, string>[];
 
   @Field(() => [ID])
+  @prop({ ref: () => Comment, type: () => String })
+  comments?: Ref<Comment, string>[];
+
+  @Field(() => [ID])
   @prop({ ref: () => ReviewUpvote, type: () => String })
   reviewUpvotes?: Ref<ReviewUpvote, string>[];
 
@@ -104,15 +109,7 @@ export default class User {
   feed?: Ref<Action, string>[];
 
   public toSafeUser(this: DocumentType<User>): SafeUser {
-    return new RealSafeUser(
-      this._id,
-      this.firstName,
-      this.lastName,
-      this.email,
-      this.username,
-      this.picture,
-      this.isLoggedIn
-    );
+    return new RealSafeUser(this._id, this.firstName, this.lastName, this.email, this.username, this.picture, this.isLoggedIn);
   }
 
   public toUserProfile(this: DocumentType<User>): UserProfile {
