@@ -9,9 +9,9 @@ export default async function removeFollower(userId: string, followerId: string)
     const follower = await UserModel.findById(followerId);
     if (!follower) throw new UserNotFound("Follower not found");
 
-    if (!user.usersFollowedBy) throw new Error("No followers found");
+    if (!user.usersFollowedByIds) throw new Error("No followers found");
 
-    user.usersFollowedBy = (user.usersFollowedBy as string[]).filter((followerId: string) => followerId !== follower.id);
+    user.usersFollowedByIds = (user.usersFollowedByIds as string[]).filter((followerId: string) => followerId !== follower.id);
     await user.save();
   } catch (error) {
     throw error;

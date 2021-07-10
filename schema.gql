@@ -9,27 +9,27 @@ type Query {
 
 """User model"""
 type User {
-  actions: [ID!]!
-  bookTagUpvotes: [ID!]!
-  bookTagsAdded: [ID!]!
-  booksAdded: [ID!]!
-  bookshelves: [ID!]!
-  commentReactions: [ID!]!
-  comments: [ID!]!
+  actionIds: [ID!]!
+  bookTagUpvoteIds: [ID!]!
+  bookTagsAddedIds: [ID!]!
+  booksAddedIds: [ID!]!
+  bookshelfIds: [ID!]!
+  commentIds: [ID!]!
+  commentReactionIds: [ID!]!
   email: String!
-  feed: [ID!]!
+  feedIds: [ID!]!
   firstName: String!
   googleId: String!
   id: ID!
   isLoggedIn: Boolean!
   lastName: String!
   picture: String!
-  reviewReactions: [ID!]!
-  reviewUpvotes: [ID!]!
-  reviews: [ID!]!
+  reviewIds: [ID!]!
+  reviewReactionIds: [ID!]!
+  reviewUpvoteIds: [ID!]!
   role: ID!
-  tagsFollowing: [ID!]!
+  tagsFollowingIds: [ID!]!
   username: String!
-  usersFollowedBy: [ID!]!
-  usersFollowing: [ID!]!
+  usersFollowedByIds: [ID!]!
+  usersFollowingIds: [ID!]!
 }

@@ -7,8 +7,8 @@ export default async function addBookshelf(userId: string, bookshelfId: string):
     const user = await UserModel.findById(userId);
     if (!user) throw UserNotFound;
 
-    if (user.bookshelves) user.bookshelves.push(bookshelfId);
-    else user.bookshelves = [bookshelfId];
+    if (user.bookshelfIds) user.bookshelfIds.push(bookshelfId);
+    else user.bookshelfIds = [bookshelfId];
     await user.save();
 
     return user.toSafeUser();

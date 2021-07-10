@@ -6,8 +6,8 @@ export default async function addBookTag(bookTagId: string, userId: string): Pro
     const user = await UserModel.findById(userId);
     if (!user) throw UserNotFound;
 
-    if (user.bookTagsAdded) user.bookTagsAdded.push(bookTagId);
-    else user.bookTagsAdded = [bookTagId];
+    if (user.bookTagsAddedIds) user.bookTagsAddedIds.push(bookTagId);
+    else user.bookTagsAddedIds = [bookTagId];
     await user.save();
   } catch (error) {
     throw error;

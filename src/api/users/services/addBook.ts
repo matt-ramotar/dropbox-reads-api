@@ -6,8 +6,8 @@ export default async function addBook(bookId: string, userId: string): Promise<v
     const user = await UserModel.findById(userId);
     if (!user) throw UserNotFound;
 
-    if (user.booksAdded) user.booksAdded.push(bookId);
-    else user.booksAdded = [bookId];
+    if (user.booksAddedIds) user.booksAddedIds.push(bookId);
+    else user.booksAddedIds = [bookId];
     await user.save();
   } catch (error) {
     throw error;

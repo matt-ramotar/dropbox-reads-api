@@ -6,8 +6,8 @@ export default async function addReview(reviewId: string, userId: string): Promi
     const user = await UserModel.findById(userId);
     if (!user) throw UserNotFound;
 
-    if (user.reviews) user.reviews.push(reviewId);
-    else user.reviews = [reviewId];
+    if (user.reviewIds) user.reviewIds.push(reviewId);
+    else user.reviewIds = [reviewId];
     await user.save();
   } catch (error) {
     throw error;

@@ -6,8 +6,8 @@ export default async function addComment(userId: string, commentId: string): Pro
     const user = await UserModel.findById(userId);
     if (!user) throw UserNotFound;
 
-    if (user.comments) user.comments.push(commentId);
-    else user.comments = [commentId];
+    if (user.commentIds) user.commentIds.push(commentId);
+    else user.commentIds = [commentId];
     await user.save();
   } catch (error) {
     throw error;

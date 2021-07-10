@@ -6,8 +6,8 @@ export default async function addAction(actionId: string, userId: string): Promi
     const user = await UserModel.findById(userId);
     if (!user) throw UserNotFound;
 
-    if (user.actions) user.actions.push(actionId);
-    else user.actions = [actionId];
+    if (user.actionIds) user.actionIds.push(actionId);
+    else user.actionIds = [actionId];
     await user.save();
   } catch (error) {
     throw error;

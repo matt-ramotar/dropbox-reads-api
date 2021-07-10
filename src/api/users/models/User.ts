@@ -1,4 +1,4 @@
-import { DocumentType, prop, Ref } from "@typegoose/typegoose";
+import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Action from "../../actions/models/Action";
 import Book from "../../books/models/Book";
@@ -46,8 +46,8 @@ export default class User {
   picture?: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Role, type: () => String })
-  role?: Ref<Role, string>;
+  @prop({ ref: () => Role })
+  role?: string;
 
   @Field()
   @prop()
@@ -58,60 +58,60 @@ export default class User {
   googleId!: string;
 
   @Field(() => [ID])
-  @prop({ ref: () => User, type: () => String })
-  usersFollowing?: Ref<User, string>[];
+  @prop({ ref: () => User })
+  usersFollowingIds?: string[];
 
   @Field(() => [ID])
-  @prop({ ref: () => User, type: () => String })
-  usersFollowedBy?: Ref<User, string>[];
+  @prop({ ref: () => User })
+  usersFollowedByIds?: string[];
 
   @Field(() => [ID])
-  @prop({ ref: () => Tag, type: () => String })
-  tagsFollowing?: Ref<Tag, string>[];
+  @prop({ ref: () => Tag })
+  tagsFollowingIds?: string[];
 
   @Field(() => [ID])
-  @prop({ ref: () => Bookshelf, type: () => String })
-  bookshelves?: Ref<Bookshelf, string>[];
+  @prop({ ref: () => Bookshelf })
+  bookshelfIds?: string[];
 
   @Field(() => [ID])
-  @prop({ ref: () => Review, type: () => String })
-  reviews?: Ref<Review, string>[];
+  @prop({ ref: () => Review })
+  reviewIds?: string[];
 
   @Field(() => [ID])
-  @prop({ ref: () => Comment, type: () => String })
-  comments?: Ref<Comment, string>[];
+  @prop({ ref: () => Comment })
+  commentIds?: string[];
 
   @Field(() => [ID])
-  @prop({ ref: () => ReviewUpvote, type: () => String })
-  reviewUpvotes?: Ref<ReviewUpvote, string>[];
+  @prop({ ref: () => ReviewUpvote })
+  reviewUpvoteIds?: string[];
 
   @Field(() => [ID])
-  @prop({ ref: () => ReviewReaction, type: () => String })
-  reviewReactions?: Ref<ReviewReaction, string>[];
+  @prop({ ref: () => ReviewReaction })
+  reviewReactionIds?: string[];
 
   @Field(() => [ID])
   @prop({ ref: () => CommentReaction })
-  commentReactions?: string[];
+  commentReactionIds?: string[];
 
   @Field(() => [ID])
-  @prop({ ref: () => Book, type: () => String })
-  booksAdded?: Ref<Book, string>[];
+  @prop({ ref: () => Book })
+  booksAddedIds?: string[];
 
   @Field(() => [ID])
-  @prop({ ref: () => BookTag, type: () => String })
-  bookTagsAdded?: Ref<BookTag, string>[];
+  @prop({ ref: () => BookTag })
+  bookTagsAddedIds?: string[];
 
   @Field(() => [ID])
-  @prop({ ref: () => BookTagUpvote, type: () => String })
-  bookTagUpvotes?: Ref<BookTagUpvote, string>[];
+  @prop({ ref: () => BookTagUpvote })
+  bookTagUpvoteIds?: string[];
 
   @Field(() => [ID])
-  @prop({ ref: () => Action, type: () => String })
-  actions?: Ref<Action, string>[];
+  @prop({ ref: () => Action })
+  actionIds?: string[];
 
   @Field(() => [ID])
-  @prop({ ref: () => Action, type: () => String })
-  feed?: Ref<Action, string>[];
+  @prop({ ref: () => Action })
+  feedIds?: string[];
 
   public toSafeUser(this: DocumentType<User>): SafeUser {
     return new RealSafeUser(this._id, this.firstName, this.lastName, this.email, this.username, this.picture, this.isLoggedIn);
@@ -122,13 +122,13 @@ export default class User {
   }
 
   public async publishAction(this: DocumentType<User>, actionId: string) {
-    await this.populate("usersFollowedBy")
+    await this.populate("usersFollowedByIds")
       .execPopulate()
-      .then((user: DocumentType<User>) => user.usersFollowing as DocumentType<User>[])
+      .then((user: DocumentType<User>) => user.usersFollowedByIds as DocumentType<User>[])
       .then((followers: DocumentType<User>[]) =>
         followers.forEach((follower: DocumentType<User>) => {
-          if (follower.feed) follower.feed.push(actionId);
-          else follower.feed = [actionId];
+          if (follower.feedIds) follower.feedIds.push(actionId);
+          else follower.feedIds = [actionId];
           follower.save();
         })
       );

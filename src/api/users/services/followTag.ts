@@ -9,8 +9,8 @@ export default async function followTag(userId: string, tagId: string): Promise<
     const tag = await TagModel.findById(tagId);
     if (!tag) throw new TagNotFound();
 
-    if (user.tagsFollowing) user.tagsFollowing.push(tagId);
-    else user.tagsFollowing = [tagId];
+    if (user.tagsFollowingIds) user.tagsFollowingIds.push(tagId);
+    else user.tagsFollowingIds = [tagId];
 
     await user.save();
   } catch (error) {

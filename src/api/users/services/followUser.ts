@@ -9,8 +9,8 @@ export default async function followUser(userId: string, userToFollowId: string)
     const userToFollow = await UserModel.findById(userToFollowId);
     if (!userToFollow) throw new UserNotFound("User to follow not found");
 
-    if (user.usersFollowing) user.usersFollowing.push(userToFollowId);
-    else user.usersFollowing = [userToFollowId];
+    if (user.usersFollowingIds) user.usersFollowingIds.push(userToFollowId);
+    else user.usersFollowingIds = [userToFollowId];
 
     await user.save();
   } catch (error) {

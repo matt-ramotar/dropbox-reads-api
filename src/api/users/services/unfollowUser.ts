@@ -9,9 +9,11 @@ export default async function unfollowUser(userId: string, userToUnfollowId: str
     const userToUnfollow = await UserModel.findById(userToUnfollowId);
     if (!userToUnfollow) throw new UserNotFound("User to unfollow not found");
 
-    if (!user.usersFollowing) throw new Error("User not following any users");
+    if (!user.usersFollowingIds) throw new Error("User not following any users");
 
-    user.usersFollowing = (user.usersFollowing as string[]).filter((userFollowingId: string) => userFollowingId !== userToUnfollow.id);
+    user.usersFollowingIds = (user.usersFollowingIds as string[]).filter(
+      (userFollowingId: string) => userFollowingId !== userToUnfollow.id
+    );
     await user.save();
   } catch (error) {
     throw error;

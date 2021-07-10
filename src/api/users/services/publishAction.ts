@@ -9,13 +9,13 @@ export default async function publishAction(actionId: string, userId: string): P
     if (!user) throw UserNotFound;
 
     await user
-      .populate("usersFollowedBy")
+      .populate("usersFollowedByIds")
       .execPopulate()
-      .then((user: DocumentType<User>) => user.usersFollowing as DocumentType<User>[])
+      .then((user: DocumentType<User>) => user.usersFollowedByIds as DocumentType<User>[])
       .then((followers: DocumentType<User>[]) =>
         followers.forEach((follower: DocumentType<User>) => {
-          if (follower.feed) follower.feed.push(actionId);
-          else follower.feed = [actionId];
+          if (follower.feedIds) follower.feedIds.push(actionId);
+          else follower.feedIds = [actionId];
           follower.save();
         })
       );

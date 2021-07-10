@@ -9,8 +9,8 @@ export default async function addFollower(userId: string, followerId: string): P
     const follower = await UserModel.findById(followerId);
     if (!follower) throw new UserNotFound("Follower not found");
 
-    if (user.usersFollowedBy) user.usersFollowedBy.push(followerId);
-    else user.usersFollowedBy = [followerId];
+    if (user.usersFollowedByIds) user.usersFollowedByIds.push(followerId);
+    else user.usersFollowedByIds = [followerId];
 
     await user.save();
   } catch (error) {
