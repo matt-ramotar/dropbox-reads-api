@@ -1,4 +1,4 @@
-import { prop, Ref } from "@typegoose/typegoose";
+import { prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Reaction from "../../reactions/models/Reaction";
 import { default as Review, default as User } from "../../reviews/models/Review";
@@ -14,14 +14,14 @@ export default class ReviewReaction {
   id!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Review })
-  review!: Ref<Review, string>;
+  @prop({ ref: () => Review, type: () => String })
+  review!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => User })
-  reactor!: Ref<User, string>;
+  @prop({ ref: () => User, type: () => String })
+  reactor!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Reaction })
-  reaction!: Ref<Reaction, string>;
+  @prop({ ref: () => Reaction, type: () => String })
+  reaction!: string;
 }
