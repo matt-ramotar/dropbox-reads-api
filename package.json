@@ -4,8 +4,8 @@
   "description": "Dropbox Reads Api",
   "main": "build/src/server.js",
   "scripts": {
-    "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
-    "build": "tsoa spec-and-routes && tsc",
+    "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes -i input.yml\"",
+    "build": "tsoa spec-and-routes -i input.yml && tsc",
     "start": "node build/src/server.js",
     "prod": "npm run build && npm run start"
   },
