@@ -1,4 +1,4 @@
-import { prop, Ref } from "@typegoose/typegoose";
+import { prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Comment from "../../comments/models/Comment";
 import Reaction from "../../reactions/models/Reaction";
@@ -16,13 +16,13 @@ export default class CommentReaction {
 
   @Field(() => ID)
   @prop({ ref: () => Comment })
-  comment!: Ref<Comment, string>;
+  commentId!: string;
 
   @Field(() => ID)
   @prop({ ref: () => User })
-  reactor!: Ref<User, string>;
+  userId!: string;
 
   @Field(() => ID)
   @prop({ ref: () => Reaction })
-  reaction!: Ref<Reaction, string>;
+  reactionId!: string;
 }
