@@ -1,4 +1,4 @@
-import { prop, Ref } from "@typegoose/typegoose";
+import { prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import CommentReaction from "../../commentreactions/models/CommentReaction";
 import CommentUpvote from "../../commentupvotes/models/CommentUpvote";
@@ -16,22 +16,30 @@ export default class Comment {
   id!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => User })
-  user!: Ref<User, string>;
+  @prop({ ref: () => User, type: () => String })
+  user!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Review })
-  review!: Ref<Review, string>;
+  @prop({ ref: () => Review, type: () => String })
+  review?: string;
+
+  @Field(() => ID)
+  @prop({ ref: () => Comment, type: () => String })
+  parentComment?: string;
+
+  @Field(() => ID)
+  @prop({ ref: () => Comment, type: () => String })
+  childrenComments?: string[];
 
   @Field()
   @prop()
   body!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => CommentUpvote })
-  upvotes?: Ref<CommentUpvote, string>[];
+  @prop({ ref: () => CommentUpvote, type: () => String })
+  upvotes?: string[];
 
   @Field(() => ID)
-  @prop({ ref: () => CommentReaction })
-  reactions?: Ref<CommentReaction, string>[];
+  @prop({ ref: () => CommentReaction, type: () => String })
+  reactions?: string[];
 }
