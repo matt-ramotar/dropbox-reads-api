@@ -1,5 +1,4 @@
-import { UserNotFound } from "../../../errors";
-import { ActionModel, UserModel } from "../../../models";
+import { ActionModel } from "../../../models";
 import { CreateActionInput } from "../entities/CreateActionInput";
 import Action from "../models/Action";
 
@@ -15,11 +14,12 @@ export default async function createAction(input: CreateActionInput): Promise<Ac
       tagId,
       reviewId,
       commentId,
+      otherCommentId,
       reviewReactionId,
       commentReactionId
     } = input;
 
-    const action = await ActionModel.create({
+    return await ActionModel.create({
       type,
       datetime: new Date(),
       user: userId,
@@ -30,19 +30,10 @@ export default async function createAction(input: CreateActionInput): Promise<Ac
       tag: tagId,
       review: reviewId,
       comment: commentId,
+      otherComment: otherCommentId,
       reviewReaction: reviewReactionId,
       commentReaction: commentReactionId
     });
-
-    const user = await UserModel.findById(userId);
-    if (!user) throw new UserNotFound();
-
-    if (user.actions) user.actions.push(action.id);
-    else user.actions = [action.id];
-    await user.save();
-    await user.publishAction(action.id);
-
-    return action;
   } catch (error) {
     throw error;
   }
