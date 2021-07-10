@@ -5,6 +5,7 @@ import Book from "../../books/models/Book";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookTag from "../../booktags/models/BookTag";
 import BookTagUpvote from "../../booktagupvotes/models/BookTagUpvote";
+import CommentReaction from "../../commentreactions/models/CommentReaction";
 import Comment from "../../comments/models/Comment";
 import ReviewReaction from "../../reviewreactions/models/ReviewReaction";
 import Review from "../../reviews/models/Review";
@@ -87,6 +88,10 @@ export default class User {
   @Field(() => [ID])
   @prop({ ref: () => ReviewReaction, type: () => String })
   reviewReactions?: Ref<ReviewReaction, string>[];
+
+  @Field(() => [ID])
+  @prop({ ref: () => CommentReaction })
+  commentReactions?: string[];
 
   @Field(() => [ID])
   @prop({ ref: () => Book, type: () => String })
