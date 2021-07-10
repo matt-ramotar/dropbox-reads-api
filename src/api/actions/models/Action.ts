@@ -1,4 +1,4 @@
-import { prop, Ref } from "@typegoose/typegoose";
+import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
@@ -9,6 +9,7 @@ import ReviewReaction from "../../reviewreactions/models/ReviewReaction";
 import Review from "../../reviews/models/Review";
 import Tag from "../../tags/models/Tag";
 import User from "../../users/models/User";
+import { GodAction, RealGodAction } from "./GodAction";
 
 /**
  * @tsoaModel
@@ -30,45 +31,64 @@ export default class Action {
 
   @Field(() => ID)
   @prop({ ref: () => User })
-  user!: Ref<User, string>;
+  userId!: string;
 
   @Field(() => ID)
   @prop({ ref: () => User })
-  otherUser?: Ref<User, string>;
+  otherUserId?: string;
 
   @Field(() => ID)
   @prop({ ref: () => Book })
-  book?: Ref<Book, string>;
+  bookId?: string;
 
   @Field(() => ID)
   @prop({ ref: () => Bookshelf })
-  bookshelf?: Ref<Bookshelf, string>;
+  bookshelfId?: string;
 
   @Field(() => ID)
   @prop({ ref: () => BookTag })
-  bookTag?: Ref<BookTag, string>;
+  bookTagId?: string;
 
   @Field(() => ID)
   @prop({ ref: () => Tag })
-  tag?: Ref<Tag, string>;
+  tagId?: string;
 
   @Field(() => ID)
   @prop({ ref: () => Review })
-  review?: Ref<Review, string>;
+  reviewId?: string;
 
   @Field(() => ID)
   @prop({ ref: () => Comment })
-  comment?: Ref<Comment, string>;
+  commentId?: string;
 
   @Field(() => ID)
   @prop({ ref: () => Comment })
-  otherComment?: Ref<Comment, string>;
+  otherCommentId?: string;
 
   @Field(() => ID)
   @prop({ ref: () => ReviewReaction })
-  reviewReaction?: Ref<ReviewReaction, string>;
+  reviewReactionId?: string;
 
   @Field(() => ID)
   @prop({ ref: () => CommentReaction })
-  commentReaction?: Ref<CommentReaction, string>;
+  commentReactionId?: string;
+
+  public async toGodAction(this: DocumentType<Action>): Promise<GodAction> {
+    const godAction = new RealGodAction(this._id, this.type, this.datetime);
+    await godAction.populate({
+      userId: this.userId,
+      otherUserId: this.otherUserId,
+      bookId: this.bookId,
+      bookshelfId: this.bookshelfId,
+      bookTagId: this.bookTagId,
+      tagId: this.tagId,
+      reviewId: this.reviewId,
+      commentId: this.commentId,
+      otherCommentId: this.otherCommentId,
+      reviewReactionId: this.reviewReactionId,
+      commentReactionId: this.commentReactionId
+    });
+    console.log(godAction);
+    return godAction;
+  }
 }

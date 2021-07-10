@@ -22,17 +22,17 @@ export default async function createAction(input: CreateActionInput): Promise<Ac
     return await ActionModel.create({
       type,
       datetime: new Date(),
-      user: userId,
-      otherUser: otherUserId,
-      book: bookId,
-      bookshelf: bookshelfId,
-      bookTag: bookTagId,
-      tag: tagId,
-      review: reviewId,
-      comment: commentId,
-      otherComment: otherCommentId,
-      reviewReaction: reviewReactionId,
-      commentReaction: commentReactionId
+      userId,
+      otherUserId,
+      bookId,
+      bookshelfId,
+      bookTagId,
+      tagId,
+      reviewId,
+      commentId,
+      otherCommentId,
+      reviewReactionId,
+      commentReactionId
     });
   } catch (error) {
     throw error;
