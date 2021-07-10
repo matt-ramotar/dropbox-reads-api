@@ -2,6 +2,7 @@ import { prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
 import Comment from "../../comments/models/Comment";
+import Reaction from "../../reactions/models/Reaction";
 import ReviewUpvote from "../../reviewupvotes/models/ReviewUpvote";
 import User from "../../users/models/User";
 
@@ -30,6 +31,10 @@ export default class Review {
   @Field(() => ID)
   @prop({ ref: () => Comment, type: () => String })
   comments?: string[];
+
+  @Field(() => ID)
+  @prop({ ref: () => Reaction, type: () => String })
+  reactions?: string[];
 
   @Field()
   @prop()
