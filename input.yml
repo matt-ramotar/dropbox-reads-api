@@ -1,0 +1,4 @@
+info:
+  x-logo:
+    url: ./public/logo.png
+    backgroundColor: "#FFFFFF"
