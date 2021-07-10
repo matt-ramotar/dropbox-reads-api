@@ -61,6 +61,10 @@ export default class Action {
   comment?: Ref<Comment, string>;
 
   @Field(() => ID)
+  @prop({ ref: () => Comment })
+  otherComment?: Ref<Comment, string>;
+
+  @Field(() => ID)
   @prop({ ref: () => ReviewReaction })
   reviewReaction?: Ref<ReviewReaction, string>;
 
