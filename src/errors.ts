@@ -132,3 +132,23 @@ export class CommentNotFound implements DropboxReadsError {
     this.error = error;
   }
 }
+
+export class CommentReactionNotFound implements DropboxReadsError {
+  readonly message?: string = "Comment reaction not found";
+  readonly error?: any;
+
+  constructor(message?: string, error?: any) {
+    this.message = message;
+    this.error = error;
+  }
+}
+
+export class CommentUpvoteNotFound implements DropboxReadsError {
+  readonly message?: string = "Comment upvote not found";
+  readonly error?: any;
+
+  constructor(message?: string, error?: any) {
+    this.message = message;
+    this.error = error;
+  }
+}
