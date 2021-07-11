@@ -22,12 +22,12 @@ export class UserController extends Controller {
 
   /** Get god user by ID */
   @Get("{userId}/god")
-  async getGodUser(@Path() userId: string): Promise<GodUser> {
+  async getGodUserById(@Path() userId: string): Promise<GodUser> {
     return await new RealUserService().getGodUserById(userId);
   }
 
-  /** Get god user by username */
-  @Get("{username}/god")
+  /** Get user profile by username */
+  @Get("{username}/profile")
   async getUserProfile(@Path() username: string): Promise<GodUser> {
     return await new RealUserService().getGodUserByUsername(username);
   }
