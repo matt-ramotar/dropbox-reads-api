@@ -7,8 +7,8 @@ export default async function getFeed(userId: string, offset: number): Promise<F
     const user = await UserModel.findById(userId);
     if (!user) throw new UserNotFound();
 
-    if (!user.feedIds) throw new Error("Feed is empty");
-    const actionIds = user.feedIds.slice(offset - 1, offset + 9);
+    if (!user.feed) throw new Error("Feed is empty");
+    const actionIds = user.feed.slice(offset - 1, offset + 9);
 
     const godActions = [];
     for (const actionId of actionIds) {

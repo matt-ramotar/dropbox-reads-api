@@ -14,8 +14,8 @@ export default async function publishAction(actionId: string, userId: string): P
       .then((user: DocumentType<User>) => user.usersFollowedByIds as DocumentType<User>[])
       .then((followers: DocumentType<User>[]) =>
         followers.forEach((follower: DocumentType<User>) => {
-          if (follower.feedIds) follower.feedIds.push(actionId);
-          else follower.feedIds = [actionId];
+          if (follower.feed) follower.feed.push(actionId);
+          else follower.feed = [actionId];
           follower.save();
         })
       );

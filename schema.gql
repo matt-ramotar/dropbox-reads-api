@@ -17,7 +17,7 @@ type User {
   commentIds: [ID!]!
   commentReactionIds: [ID!]!
   email: String!
-  feedIds: [ID!]!
+  feed: [ID!]!
   firstName: String!
   googleId: String!
   id: ID!

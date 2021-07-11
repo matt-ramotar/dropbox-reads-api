@@ -111,7 +111,7 @@ export default class User {
 
   @Field(() => [ID])
   @prop({ ref: () => Action })
-  feedIds?: string[];
+  feed?: string[];
 
   public toSafeUser(this: DocumentType<User>): SafeUser {
     return new RealSafeUser(this._id, this.firstName, this.lastName, this.email, this.username, this.picture, this.isLoggedIn);
@@ -127,8 +127,8 @@ export default class User {
       .then((user: DocumentType<User>) => user.usersFollowedByIds as DocumentType<User>[])
       .then((followers: DocumentType<User>[]) =>
         followers.forEach((follower: DocumentType<User>) => {
-          if (follower.feedIds) follower.feedIds.push(actionId);
-          else follower.feedIds = [actionId];
+          if (follower.feed) follower.feed.push(actionId);
+          else follower.feed = [actionId];
           follower.save();
         })
       );
