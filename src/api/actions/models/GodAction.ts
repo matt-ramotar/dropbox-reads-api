@@ -28,15 +28,15 @@ import Comment from "../../comments/models/Comment";
 import ReviewReaction from "../../reviewreactions/models/ReviewReaction";
 import Review from "../../reviews/models/Review";
 import Tag from "../../tags/models/Tag";
-import User from "../../users/models/User";
+import { SafeUser } from "../../users/models/SafeUser";
 import { Refs } from "../entities/Refs";
 
 export interface GodAction {
   id: string;
   type: string;
   datetime: Date;
-  user?: User;
-  otherUser?: User;
+  user?: SafeUser;
+  otherUser?: SafeUser;
   book?: Book;
   bookshelf?: Bookshelf;
   bookTag?: BookTag;
@@ -52,8 +52,8 @@ export class RealGodAction implements GodAction {
   readonly id: string;
   readonly type: string;
   readonly datetime: Date;
-  user?: User;
-  otherUser?: User;
+  user?: SafeUser;
+  otherUser?: SafeUser;
   book?: Book;
   bookshelf?: Bookshelf;
   bookTag?: BookTag;
@@ -102,7 +102,7 @@ export class RealGodAction implements GodAction {
     try {
       const user = await UserModel.findById(id);
       if (!user) throw new UserNotFound();
-      else this.user = user;
+      else this.user = user.toSafeUser();
     } catch (error) {
       throw error;
     }
@@ -112,7 +112,7 @@ export class RealGodAction implements GodAction {
     try {
       const otherUser = await UserModel.findById(id);
       if (!otherUser) throw new UserNotFound();
-      else this.otherUser = otherUser;
+      else this.otherUser = otherUser.toSafeUser();
     } catch (error) {
       throw error;
     }
