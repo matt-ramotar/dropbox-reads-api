@@ -15,6 +15,18 @@ export class RealDropboxReadsError implements DropboxReadsError {
   }
 }
 
+export class RelationshipAlreadyExists implements DropboxReadsError {
+  readonly message?: string = "Relationship already exists";
+  readonly error?: any;
+  readonly type: string;
+
+  constructor(message?: string, error?: any) {
+    this.message = message;
+    this.error = error;
+    this.type = this.constructor.name;
+  }
+}
+
 export class ActionNotFound implements DropboxReadsError {
   readonly message?: string = "Action not found";
   readonly error?: any;
