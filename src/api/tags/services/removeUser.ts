@@ -9,9 +9,10 @@ export default async function removeUser(tagId: string, userId: string): Promise
     const user = await UserModel.findById(userId);
     if (!user) throw new UserNotFound();
 
-    if (!tag.users) throw new Error("No users found");
+    if (!tag.userIds) throw new Error("No followers found");
 
-    tag.users = (tag.users as string[]).filter((followerId: string) => followerId !== userId);
+    tag.userIds = tag.userIds.filter((followerId: string) => followerId !== userId);
+
     await tag.save();
   } catch (error) {
     throw error;

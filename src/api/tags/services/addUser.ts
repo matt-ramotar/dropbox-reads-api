@@ -1,4 +1,5 @@
-import { TagNotFound, UserNotFound } from "../../../errors";
+import { RelationshipAlreadyExists, TagNotFound, UserNotFound } from "../../../errors";
+import isIn from "../../../helpers/isIn";
 import { TagModel, UserModel } from "../../../models";
 
 export default async function addUser(tagId: string, userId: string): Promise<void> {
@@ -9,8 +10,10 @@ export default async function addUser(tagId: string, userId: string): Promise<vo
     const user = await UserModel.findById(userId);
     if (!user) throw new UserNotFound();
 
-    if (tag.users) tag.users.push(userId);
-    else tag.users = [userId];
+    if (isIn(userId, tag.userIds)) throw new RelationshipAlreadyExists();
+
+    if (tag.userIds) tag.userIds.push(userId);
+    else tag.userIds = [userId];
 
     await tag.save();
   } catch (error) {
