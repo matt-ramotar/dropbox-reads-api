@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Path, Post, Route, Tags } from "tsoa";
 import { ActionType } from "../../actions/models/ActionType";
+import { Feed } from "../../actions/models/Feed";
 import RealActionService from "../../actions/services/ActionService";
 import RealTagService from "../../tags/services/TagService";
 import { FollowTagInput } from "../entities/FollowTagInput";
@@ -82,5 +83,11 @@ export class UserController extends Controller {
 
     await new RealUserService().unfollowTag(userId, tagId);
     await new RealTagService().removeUser(tagId, userId);
+  }
+
+  /** Get feed */
+  @Get("{userId}/feed/{offset}")
+  async getFeed(@Path() userId: string, @Path() offset: string): Promise<Feed> {
+    return await new RealUserService().getFeed(userId, Number.parseInt(offset));
   }
 }
