@@ -103,7 +103,6 @@ export class RealGodAction implements GodAction {
       const user = await UserModel.findById(id);
       if (!user) throw new UserNotFound();
       else this.user = user;
-      console.log("hitting");
     } catch (error) {
       throw error;
     }
@@ -114,7 +113,6 @@ export class RealGodAction implements GodAction {
       const otherUser = await UserModel.findById(id);
       if (!otherUser) throw new UserNotFound();
       else this.otherUser = otherUser;
-      console.log("hitting");
     } catch (error) {
       throw error;
     }
@@ -125,7 +123,6 @@ export class RealGodAction implements GodAction {
       const book = await BookModel.findById(id);
       if (!book) throw new BookNotFound();
       else this.book = book;
-      console.log("hitting");
     } catch (error) {
       throw error;
     }
@@ -136,7 +133,6 @@ export class RealGodAction implements GodAction {
       const bookshelf = await BookshelfModel.findById(id);
       if (!bookshelf) throw new BookshelfNotFound();
       else this.bookshelf = bookshelf;
-      console.log("hitting");
     } catch (error) {
       throw error;
     }
@@ -147,7 +143,6 @@ export class RealGodAction implements GodAction {
       const bookTag = await BookTagModel.findById(id);
       if (!bookTag) throw new BookTagNotFound();
       else this.bookTag = bookTag;
-      console.log("hitting");
     } catch (error) {
       throw error;
     }
@@ -158,7 +153,6 @@ export class RealGodAction implements GodAction {
       const tag = await TagModel.findById(id);
       if (!tag) throw new TagNotFound();
       else this.tag = tag;
-      console.log("hitting");
     } catch (error) {
       throw error;
     }
@@ -169,7 +163,6 @@ export class RealGodAction implements GodAction {
       const review = await ReviewModel.findById(id);
       if (!review) throw new ReviewNotFound();
       else this.review = review;
-      console.log("hitting");
     } catch (error) {
       throw error;
     }
@@ -180,7 +173,6 @@ export class RealGodAction implements GodAction {
       const comment = await CommentModel.findById(id);
       if (!comment) throw new CommentNotFound();
       else this.comment = comment;
-      console.log("hitting");
     } catch (error) {
       throw error;
     }
@@ -191,7 +183,6 @@ export class RealGodAction implements GodAction {
       const otherComment = await CommentModel.findById(id);
       if (!otherComment) throw new CommentNotFound();
       else this.comment = otherComment;
-      console.log("hitting");
     } catch (error) {
       throw error;
     }
@@ -202,7 +193,6 @@ export class RealGodAction implements GodAction {
       const reviewReaction = await ReviewReactionModel.findById(id);
       if (!reviewReaction) throw new ReviewReactionNotFound();
       else this.reviewReaction = reviewReaction;
-      console.log("hitting");
     } catch (error) {
       throw error;
     }
@@ -213,7 +203,6 @@ export class RealGodAction implements GodAction {
       const commentReaction = await CommentReactionModel.findById(id);
       if (!commentReaction) throw new CommentReactionNotFound();
       else this.commentReaction = commentReaction;
-      console.log("hitting");
     } catch (error) {
       throw error;
     }

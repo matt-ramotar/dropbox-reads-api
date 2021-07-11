@@ -88,7 +88,6 @@ export default class Action {
       reviewReactionId: this.reviewReactionId,
       commentReactionId: this.commentReactionId
     });
-    console.log(godAction);
     return godAction;
   }
 }
