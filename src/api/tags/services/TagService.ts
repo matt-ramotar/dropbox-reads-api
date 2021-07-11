@@ -1,8 +1,10 @@
 import { CreateTagInput } from "../entities/CreateTagInput";
+import { GodTag } from "../models/GodTag";
 import Tag from "../models/Tag";
 import addBook from "./addBook";
 import addUser from "./addUser";
 import createTag from "./createTag";
+import getGodTagById from "./getGodTagById";
 import getTags from "./getTags";
 import removeUser from "./removeUser";
 
@@ -12,6 +14,7 @@ interface TagService {
   addBook(bookId: string, tagId: string): Promise<void>;
   addUser(tagId: string, userId: string): Promise<void>;
   removeUser(tagId: string, userId: string): Promise<void>;
+  getGodTagById(tagId: string): Promise<GodTag>;
 }
 
 export default class RealTagService implements TagService {
@@ -33,5 +36,9 @@ export default class RealTagService implements TagService {
 
   public async removeUser(tagId: string, userId: string): Promise<void> {
     return await removeUser(tagId, userId);
+  }
+
+  public async getGodTagById(tagId: string): Promise<GodTag> {
+    return await getGodTagById(tagId);
   }
 }

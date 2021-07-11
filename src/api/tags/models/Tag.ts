@@ -1,7 +1,8 @@
-import { prop } from "@typegoose/typegoose";
+import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
 import User from "../../users/models/User";
+import { GodTag, RealGodTag } from "./GodTag";
 
 /**
  * @tsoaModel
@@ -24,4 +25,10 @@ export default class Tag {
   @Field(() => [ID])
   @prop({ ref: () => User })
   userIds?: string[];
+
+  public async toGodTag(this: DocumentType<Tag>): Promise<GodTag> {
+    const godTag = new RealGodTag(this._id, this.tag);
+    await godTag.populate();
+    return godTag;
+  }
 }
