@@ -1,9 +1,10 @@
-import { prop } from "@typegoose/typegoose";
+import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
 import BookTagUpvote from "../../booktagupvotes/models/BookTagUpvote";
 import Tag from "../../tags/models/Tag";
 import User from "../../users/models/User";
+import { GodBookTag, RealGodBookTag } from "./GodBookTag";
 
 /**
  * @tsoaModel
@@ -30,4 +31,10 @@ export default class BookTag {
   @Field(() => ID)
   @prop({ ref: () => BookTagUpvote })
   upvoteIds?: string[];
+
+  public async toGodBookTag(this: DocumentType<BookTag>): Promise<GodBookTag> {
+    const godBookTag = new RealGodBookTag(this._id);
+    await godBookTag.populate();
+    return godBookTag;
+  }
 }
