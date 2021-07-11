@@ -9,7 +9,7 @@ import { Refs } from "../entities/Refs";
 
 export interface GodBook {
   id: string;
-  googleId: string;
+  googleId?: string;
   title: string;
   coverImage?: string;
   author?: Author;
@@ -21,7 +21,7 @@ export interface GodBook {
 
 export class RealGodBook implements GodBook {
   readonly id: string;
-  readonly googleId: string;
+  readonly googleId?: string;
   readonly title: string;
   readonly coverImage?: string;
   author?: Author;
@@ -30,10 +30,10 @@ export class RealGodBook implements GodBook {
   bookshelves?: Bookshelf[];
   reviews?: Review[];
 
-  constructor(id: string, googleId: string, title: string, coverImage?: string) {
+  constructor(id: string, title: string, googleId?: string, coverImage?: string) {
     this.id = id;
-    this.googleId = googleId;
     this.title = title;
+    this.googleId = googleId;
     this.coverImage = coverImage;
   }
 
