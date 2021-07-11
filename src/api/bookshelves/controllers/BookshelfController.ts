@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Route, Tags } from "tsoa";
+import { Body, Controller, Get, Path, Post, Route, Tags } from "tsoa";
 import { ActionType } from "../../actions/models/ActionType";
 import RealActionService from "../../actions/services/ActionService";
 import RealBookService from "../../books/services/BookService";
@@ -6,6 +6,7 @@ import RealUserService from "../../users/services/UserService";
 import { AddBookInput } from "../entities/AddBookInput";
 import { CreateBookshelfInput } from "../entities/CreateBookshelfInput";
 import Bookshelf from "../models/Bookshelf";
+import { GodBookshelf } from "../models/GodBookshelf";
 import RealBookshelfService from "../services/BookshelfService";
 
 @Route("bookshelves")
@@ -52,5 +53,11 @@ export class BookshelfController extends Controller {
 
     await userService.addAction(userId, action.id);
     await userService.publishAction(userId, action.id);
+  }
+
+  /** Get god bookshelf by ID */
+  @Get("{bookshelfId}/god")
+  async getGodBookshelfById(@Path() bookshelfId: string): Promise<GodBookshelf> {
+    return await new RealBookshelfService().getGodBookshelfById(bookshelfId);
   }
 }
