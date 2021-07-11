@@ -14,21 +14,21 @@ export class BookshelfController extends Controller {
   /** Create bookshelf */
   @Post()
   async createBookshelf(@Body() input: CreateBookshelfInput): Promise<Bookshelf> {
-    const { name, description, ownerId, tagIds } = input;
+    const { name, description, userId, tagIds } = input;
 
     const userService = new RealUserService();
 
-    const bookshelf = await new RealBookshelfService().createBookshelf(name, description, ownerId, tagIds);
+    const bookshelf = await new RealBookshelfService().createBookshelf(name, description, userId, tagIds);
 
     const action = await new RealActionService().createAction({
       type: ActionType.CreateBookshelf,
-      userId: ownerId,
+      userId: userId,
       bookshelfId: bookshelf.id
     });
 
-    await userService.addBookshelf(ownerId, bookshelf.id);
-    await userService.addAction(ownerId, action.id);
-    await userService.publishAction(ownerId, action.id);
+    await userService.addBookshelf(userId, bookshelf.id);
+    await userService.addAction(userId, action.id);
+    await userService.publishAction(userId, action.id);
 
     return bookshelf;
   }

@@ -6,8 +6,8 @@ export default async function createBookshelf(name: string, description: string,
     return await BookshelfModel.create({
       name,
       description,
-      owner: ownerId,
-      tags: tagIds
+      userId: ownerId,
+      tagIds
     });
   } catch (error) {
     throw error;
