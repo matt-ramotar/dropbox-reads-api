@@ -1,7 +1,6 @@
 import { Feed } from "../../actions/models/Feed";
 import { GodUser } from "../models/GodUser";
 import { SafeUser } from "../models/SafeUser";
-import { UserProfile } from "../models/UserProfile";
 import addAction from "./addAction";
 import addBook from "./addBook";
 import addBookshelf from "./addBookshelf";
@@ -15,9 +14,9 @@ import addReviewUpvote from "./addReviewUpvote";
 import followTag from "./followTag";
 import followUser from "./followUser";
 import getFeed from "./getFeed";
-import getGodUser from "./getGodUser";
+import getGodUserById from "./getGodUserById";
+import getGodUserByUsername from "./getGodUserByUsername";
 import getUser from "./getUser";
-import getUserProfile from "./getUserProfile";
 import publishAction from "./publishAction";
 import removeFollower from "./removeFollower";
 import unfollowTag from "./unfollowTag";
@@ -25,7 +24,6 @@ import unfollowUser from "./unfollowUser";
 
 interface UserService {
   getUser(userId: string): Promise<SafeUser | null>;
-  getUserProfile(username: string): Promise<UserProfile | null>;
   followUser(userId: string, userToFollowId: string): Promise<void>;
   addFollower(userId: string, followerId: string): Promise<void>;
   unfollowUser(userId: string, userToUnfollowId: string): Promise<void>;
@@ -43,16 +41,13 @@ interface UserService {
   addReviewReaction(userId: string, reviewReactionId: string): Promise<void>;
   addCommentReaction(userId: string, commentReactionId: string): Promise<void>;
   getFeed(userId: string, offset: number): Promise<Feed>;
-  getGodUser(userId: string): Promise<GodUser>;
+  getGodUserById(userId: string): Promise<GodUser>;
+  getGodUserByUsername(username: string): Promise<GodUser>;
 }
 
 export default class RealUserService implements UserService {
   public async getUser(userId: string): Promise<SafeUser | null> {
     return await getUser(userId);
-  }
-
-  public async getUserProfile(username: string): Promise<UserProfile | null> {
-    return await getUserProfile(username);
   }
 
   public async followUser(userId: string, userToFollowId: string): Promise<void> {
@@ -123,7 +118,11 @@ export default class RealUserService implements UserService {
     return await getFeed(userId, offset);
   }
 
-  public async getGodUser(userId: string): Promise<GodUser> {
-    return await getGodUser(userId);
+  public async getGodUserById(userId: string): Promise<GodUser> {
+    return await getGodUserById(userId);
+  }
+
+  public async getGodUserByUsername(username: string): Promise<GodUser> {
+    return await getGodUserByUsername(username);
   }
 }

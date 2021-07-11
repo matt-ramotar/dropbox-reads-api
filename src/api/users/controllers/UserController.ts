@@ -9,7 +9,6 @@ import { UnfollowTagInput } from "../entities/UnfollowTagInput";
 import { UnfollowUserInput } from "../entities/UnfollowUserInput";
 import { GodUser } from "../models/GodUser";
 import { SafeUser } from "../models/SafeUser";
-import { UserProfile } from "../models/UserProfile";
 import RealUserService from "../services/UserService";
 
 @Route("users")
@@ -24,13 +23,13 @@ export class UserController extends Controller {
   /** Get god user by ID */
   @Get("{userId}/god")
   async getGodUser(@Path() userId: string): Promise<GodUser> {
-    return await new RealUserService().getGodUser(userId);
+    return await new RealUserService().getGodUserById(userId);
   }
 
-  /** Get user profile by username */
-  @Get("{username}/profile")
-  async getUserProfile(@Path() username: string): Promise<UserProfile | null> {
-    return await new RealUserService().getUserProfile(username);
+  /** Get god user by username */
+  @Get("{username}/god")
+  async getUserProfile(@Path() username: string): Promise<GodUser> {
+    return await new RealUserService().getGodUserByUsername(username);
   }
 
   /** Follow user */
