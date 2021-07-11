@@ -35,7 +35,6 @@ export class RealGodBookTag implements GodBookTag {
         .exec();
 
       if (!bookTag) throw new BookTagNotFound();
-      console.log(bookTag);
 
       this.book = bookTag.bookId as DocumentType<Book>;
       this.tag = bookTag.tagId as DocumentType<Tag>;
