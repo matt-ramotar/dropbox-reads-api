@@ -8,7 +8,10 @@ export default async function getFeed(userId: string, offset: number): Promise<F
     if (!user) throw new UserNotFound();
 
     if (!user.feed) throw new Error("Feed is empty");
-    const actionIds = user.feed.slice(offset - 1, offset + 9);
+
+    const start = Math.max(0, offset - 1);
+    const end = Math.min(user.feed.length, offset + 9);
+    const actionIds = user.feed.slice(start, end);
 
     const godActions = [];
     for (const actionId of actionIds) {
