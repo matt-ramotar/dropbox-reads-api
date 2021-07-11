@@ -1,4 +1,4 @@
-import { prop, Ref } from "@typegoose/typegoose";
+import { prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Comment from "../../comments/models/Comment";
 import { default as User } from "../../reviews/models/Review";
@@ -15,9 +15,9 @@ export default class CommentUpvote {
 
   @Field(() => ID)
   @prop({ ref: () => Comment })
-  comment!: Ref<Comment, string>;
+  commentId!: string;
 
   @Field(() => ID)
   @prop({ ref: () => User })
-  upvoter!: Ref<User, string>;
+  userId!: string;
 }
