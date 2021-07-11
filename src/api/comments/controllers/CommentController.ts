@@ -13,28 +13,28 @@ export class CommentController extends Controller {
   /** Create comment */
   @Post()
   async createComment(@Body() input: CreateCommentInput): Promise<Comment> {
-    const { userId, reviewId, parentId } = input;
+    const { userId, reviewId, parentCommentId } = input;
 
     const commentService = new RealCommentService();
     const userService = new RealUserService();
 
     const comment = await commentService.createComment(input);
 
-    await userService.addComment(userId, comment.id);
+    await userService.addComment(userId, comment._id);
 
-    if (reviewId) await new RealReviewService().addComment(comment.id, reviewId);
-    if (parentId) commentService.addChildComment(comment.id, parentId);
+    if (reviewId) await new RealReviewService().addComment(comment._id, reviewId);
+    if (parentCommentId) commentService.addChildComment(comment._id, parentCommentId);
 
     const action = await new RealActionService().createAction({
       type: reviewId ? ActionType.AddCommentToReview : ActionType.AddCommentToComment,
       userId,
-      commentId: comment.id,
-      otherCommentId: parentId,
+      commentId: comment._id,
+      otherCommentId: parentCommentId,
       reviewId
     });
 
-    await userService.addAction(action.id, userId);
-    await userService.publishAction(action.id, userId);
+    await userService.addAction(action._id, userId);
+    await userService.publishAction(action._id, userId);
 
     return comment;
   }

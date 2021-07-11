@@ -16,30 +16,30 @@ export default class Comment {
   id!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => User, type: () => String })
-  user!: string;
+  @prop({ ref: () => User })
+  userId!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Review, type: () => String })
-  review?: string;
+  @prop({ ref: () => Review })
+  reviewId?: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Comment, type: () => String })
-  parentComment?: string;
+  @prop({ ref: () => Comment })
+  parentCommentId?: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Comment, type: () => String })
-  childrenComments?: string[];
+  @prop({ ref: () => Comment })
+  childrenCommentIds?: string[];
 
   @Field()
   @prop()
   body!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => CommentUpvote, type: () => String })
-  upvotes?: string[];
+  @prop({ ref: () => CommentUpvote })
+  commentUpvoteIds?: string[];
 
   @Field(() => ID)
-  @prop({ ref: () => CommentReaction, type: () => String })
-  reactions?: string[];
+  @prop({ ref: () => CommentReaction })
+  commentReactionIds?: string[];
 }

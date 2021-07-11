@@ -9,8 +9,8 @@ export default async function addCommentReaction(commentId: string, commentReact
     const commentReaction = await CommentReactionModel.findById(commentReactionId);
     if (!commentReaction) throw new CommentReactionNotFound();
 
-    if (comment.reactions) comment.reactions.push(commentReactionId);
-    else comment.reactions = [commentReactionId];
+    if (comment.commentReactionIds) comment.commentReactionIds.push(commentReactionId);
+    else comment.commentReactionIds = [commentReactionId];
 
     await comment.save();
   } catch (error) {

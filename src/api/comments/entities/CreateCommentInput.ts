@@ -1,6 +1,6 @@
 export interface CreateCommentInput {
   userId: string;
   reviewId?: string;
-  parentId?: string;
+  parentCommentId?: string;
   body: string;
 }
