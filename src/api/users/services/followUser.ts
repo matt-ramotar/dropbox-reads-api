@@ -1,4 +1,5 @@
-import { UserNotFound } from "../../../errors";
+import { RealDropboxReadsError, UserNotFound } from "../../../errors";
+import isIn from "../../../helpers/isIn";
 import { UserModel } from "../../../models";
 
 export default async function followUser(userId: string, userToFollowId: string): Promise<void> {
@@ -8,6 +9,8 @@ export default async function followUser(userId: string, userToFollowId: string)
 
     const userToFollow = await UserModel.findById(userToFollowId);
     if (!userToFollow) throw new UserNotFound("User to follow not found");
+
+    if (isIn(userToFollowId, user.usersFollowingIds)) throw new RealDropboxReadsError("Already following user");
 
     if (user.usersFollowingIds) user.usersFollowingIds.push(userToFollowId);
     else user.usersFollowingIds = [userToFollowId];

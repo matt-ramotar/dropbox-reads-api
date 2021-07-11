@@ -37,19 +37,21 @@ export class UserController extends Controller {
   @Post("{userId}/users/following")
   async followUser(@Path() userId: string, @Body() input: FollowUserInput): Promise<void> {
     const { userToFollowId } = input;
+
+    const actionService = new RealActionService();
     const userService = new RealUserService();
 
     await userService.followUser(userId, userToFollowId);
     await userService.addFollower(userToFollowId, userId);
 
-    const action = await new RealActionService().createAction({
+    const action = await actionService.createAction({
       type: ActionType.FollowUser,
       userId,
       otherUserId: userToFollowId
     });
 
-    await userService.addAction(action.id, userId);
-    await userService.publishAction(action.id, userId);
+    await userService.addAction(action._id, userId);
+    await userService.publishAction(action._id, userId);
   }
 
   /** Unfollow user */
@@ -95,6 +97,6 @@ export class UserController extends Controller {
   /** Get feed */
   @Get("{userId}/feed/{offset}")
   async getFeed(@Path() userId: string, @Path() offset: string): Promise<Feed> {
-    return await new RealUserService().getFeed(userId, Number.parseInt(offset));
+    return await new RealUserService().getFeed(userId, offset ? Number.parseInt(offset) : 0);
   }
 }
