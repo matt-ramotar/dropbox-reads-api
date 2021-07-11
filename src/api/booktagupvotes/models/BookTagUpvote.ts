@@ -1,4 +1,4 @@
-import { prop, Ref } from "@typegoose/typegoose";
+import { prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import BookTag from "../../booktags/models/BookTag";
 import User from "../../users/models/User";
@@ -15,9 +15,9 @@ export default class BookTagUpvote {
 
   @Field(() => ID)
   @prop({ ref: () => BookTag })
-  bookTag!: Ref<BookTag, string>;
+  bookTagId!: string;
 
   @Field(() => ID)
   @prop({ ref: () => User })
-  upvoter!: Ref<User, string>;
+  userId!: string;
 }
