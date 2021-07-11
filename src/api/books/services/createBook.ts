@@ -1,3 +1,4 @@
+import { DocumentType } from "@typegoose/typegoose";
 import { BookModel } from "../../../models";
 import Book from "../models/Book";
 
@@ -7,7 +8,7 @@ export default async function createBook(
   authorId: string,
   userId: string,
   coverImage?: string
-): Promise<Book> {
+): Promise<DocumentType<Book>> {
   try {
     return await BookModel.create({
       googleId,

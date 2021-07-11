@@ -1,14 +1,18 @@
+import { DocumentType } from "@typegoose/typegoose";
 import Book from "../models/Book";
+import { GodBook } from "../models/GodBook";
 import addBookshelf from "./addBookshelf";
 import addBookTag from "./addBookTag";
 import addReview from "./addReview";
 import createBook from "./createBook";
+import getGodBookById from "./getGodBookById";
 
 interface BookService {
-  createBook(googleId: string, title: string, authorId: string, userId: string, coverImage?: string): Promise<Book>;
+  createBook(googleId: string, title: string, authorId: string, userId: string, coverImage?: string): Promise<DocumentType<Book>>;
   addBookshelf(bookId: string, bookshelfId: string): Promise<void>;
   addBookTag(bookId: string, bookTagId: string): Promise<void>;
   addReview(bookId: string, reviewId: string): Promise<void>;
+  getGodBookById(bookId: string): Promise<GodBook>;
 }
 
 export default class RealBookService implements BookService {
@@ -18,7 +22,7 @@ export default class RealBookService implements BookService {
     authorId: string,
     userId: string,
     coverImage?: string
-  ): Promise<Book> {
+  ): Promise<DocumentType<Book>> {
     return await createBook(googleId, title, authorId, userId, coverImage);
   }
 
@@ -32,5 +36,9 @@ export default class RealBookService implements BookService {
 
   public async addReview(bookId: string, reviewId: string): Promise<void> {
     return await addReview(bookId, reviewId);
+  }
+
+  public async getGodBookById(bookId: string): Promise<GodBook> {
+    return await getGodBookById(bookId);
   }
 }
