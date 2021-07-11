@@ -12,6 +12,7 @@ import Review from "../../reviews/models/Review";
 import ReviewUpvote from "../../reviewupvotes/models/ReviewUpvote";
 import Role from "../../roles/models/Role";
 import Tag from "../../tags/models/Tag";
+import { GodUser, RealGodUser } from "./GodUser";
 import { RealSafeUser, SafeUser } from "./SafeUser";
 import { RealUserProfile, UserProfile } from "./UserProfile";
 
@@ -119,6 +120,38 @@ export default class User {
 
   public toUserProfile(this: DocumentType<User>): UserProfile {
     return new RealUserProfile(this.toSafeUser());
+  }
+
+  public async toGodUser(this: DocumentType<User>): Promise<GodUser> {
+    const godUser = new RealGodUser(
+      this._id,
+      this.firstName,
+      this.lastName,
+      this.email,
+      this.username,
+      this.googleId,
+      this.picture,
+      this.isLoggedIn
+    );
+
+    await godUser.populate({
+      roleId: this.roleId,
+      usersFollowingIds: this.usersFollowingIds,
+      usersFollowedByIds: this.usersFollowedByIds,
+      tagsFollowingIds: this.tagsFollowingIds,
+      bookshelfIds: this.bookshelfIds,
+      reviewIds: this.reviewIds,
+      commentIds: this.commentIds,
+      reviewUpvoteIds: this.reviewUpvoteIds,
+      reviewReactionIds: this.reviewReactionIds,
+      commentReactionIds: this.commentReactionIds,
+      booksAddedIds: this.booksAddedIds,
+      bookTagsAddedIds: this.bookTagsAddedIds,
+      bookTagUpvoteIds: this.bookTagUpvoteIds,
+      actionIds: this.actionIds
+    });
+
+    return godUser;
   }
 
   public async publishAction(this: DocumentType<User>, actionId: string) {
