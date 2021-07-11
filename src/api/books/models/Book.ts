@@ -18,7 +18,7 @@ export default class Book {
   id!: string;
 
   @Field()
-  @prop()
+  @prop({ unique: true })
   googleId?: string;
 
   @Field()
