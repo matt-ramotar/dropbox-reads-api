@@ -27,7 +27,7 @@ type User {
   reviewIds: [ID!]!
   reviewReactionIds: [ID!]!
   reviewUpvoteIds: [ID!]!
-  role: ID!
+  roleId: ID!
   tagsFollowingIds: [ID!]!
   username: String!
   usersFollowedByIds: [ID!]!

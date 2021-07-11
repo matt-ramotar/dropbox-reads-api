@@ -47,7 +47,7 @@ export default class User {
 
   @Field(() => ID)
   @prop({ ref: () => Role })
-  role?: string;
+  roleId?: string;
 
   @Field()
   @prop()
