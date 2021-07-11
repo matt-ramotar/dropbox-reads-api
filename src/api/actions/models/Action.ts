@@ -18,7 +18,7 @@ import { GodAction, RealGodAction } from "./GodAction";
 @ObjectType({ description: "Action model" })
 export default class Action {
   @Field(() => ID)
-  @prop({ ref: () => Action })
+  @prop()
   id!: string;
 
   @Field()
