@@ -1,9 +1,10 @@
-import { prop } from "@typegoose/typegoose";
+import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import CommentReaction from "../../commentreactions/models/CommentReaction";
 import CommentUpvote from "../../commentupvotes/models/CommentUpvote";
 import Review from "../../reviews/models/Review";
 import User from "../../users/models/User";
+import { GodComment, RealGodComment } from "./GodComment";
 
 /**
  * @tsoaModel
@@ -42,4 +43,10 @@ export default class Comment {
   @Field(() => ID)
   @prop({ ref: () => CommentReaction })
   commentReactionIds?: string[];
+
+  public async toGodComment(this: DocumentType<Comment>): Promise<GodComment> {
+    const godComment = new RealGodComment(this._id, this.body);
+    await godComment.populate();
+    return godComment;
+  }
 }
