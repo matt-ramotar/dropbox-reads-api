@@ -1,4 +1,5 @@
 import { Feed } from "../../actions/models/Feed";
+import { GodUser } from "../models/GodUser";
 import { SafeUser } from "../models/SafeUser";
 import { UserProfile } from "../models/UserProfile";
 import addAction from "./addAction";
@@ -14,6 +15,7 @@ import addReviewUpvote from "./addReviewUpvote";
 import followTag from "./followTag";
 import followUser from "./followUser";
 import getFeed from "./getFeed";
+import getGodUser from "./getGodUser";
 import getUser from "./getUser";
 import getUserProfile from "./getUserProfile";
 import publishAction from "./publishAction";
@@ -41,6 +43,7 @@ interface UserService {
   addReviewReaction(userId: string, reviewReactionId: string): Promise<void>;
   addCommentReaction(userId: string, commentReactionId: string): Promise<void>;
   getFeed(userId: string, offset: number): Promise<Feed>;
+  getGodUser(userId: string): Promise<GodUser>;
 }
 
 export default class RealUserService implements UserService {
@@ -118,5 +121,9 @@ export default class RealUserService implements UserService {
 
   public async getFeed(userId: string, offset: number): Promise<Feed> {
     return await getFeed(userId, offset);
+  }
+
+  public async getGodUser(userId: string): Promise<GodUser> {
+    return await getGodUser(userId);
   }
 }
