@@ -1,4 +1,4 @@
-import { prop, Ref } from "@typegoose/typegoose";
+import { prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Author from "../../authors/models/Author";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
@@ -18,7 +18,7 @@ export default class Book {
 
   @Field()
   @prop()
-  googleId!: string;
+  googleId?: string;
 
   @Field()
   @prop()
@@ -29,22 +29,22 @@ export default class Book {
   coverImage?: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Author, type: () => String })
-  author!: Ref<Author, string>;
+  @prop({ ref: () => Author })
+  authorId!: string;
 
   @Field(() => [ID])
   @prop({ ref: () => BookTag })
-  tags?: Ref<BookTag, string>[];
+  bookTagIds?: string[];
 
   @Field(() => ID)
-  @prop({ ref: () => User, type: () => String })
-  userAddedBy!: string;
+  @prop({ ref: () => User })
+  userAddedById!: string;
 
   @Field(() => [ID])
-  @prop({ ref: () => Bookshelf, type: () => String })
-  bookshelves?: Ref<Bookshelf, string>[];
+  @prop({ ref: () => Bookshelf })
+  bookshelfIds?: string[];
 
   @Field(() => [ID])
-  @prop({ ref: () => Review, type: () => String })
-  reviews?: string[];
+  @prop({ ref: () => Review })
+  reviewIds?: string[];
 }

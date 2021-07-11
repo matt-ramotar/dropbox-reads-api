@@ -13,8 +13,8 @@ export default async function createBook(
       googleId,
       title,
       coverImage,
-      author: authorId,
-      userAddedBy: userId
+      authorId,
+      userAddedById: userId
     });
   } catch (error) {
     throw error;
