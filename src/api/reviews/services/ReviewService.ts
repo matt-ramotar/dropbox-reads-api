@@ -1,3 +1,4 @@
+import { DocumentType } from "@typegoose/typegoose";
 import Review from "../models/Review";
 import addComment from "./addComment";
 import addReviewReaction from "./addReviewReaction";
@@ -5,14 +6,14 @@ import addReviewUpvote from "./addReviewUpvote";
 import createReview from "./createReview";
 
 interface ReviewService {
-  createReview(body: string, bookId: string, rating: number, reviewerId: string): Promise<Review>;
+  createReview(body: string, bookId: string, rating: number, reviewerId: string): Promise<DocumentType<Review>>;
   addReviewUpvote(reviewId: string, reviewUpvoteId: string): Promise<void>;
   addComment(commentId: string, reviewId: string): Promise<void>;
   addReviewReaction(reviewId: string, reviewReactionId: string): Promise<void>;
 }
 
 export default class RealReviewService implements ReviewService {
-  public async createReview(body: string, bookId: string, rating: number, reviewerId: string): Promise<Review> {
+  public async createReview(body: string, bookId: string, rating: number, reviewerId: string): Promise<DocumentType<Review>> {
     return await createReview(body, bookId, rating, reviewerId);
   }
 
