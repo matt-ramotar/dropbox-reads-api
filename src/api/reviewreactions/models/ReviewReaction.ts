@@ -14,14 +14,14 @@ export default class ReviewReaction {
   id!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Review, type: () => String })
-  review!: string;
+  @prop({ ref: () => Review })
+  reviewId!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => User, type: () => String })
-  reactor!: string;
+  @prop({ ref: () => User })
+  userId!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Reaction, type: () => String })
-  reaction!: string;
+  @prop({ ref: () => Reaction })
+  reactionId!: string;
 }
