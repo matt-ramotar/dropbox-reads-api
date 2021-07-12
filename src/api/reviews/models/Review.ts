@@ -1,10 +1,11 @@
-import { prop } from "@typegoose/typegoose";
+import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
 import Comment from "../../comments/models/Comment";
 import ReviewReaction from "../../reviewreactions/models/ReviewReaction";
 import ReviewUpvote from "../../reviewupvotes/models/ReviewUpvote";
 import User from "../../users/models/User";
+import { GodReview, RealGodReview } from "./GodReview";
 
 /**
  * @tsoaModel
@@ -43,4 +44,10 @@ export default class Review {
   @Field()
   @prop()
   body!: string;
+
+  public async toGodReview(this: DocumentType<Review>): Promise<GodReview> {
+    const godReview = new RealGodReview(this._id, this.rating, this.body);
+    await godReview.populate();
+    return godReview;
+  }
 }
