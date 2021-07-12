@@ -1,9 +1,10 @@
-import { Body, Controller, Post, Route, Tags } from "tsoa";
+import { Body, Controller, Get, Path, Post, Route, Tags } from "tsoa";
 import { ActionType } from "../../actions/models/ActionType";
 import RealActionService from "../../actions/services/ActionService";
 import RealBookService from "../../books/services/BookService";
 import RealUserService from "../../users/services/UserService";
 import { CreateReviewInput } from "../entities/CreateReviewInput";
+import { GodReview } from "../models/GodReview";
 import Review from "../models/Review";
 import RealReviewService from "../services/ReviewService";
 
@@ -33,5 +34,11 @@ export class ReviewController extends Controller {
     await new RealBookService().addReview(bookId, review._id);
 
     return review;
+  }
+
+  /** Get god review by ID */
+  @Get("{reviewId}/god")
+  async getGodReviewById(@Path() reviewId: string): Promise<GodReview> {
+    return await new RealReviewService().getGodReviewById(reviewId);
   }
 }
