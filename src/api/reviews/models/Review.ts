@@ -2,7 +2,7 @@ import { prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
 import Comment from "../../comments/models/Comment";
-import Reaction from "../../reactions/models/Reaction";
+import ReviewReaction from "../../reviewreactions/models/ReviewReaction";
 import ReviewUpvote from "../../reviewupvotes/models/ReviewUpvote";
 import User from "../../users/models/User";
 
@@ -17,24 +17,24 @@ export default class Review {
   id!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => User, type: () => String })
-  reviewer!: string;
+  @prop({ ref: () => User })
+  reviewerId!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => Book, type: () => String })
-  book!: string;
+  @prop({ ref: () => Book })
+  bookId!: string;
 
   @Field(() => ID)
-  @prop({ ref: () => ReviewUpvote, type: () => String })
-  upvotes?: string[];
+  @prop({ ref: () => ReviewUpvote })
+  reviewUpvoteIds?: string[];
 
   @Field(() => ID)
-  @prop({ ref: () => Comment, type: () => String })
-  comments?: string[];
+  @prop({ ref: () => Comment })
+  commentIds?: string[];
 
   @Field(() => ID)
-  @prop({ ref: () => Reaction, type: () => String })
-  reactions?: string[];
+  @prop({ ref: () => ReviewReaction })
+  reviewReactionIds?: string[];
 
   @Field()
   @prop()

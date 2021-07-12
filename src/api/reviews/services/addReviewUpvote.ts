@@ -9,8 +9,8 @@ export default async function addReviewUpvote(reviewId: string, reviewUpvoteId: 
     const reviewUpvote = await ReviewUpvoteModel.findById(reviewUpvoteId);
     if (!reviewUpvote) throw new ReviewUpvoteNotFound();
 
-    if (review.upvotes) review.upvotes.push(reviewUpvoteId);
-    else review.upvotes = [reviewUpvoteId];
+    if (review.reviewUpvoteIds) review.reviewUpvoteIds.push(reviewUpvoteId);
+    else review.reviewUpvoteIds = [reviewUpvoteId];
 
     await review.save();
   } catch (error) {

@@ -9,8 +9,8 @@ export default async function addReviewReaction(reviewId: string, reviewReaction
     const reviewReaction = await ReviewReactionModel.findById(reviewReactionId);
     if (!reviewReaction) throw new ReviewReactionNotFound();
 
-    if (review.reactions) review.reactions.push(reviewReactionId);
-    else review.reactions = [reviewReactionId];
+    if (review.reviewReactionIds) review.reviewReactionIds.push(reviewReactionId);
+    else review.reviewReactionIds = [reviewReactionId];
 
     await review.save();
   } catch (error) {
