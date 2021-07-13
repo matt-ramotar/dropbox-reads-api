@@ -27,8 +27,8 @@ export class BookUpvoteController extends Controller {
       bookId: bookId,
     });
 
-    await userService.addAction(action.id, userId);
-    await userService.publishAction(action.id, userId);
+    await userService.addAction(action._id, userId);
+    await userService.publishAction(action._id, userId);
 
     return bookUpvote;
   }
