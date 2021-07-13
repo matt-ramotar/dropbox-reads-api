@@ -1,8 +1,10 @@
-import { AuthorNotFound, BookshelfNotFound, BookTagNotFound, ReviewNotFound, UserNotFound } from "../../../errors";
-import { AuthorModel, BookshelfModel, BookTagModel, ReviewModel, UserModel } from "../../../models";
+import { AuthorNotFound, BookshelfNotFound, BookTagNotFound, BookUpvoteNotFound, CommentNotFound, ReviewNotFound, UserNotFound } from "../../../errors";
+import { AuthorModel, BookshelfModel, BookTagModel, BookUpvoteModel, CommentModel, ReviewModel, UserModel } from "../../../models";
 import Author from "../../authors/models/Author";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
+import BookUpvote from "../../bookupvotes/models/BookUpvote";
 import BookTag from "../../booktags/models/BookTag";
+import Comment from "../../comments/models/Comment";
 import Review from "../../reviews/models/Review";
 import { SafeUser } from "../../users/models/SafeUser";
 import { Refs } from "../entities/Refs";
@@ -17,6 +19,8 @@ export interface GodBook {
   userAddedBy: SafeUser;
   bookshelves?: Bookshelf[];
   reviews?: Review[];
+  bookUpvotes?: BookUpvote[];
+  bookComments?: Comment[];
 }
 
 export class RealGodBook implements GodBook {
@@ -29,6 +33,8 @@ export class RealGodBook implements GodBook {
   userAddedBy!: SafeUser;
   bookshelves?: Bookshelf[];
   reviews?: Review[];
+  bookUpvotes?: BookUpvote[];
+  bookComments?: Comment[];
 
   constructor(id: string, title: string, googleId?: string, coverImage?: string) {
     this.id = id;
@@ -38,13 +44,15 @@ export class RealGodBook implements GodBook {
   }
 
   public async populate(refs: Refs) {
-    const { authorId, bookTagIds, userAddedById, bookshelfIds, reviewIds } = refs;
+    const { authorId, bookTagIds, userAddedById, bookshelfIds, reviewIds, bookUpvoteIds, bookCommentIds } = refs;
 
     if (authorId) await this.setAuthor(authorId);
     if (bookTagIds) await this.setBookTags(bookTagIds);
     if (userAddedById) await this.setUserAddedBy(userAddedById);
     if (bookshelfIds) await this.setBookshelves(bookshelfIds);
     if (reviewIds) await this.setReviews(reviewIds);
+    if (bookUpvoteIds) await this.setBookUpvotes(bookUpvoteIds);
+    if (bookCommentIds) await this.setBookComments(bookCommentIds);
   }
 
   private async setAuthor(id: string): Promise<void> {
@@ -104,6 +112,34 @@ export class RealGodBook implements GodBook {
         reviews.push(review);
       }
       this.reviews = reviews;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private async setBookUpvotes(ids: string[]): Promise<void> {
+    try {
+      const upvotes = [];
+      for (const id of ids) {
+        const upvote = await BookUpvoteModel.findById(id);
+        if (!upvote) throw new BookUpvoteNotFound();
+        upvotes.push(upvote);
+      }
+      this.bookUpvotes = upvotes;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private async setBookComments(ids: string[]): Promise<void> {
+    try {
+      const comments = [];
+      for (const id of ids) {
+        const comment = await CommentModel.findById(id);
+        if (!comment) throw new CommentNotFound();
+        comments.push(comment);
+      }
+      this.bookComments = comments;
     } catch (error) {
       throw error;
     }

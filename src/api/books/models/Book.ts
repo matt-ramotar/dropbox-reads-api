@@ -2,7 +2,9 @@ import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Author from "../../authors/models/Author";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
+import BookUpvote from "../../bookupvotes/models/BookUpvote";
 import BookTag from "../../booktags/models/BookTag";
+import Comment from "../../comments/models/Comment";
 import Review from "../../reviews/models/Review";
 import User from "../../users/models/User";
 import { GodBook, RealGodBook } from "./GodBook";
@@ -49,6 +51,14 @@ export default class Book {
   @prop({ ref: () => Review })
   reviewIds?: string[];
 
+  @Field(() => [ID])
+  @prop({ ref: () => BookUpvote })
+  bookUpvoteIds?: string[];
+
+  @Field(() => [ID])
+  @prop({ ref: Comment })
+  bookCommentIds?: string[];
+
   public async toGodBook(this: DocumentType<Book>): Promise<GodBook> {
     const godBook = new RealGodBook(this._id, this.title, this.googleId, this.coverImage);
 
@@ -57,7 +67,9 @@ export default class Book {
       bookTagIds: this.bookTagIds,
       userAddedById: this.userAddedById,
       bookshelfIds: this.bookshelfIds,
-      reviewIds: this.reviewIds
+      reviewIds: this.reviewIds,
+      bookUpvoteIds: this.bookUpvoteIds,
+      bookCommentIds: this.bookCommentIds,
     });
 
     return godBook;

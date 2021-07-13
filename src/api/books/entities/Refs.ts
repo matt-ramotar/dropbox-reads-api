@@ -4,4 +4,6 @@ export interface Refs {
   userAddedById: string;
   bookshelfIds?: string[];
   reviewIds?: string[];
+  bookUpvoteIds?: string[];
+  bookCommentIds?: string[];
 }

@@ -63,6 +63,18 @@ export class BookNotFound implements DropboxReadsError {
   }
 }
 
+export class BookUpvoteNotFound implements DropboxReadsError {
+  readonly message?: string = "Book upvote not found";
+  readonly error?: any;
+  readonly type: string;
+
+  constructor(message?: string, error?: any) {
+    this.message = message;
+    this.error = error;
+    this.type = this.constructor.name;
+  }
+}
+
 export class BookshelfNotFound implements DropboxReadsError {
   readonly message?: string = "Bookshelf not found";
   readonly error?: any;
