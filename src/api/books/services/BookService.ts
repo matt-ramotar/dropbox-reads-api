@@ -4,6 +4,7 @@ import { GodBook } from "../models/GodBook";
 import addBookshelf from "./addBookshelf";
 import addBookTag from "./addBookTag";
 import addReview from "./addReview";
+import addBookUpvote from "./addBookUpvote";
 import createBook from "./createBook";
 import getGodBookById from "./getGodBookById";
 
@@ -13,6 +14,7 @@ interface BookService {
   addBookTag(bookId: string, bookTagId: string): Promise<void>;
   addReview(bookId: string, reviewId: string): Promise<void>;
   getGodBookById(bookId: string): Promise<GodBook>;
+  addBookUpvote(bookId: string, upvoteId: string): Promise<void>;
 }
 
 export default class RealBookService implements BookService {
@@ -40,5 +42,9 @@ export default class RealBookService implements BookService {
 
   public async getGodBookById(bookId: string): Promise<GodBook> {
     return await getGodBookById(bookId);
+  }
+
+  public async addBookUpvote(bookId: string, upvoteId: string): Promise<void> {
+    return await addBookUpvote(bookId, upvoteId);
   }
 }

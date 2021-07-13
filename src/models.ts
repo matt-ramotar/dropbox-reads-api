@@ -4,6 +4,7 @@ import Author from "./api/authors/models/Author";
 import Book from "./api/books/models/Book";
 import Bookshelf from "./api/bookshelves/models/Bookshelf";
 import BookTag from "./api/booktags/models/BookTag";
+import BookUpvote from "./api/bookupvotes/models/BookUpvote"
 import BookTagUpvote from "./api/booktagupvotes/models/BookTagUpvote";
 import CommentReaction from "./api/commentreactions/models/CommentReaction";
 import Comment from "./api/comments/models/Comment";
@@ -19,6 +20,7 @@ import User from "./api/users/models/User";
 export const ActionModel = getModelForClass(Action);
 export const AuthorModel = getModelForClass(Author);
 export const BookModel = getModelForClass(Book);
+export const BookUpvoteModel = getModelForClass(BookUpvote);
 export const BookshelfModel = getModelForClass(Bookshelf);
 export const BookTagModel = getModelForClass(BookTag);
 export const BookTagUpvoteModel = getModelForClass(BookTagUpvote);

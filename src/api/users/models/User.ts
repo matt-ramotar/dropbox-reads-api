@@ -5,6 +5,7 @@ import Book from "../../books/models/Book";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookTag from "../../booktags/models/BookTag";
 import BookTagUpvote from "../../booktagupvotes/models/BookTagUpvote";
+import BookUpvote from "../../bookupvotes/models/BookUpvote";
 import CommentReaction from "../../commentreactions/models/CommentReaction";
 import Comment from "../../comments/models/Comment";
 import ReviewReaction from "../../reviewreactions/models/ReviewReaction";
@@ -114,6 +115,10 @@ export default class User {
   @prop({ ref: () => Action })
   feed?: string[];
 
+  @Field(() => [ID])
+  @prop({ ref: () => BookUpvote })
+  bookUpvoteIds?: string[];
+
   public toSafeUser(this: DocumentType<User>): SafeUser {
     return new RealSafeUser(this._id, this.firstName, this.lastName, this.email, this.username, this.picture, this.isLoggedIn);
   }
@@ -148,7 +153,8 @@ export default class User {
       booksAddedIds: this.booksAddedIds,
       bookTagsAddedIds: this.bookTagsAddedIds,
       bookTagUpvoteIds: this.bookTagUpvoteIds,
-      actionIds: this.actionIds
+      actionIds: this.actionIds,
+      bookUpvoteIds: this.bookUpvoteIds,
     });
 
     return godUser;

@@ -13,4 +13,5 @@ export interface Refs {
   bookTagsAddedIds?: string[];
   bookTagUpvoteIds?: string[];
   actionIds?: string[];
+  bookUpvoteIds?: string[];
 }
