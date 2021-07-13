@@ -4,7 +4,7 @@ import Author from "../../authors/models/Author";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookUpvote from "../../bookupvotes/models/BookUpvote";
 import BookTag from "../../booktags/models/BookTag";
-import GodComment from "../../comments/models/GodComment";
+import { GodComment } from "../../comments/models/GodComment";
 import Review from "../../reviews/models/Review";
 import { SafeUser } from "../../users/models/SafeUser";
 import { Refs } from "../entities/Refs";
@@ -137,8 +137,7 @@ export class RealGodBook implements GodBook {
       for (const id of ids) {
         const comment = await CommentModel.findById(id);
         if (!comment) throw new CommentNotFound();
-        await comment.toGodComment();
-        comments.push(comment);
+        comments.push(await comment.toGodComment());
       }
       this.bookComments = comments;
     } catch (error) {
