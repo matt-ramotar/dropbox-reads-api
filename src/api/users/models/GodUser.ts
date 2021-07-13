@@ -5,6 +5,7 @@ import {
   BookshelfModel,
   BookTagModel,
   BookTagUpvoteModel,
+  BookUpvoteModel,
   CommentModel,
   CommentReactionModel,
   ReviewModel,
@@ -19,6 +20,7 @@ import Book from "../../books/models/Book";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookTag from "../../booktags/models/BookTag";
 import BookTagUpvote from "../../booktagupvotes/models/BookTagUpvote";
+import BookUpvote from "src/api/bookupvotes/models/BookUpvote";
 import CommentReaction from "../../commentreactions/models/CommentReaction";
 import Comment from "../../comments/models/Comment";
 import ReviewReaction from "../../reviewreactions/models/ReviewReaction";
@@ -52,6 +54,7 @@ export interface GodUser {
   bookTagsAdded?: BookTag[];
   bookTagUpvotes?: BookTagUpvote[];
   actions?: Action[];
+  bookUpvotes?: BookUpvote[];
 }
 
 export class RealGodUser implements GodUser {
@@ -77,6 +80,7 @@ export class RealGodUser implements GodUser {
   bookTagsAdded?: BookTag[];
   bookTagUpvotes?: BookTagUpvote[];
   actions?: Action[];
+  bookUpvotes?: BookUpvote[];
 
   constructor(
     id: string,
@@ -113,7 +117,8 @@ export class RealGodUser implements GodUser {
       booksAddedIds,
       bookTagsAddedIds,
       bookTagUpvoteIds,
-      actionIds
+      actionIds,
+      bookUpvoteIds,
     } = refs;
 
     if (roleId) await this.setRole(roleId);
@@ -130,6 +135,7 @@ export class RealGodUser implements GodUser {
     if (bookTagsAddedIds) await this.setBookTagsAdded(bookTagsAddedIds);
     if (bookTagUpvoteIds) await this.setBookTagUpvotes(bookTagUpvoteIds);
     if (actionIds) await this.setActions(actionIds);
+    if (bookUpvoteIds) await this.setBookUpvotes(bookUpvoteIds);
   }
 
   private async setRole(id: string): Promise<void> {
@@ -319,6 +325,20 @@ export class RealGodUser implements GodUser {
         actions.push(action);
       }
       this.actions = actions;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private async setBookUpvotes(ids: string[]): Promise<void> {
+    try {
+      const upvotes = [];
+      for(const id of ids) {
+        const upvote = await BookUpvoteModel.findById(id);
+        if (!upvote) continue;
+        upvotes.push(upvote);
+      }
+      this.bookUpvotes = upvotes;
     } catch (error) {
       throw error;
     }

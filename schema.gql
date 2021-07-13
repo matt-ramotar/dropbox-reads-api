@@ -12,6 +12,7 @@ type User {
   actionIds: [ID!]!
   bookTagUpvoteIds: [ID!]!
   bookTagsAddedIds: [ID!]!
+  bookUpvoteIds: [ID!]!
   booksAddedIds: [ID!]!
   bookshelfIds: [ID!]!
   commentIds: [ID!]!
