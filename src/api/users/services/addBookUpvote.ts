@@ -1,5 +1,6 @@
 import {  UserModel, BookUpvoteModel } from "../../../models";
-import { UserNotFound, BookUpvoteNotFound } from "../../../errors";
+import { UserNotFound, BookUpvoteNotFound, RelationshipAlreadyExists } from "../../../errors";
+import isIn from "../../../helpers/isIn";
 
 export default async function addBookUpvote(userId: string, upvoteId: string): Promise<void> {
     try {
@@ -9,6 +10,7 @@ export default async function addBookUpvote(userId: string, upvoteId: string): P
       const upvote = await BookUpvoteModel.findById(upvoteId);
       if (!upvote) throw new BookUpvoteNotFound();
 
+      if (isIn(upvoteId, user.bookUpvoteIds)) throw new RelationshipAlreadyExists();
       if (user.bookUpvoteIds) user.bookUpvoteIds.push(upvoteId);
       else user.bookUpvoteIds = [upvoteId];
       

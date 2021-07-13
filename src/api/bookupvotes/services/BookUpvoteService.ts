@@ -3,7 +3,7 @@ import createBookUpvote from "./createBookUpvote";
 import { DocumentType } from "@typegoose/typegoose";
 
 interface BookUpvoteService {
-  createBookUpvote(bookId: string, userId: string): Promise<BookUpvote>;
+  createBookUpvote(bookId: string, userId: string): Promise<DocumentType<BookUpvote>>;
 }
 
 export default class RealBookUpvoteService implements BookUpvoteService {
