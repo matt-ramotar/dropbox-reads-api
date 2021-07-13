@@ -1,3 +1,4 @@
+import RealBookService from "src/api/books/services/BookService";
 import { Body, Controller, Post, Route, Tags } from "tsoa";
 import { ActionType } from "../../actions/models/ActionType";
 import RealActionService from "../../actions/services/ActionService";
@@ -13,7 +14,7 @@ export class CommentController extends Controller {
   /** Create comment */
   @Post()
   async createComment(@Body() input: CreateCommentInput): Promise<Comment> {
-    const { userId, reviewId, parentCommentId } = input;
+    const { userId, reviewId, bookId, parentCommentId } = input;
 
     const commentService = new RealCommentService();
     const userService = new RealUserService();
@@ -23,6 +24,7 @@ export class CommentController extends Controller {
     await userService.addComment(userId, comment._id);
 
     if (reviewId) await new RealReviewService().addComment(comment._id, reviewId);
+    if (bookId) ;
     if (parentCommentId) commentService.addChildComment(comment._id, parentCommentId);
 
     const action = await new RealActionService().createAction({

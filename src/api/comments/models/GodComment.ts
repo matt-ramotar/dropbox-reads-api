@@ -1,4 +1,6 @@
 import { DocumentType } from "@typegoose/typegoose";
+import Book from "../../books/models/Book";
+import { GodBook } from "src/api/books/models/GodBook";
 import { CommentNotFound } from "../../../errors";
 import { CommentModel } from "../../../models";
 import CommentReaction from "../../commentreactions/models/CommentReaction";
@@ -17,6 +19,7 @@ export interface GodComment {
   body: string;
   commentUpvotes?: CommentUpvote[];
   commentReactions?: CommentReaction[];
+  book?: GodBook;
 }
 
 export class RealGodComment implements GodComment {
@@ -28,6 +31,7 @@ export class RealGodComment implements GodComment {
   readonly body: string;
   commentUpvotes?: CommentUpvote[];
   commentReactions?: CommentReaction[];
+  book?: GodBook;
 
   constructor(id: string, body: string) {
     this.id = id;
@@ -43,6 +47,7 @@ export class RealGodComment implements GodComment {
         .populate("childrenCommentIds")
         .populate("commentUpvoteIds")
         .populate("commentReactionIds")
+        .populate("bookId")
         .exec();
 
       if (!comment) throw new CommentNotFound();
@@ -62,6 +67,8 @@ export class RealGodComment implements GodComment {
 
       this.commentUpvotes = comment.commentUpvoteIds as DocumentType<CommentUpvote>[];
       this.commentReactions = comment.commentReactionIds as DocumentType<CommentReaction>[];
+
+      this.book = await (comment.bookId as DocumentType<Book>).toGodBook();
     } catch (error) {
       throw error;
     }
