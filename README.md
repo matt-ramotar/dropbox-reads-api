@@ -12,12 +12,14 @@
     <img src="public/logo.png" alt="Logo" width="200" height="200">
   </a>
 
-  <h1 align="center">Dropbox Reads</h3>
+  <h1 align="center">Dropbox Reads API</h3>
   <p align="center">
     Community for Dropboxers to learn, share knowledge, and grow by reading together
     <br />
     <br />
-    <a href="https://github.com/matt-ramotar/dropbox-reads-api">View Demo</a>
+    <a href="https://models.dropboxreads.com">View Models</a>
+    ·
+    <a href="https://docs.dropboxreads.com">Read Docs</a>
     ·
     <a href="https://github.com/matt-ramotar/dropbox-reads-api/issues">Report Bug</a>
     ·
