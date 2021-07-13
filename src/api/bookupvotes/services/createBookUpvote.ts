@@ -6,7 +6,7 @@ import { RelationshipAlreadyExists } from "../../../errors";
 export default async function createBookUpvote(bookId: string, userId: string): Promise<DocumentType<BookUpvote>> {
     try {
         if (await BookUpvoteModel.exists({bookId: bookId, userId: userId})) {
-            throw RelationshipAlreadyExists;
+            throw new RelationshipAlreadyExists();
         }
         
         return await BookUpvoteModel.create({
