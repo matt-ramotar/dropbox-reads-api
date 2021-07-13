@@ -56,7 +56,7 @@ export default class Book {
   bookUpvoteIds?: string[];
 
   @Field(() => [ID])
-  @prop({ ref: Comment })
+  @prop({ ref: () => Comment })
   bookCommentIds?: string[];
 
   public async toGodBook(this: DocumentType<Book>): Promise<GodBook> {

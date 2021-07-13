@@ -4,7 +4,7 @@ import Author from "../../authors/models/Author";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookUpvote from "../../bookupvotes/models/BookUpvote";
 import BookTag from "../../booktags/models/BookTag";
-import Comment from "../../comments/models/Comment";
+import GodComment from "../../comments/models/GodComment";
 import Review from "../../reviews/models/Review";
 import { SafeUser } from "../../users/models/SafeUser";
 import { Refs } from "../entities/Refs";
@@ -20,7 +20,7 @@ export interface GodBook {
   bookshelves?: Bookshelf[];
   reviews?: Review[];
   bookUpvotes?: BookUpvote[];
-  bookComments?: Comment[];
+  bookComments?: GodComment[];
 }
 
 export class RealGodBook implements GodBook {
@@ -34,7 +34,7 @@ export class RealGodBook implements GodBook {
   bookshelves?: Bookshelf[];
   reviews?: Review[];
   bookUpvotes?: BookUpvote[];
-  bookComments?: Comment[];
+  bookComments?: GodComment[];
 
   constructor(id: string, title: string, googleId?: string, coverImage?: string) {
     this.id = id;
@@ -137,6 +137,7 @@ export class RealGodBook implements GodBook {
       for (const id of ids) {
         const comment = await CommentModel.findById(id);
         if (!comment) throw new CommentNotFound();
+        await comment.toGodComment();
         comments.push(comment);
       }
       this.bookComments = comments;
