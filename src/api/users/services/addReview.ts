@@ -4,7 +4,7 @@ import { UserModel } from "../../../models";
 export default async function addReview(reviewId: string, userId: string): Promise<void> {
   try {
     const user = await UserModel.findById(userId);
-    if (!user) throw UserNotFound;
+    if (!user) throw new UserNotFound();
 
     if (user.reviewIds) user.reviewIds.push(reviewId);
     else user.reviewIds = [reviewId];
