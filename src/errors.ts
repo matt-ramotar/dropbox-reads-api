@@ -232,7 +232,7 @@ export class CommentUpvoteNotFound implements DropboxReadsError {
 }
 
 export class ObjectAlreadyExists implements DropboxReadsError {
-  readonly message?: string = "Comment upvote not found";
+  readonly message?: string = "Object already exists";
   readonly error?: any;
   readonly type: string;
 
