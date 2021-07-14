@@ -17,6 +17,7 @@ type User {
   bookshelfIds: [ID!]!
   commentIds: [ID!]!
   commentReactionIds: [ID!]!
+  commentUpvoteIds: [ID!]!
   email: String!
   feed: [ID!]!
   firstName: String!

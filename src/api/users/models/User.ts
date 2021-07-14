@@ -8,6 +8,7 @@ import BookTagUpvote from "../../booktagupvotes/models/BookTagUpvote";
 import BookUpvote from "../../bookupvotes/models/BookUpvote";
 import CommentReaction from "../../commentreactions/models/CommentReaction";
 import Comment from "../../comments/models/Comment";
+import CommentUpvote from "../../commentupvotes/models/CommentUpvote";
 import ReviewReaction from "../../reviewreactions/models/ReviewReaction";
 import Review from "../../reviews/models/Review";
 import ReviewUpvote from "../../reviewupvotes/models/ReviewUpvote";
@@ -88,6 +89,10 @@ export default class User {
   reviewUpvoteIds?: string[];
 
   @Field(() => [ID])
+  @prop({ ref: () => CommentUpvote })
+  commentUpvoteIds?: string[];
+
+  @Field(() => [ID])
   @prop({ ref: () => ReviewReaction })
   reviewReactionIds?: string[];
 
@@ -154,7 +159,7 @@ export default class User {
       bookTagsAddedIds: this.bookTagsAddedIds,
       bookTagUpvoteIds: this.bookTagUpvoteIds,
       actionIds: this.actionIds,
-      bookUpvoteIds: this.bookUpvoteIds,
+      bookUpvoteIds: this.bookUpvoteIds
     });
 
     return godUser;
