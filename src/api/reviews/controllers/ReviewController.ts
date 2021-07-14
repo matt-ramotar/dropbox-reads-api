@@ -28,8 +28,8 @@ export class ReviewController extends Controller {
     });
 
     await userService.addReview(review._id, reviewerId);
-    await userService.addAction(reviewerId, action._id);
-    await userService.publishAction(reviewerId, action._id);
+    await userService.addAction(action._id, reviewerId);
+    await userService.publishAction(action._id, reviewerId);
 
     await new RealBookService().addReview(bookId, review._id);
 

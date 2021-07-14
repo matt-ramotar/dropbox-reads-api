@@ -6,7 +6,7 @@ import User from "../models/User";
 export default async function publishAction(actionId: string, userId: string): Promise<void> {
   try {
     const user = await UserModel.findById(userId);
-    if (!user) throw UserNotFound;
+    if (!user) throw new UserNotFound();
 
     await user
       .populate("usersFollowedByIds")
