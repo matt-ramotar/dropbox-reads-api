@@ -1,3 +1,4 @@
+import RealBookService from "../../books/services/BookService";
 import { Body, Controller, Post, Route, Tags } from "tsoa";
 import { ActionType } from "../../actions/models/ActionType";
 import RealActionService from "../../actions/services/ActionService";
@@ -13,7 +14,7 @@ export class CommentController extends Controller {
   /** Create comment */
   @Post()
   async createComment(@Body() input: CreateCommentInput): Promise<Comment> {
-    const { userId, reviewId, parentCommentId } = input;
+    const { userId, reviewId, bookId, parentCommentId } = input;
 
     const commentService = new RealCommentService();
     const userService = new RealUserService();
@@ -22,15 +23,23 @@ export class CommentController extends Controller {
 
     await userService.addComment(userId, comment._id);
 
-    if (reviewId) await new RealReviewService().addComment(comment._id, reviewId);
+    // if both bookId and reviewId are specified, the comment for the book will be taken in priority    
+    if (bookId) await new RealBookService().addComment(bookId, comment._id);
+    else if (reviewId) await new RealReviewService().addComment(comment._id, reviewId);
+    
     if (parentCommentId) commentService.addChildComment(comment._id, parentCommentId);
 
+    let actionType = ActionType.AddCommentToComment;
+    if (bookId) actionType = ActionType.AddCommentToBook;
+    else if (reviewId) actionType = ActionType.AddCommentToReview;
+
     const action = await new RealActionService().createAction({
-      type: reviewId ? ActionType.AddCommentToReview : ActionType.AddCommentToComment,
+      type: actionType,
       userId,
       commentId: comment._id,
       otherCommentId: parentCommentId,
-      reviewId
+      reviewId,
+      bookId,
     });
 
     await userService.addAction(action._id, userId);

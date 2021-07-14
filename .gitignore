@@ -41,3 +41,4 @@ build/**/*
 package-lock.json
 
 src/db
+yarn.lock
