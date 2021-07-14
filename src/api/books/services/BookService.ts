@@ -8,6 +8,7 @@ import addBookUpvote from "./addBookUpvote";
 import createBook from "./createBook";
 import getGodBookById from "./getGodBookById";
 import addComment from "./addComment";
+import getBooksMatchingKeyword from "./getBooksMatchingKeyword";
 
 interface BookService {
   createBook(googleId: string, title: string, authorId: string, userId: string, coverImage?: string): Promise<DocumentType<Book>>;
@@ -17,6 +18,7 @@ interface BookService {
   getGodBookById(bookId: string): Promise<GodBook>;
   addBookUpvote(bookId: string, upvoteId: string): Promise<void>;
   addComment(bookId: string, commentId: string): Promise<void>;
+  getBooksMatchingKeyword(keyword: string): Promise<GodBook[]>;
 }
 
 export default class RealBookService implements BookService {
@@ -52,5 +54,9 @@ export default class RealBookService implements BookService {
 
   public async addComment(bookId: string, commentId: string): Promise<void> {
     return await addComment(bookId, commentId);
+  }
+
+  public async getBooksMatchingKeyword(keyword: string): Promise<GodBook[]> {
+    return await getBooksMatchingKeyword(keyword);
   }
 }
