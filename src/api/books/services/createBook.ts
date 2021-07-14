@@ -11,9 +11,10 @@ export default async function createBook(
   coverImage?: string
 ): Promise<DocumentType<Book>> {
   try {
-    if (BookModel.exists({"googleId": googleId})) {
+    if (await BookModel.exists({googleId: googleId})) {
       throw new ObjectAlreadyExists();
     }
+
     return await BookModel.create({
       googleId,
       title,
