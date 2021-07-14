@@ -1,3 +1,4 @@
+import BookUpvote from "src/api/bookupvotes/models/BookUpvote";
 import { RoleNotFound } from "../../../errors";
 import {
   ActionModel,
@@ -8,6 +9,7 @@ import {
   BookUpvoteModel,
   CommentModel,
   CommentReactionModel,
+  CommentUpvoteModel,
   ReviewModel,
   ReviewReactionModel,
   ReviewUpvoteModel,
@@ -20,9 +22,9 @@ import Book from "../../books/models/Book";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookTag from "../../booktags/models/BookTag";
 import BookTagUpvote from "../../booktagupvotes/models/BookTagUpvote";
-import BookUpvote from "src/api/bookupvotes/models/BookUpvote";
 import CommentReaction from "../../commentreactions/models/CommentReaction";
 import Comment from "../../comments/models/Comment";
+import CommentUpvote from "../../commentupvotes/models/CommentUpvote";
 import ReviewReaction from "../../reviewreactions/models/ReviewReaction";
 import Review from "../../reviews/models/Review";
 import ReviewUpvote from "../../reviewupvotes/models/ReviewUpvote";
@@ -55,6 +57,7 @@ export interface GodUser {
   bookTagUpvotes?: BookTagUpvote[];
   actions?: Action[];
   bookUpvotes?: BookUpvote[];
+  commentUpvotes?: CommentUpvote[];
 }
 
 export class RealGodUser implements GodUser {
@@ -81,6 +84,7 @@ export class RealGodUser implements GodUser {
   bookTagUpvotes?: BookTagUpvote[];
   actions?: Action[];
   bookUpvotes?: BookUpvote[];
+  commentUpvotes?: CommentUpvote[];
 
   constructor(
     id: string,
@@ -119,6 +123,7 @@ export class RealGodUser implements GodUser {
       bookTagUpvoteIds,
       actionIds,
       bookUpvoteIds,
+      commentUpvoteIds
     } = refs;
 
     if (roleId) await this.setRole(roleId);
@@ -136,6 +141,7 @@ export class RealGodUser implements GodUser {
     if (bookTagUpvoteIds) await this.setBookTagUpvotes(bookTagUpvoteIds);
     if (actionIds) await this.setActions(actionIds);
     if (bookUpvoteIds) await this.setBookUpvotes(bookUpvoteIds);
+    if (commentUpvoteIds) await this.setCommentUpvotes(commentUpvoteIds);
   }
 
   private async setRole(id: string): Promise<void> {
@@ -333,12 +339,26 @@ export class RealGodUser implements GodUser {
   private async setBookUpvotes(ids: string[]): Promise<void> {
     try {
       const upvotes = [];
-      for(const id of ids) {
+      for (const id of ids) {
         const upvote = await BookUpvoteModel.findById(id);
         if (!upvote) continue;
         upvotes.push(upvote);
       }
       this.bookUpvotes = upvotes;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private async setCommentUpvotes(ids: string[]): Promise<void> {
+    try {
+      const upvotes = [];
+      for (const id of ids) {
+        const upvote = await CommentUpvoteModel.findById(id);
+        if (!upvote) continue;
+        upvotes.push(upvote);
+      }
+      this.commentUpvotes = upvotes;
     } catch (error) {
       throw error;
     }

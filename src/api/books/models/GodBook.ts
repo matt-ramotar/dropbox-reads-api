@@ -1,9 +1,17 @@
-import { AuthorNotFound, BookshelfNotFound, BookTagNotFound, BookUpvoteNotFound, CommentNotFound, ReviewNotFound, UserNotFound } from "../../../errors";
+import {
+  AuthorNotFound,
+  BookshelfNotFound,
+  BookTagNotFound,
+  BookUpvoteNotFound,
+  CommentNotFound,
+  ReviewNotFound,
+  UserNotFound
+} from "../../../errors";
 import { AuthorModel, BookshelfModel, BookTagModel, BookUpvoteModel, CommentModel, ReviewModel, UserModel } from "../../../models";
 import Author from "../../authors/models/Author";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
-import BookUpvote from "../../bookupvotes/models/BookUpvote";
 import BookTag from "../../booktags/models/BookTag";
+import BookUpvote from "../../bookupvotes/models/BookUpvote";
 import { GodComment } from "../../comments/models/GodComment";
 import Review from "../../reviews/models/Review";
 import { SafeUser } from "../../users/models/SafeUser";
@@ -13,6 +21,7 @@ export interface GodBook {
   id: string;
   googleId?: string;
   title: string;
+  description: string;
   coverImage?: string;
   author?: Author;
   bookTags?: BookTag[];
@@ -27,6 +36,7 @@ export class RealGodBook implements GodBook {
   readonly id: string;
   readonly googleId?: string;
   readonly title: string;
+  readonly description: string;
   readonly coverImage?: string;
   author?: Author;
   bookTags?: BookTag[];
@@ -36,9 +46,10 @@ export class RealGodBook implements GodBook {
   bookUpvotes?: BookUpvote[];
   bookComments?: GodComment[];
 
-  constructor(id: string, title: string, googleId?: string, coverImage?: string) {
+  constructor(id: string, title: string, description: string, googleId?: string, coverImage?: string) {
     this.id = id;
     this.title = title;
+    this.description = description;
     this.googleId = googleId;
     this.coverImage = coverImage;
   }
