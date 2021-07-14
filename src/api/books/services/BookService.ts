@@ -18,7 +18,7 @@ interface BookService {
   getGodBookById(bookId: string): Promise<GodBook>;
   addBookUpvote(bookId: string, upvoteId: string): Promise<void>;
   addComment(bookId: string, commentId: string): Promise<void>;
-  getBooksMatchingKeyword(keyword: string): Promise<GodBook[]>;
+  getBooksMatchingKeyword(keyword?: string, title?: string, author?: string, tags?: string[]): Promise<GodBook[]>;
 }
 
 export default class RealBookService implements BookService {
@@ -56,7 +56,7 @@ export default class RealBookService implements BookService {
     return await addComment(bookId, commentId);
   }
 
-  public async getBooksMatchingKeyword(keyword: string): Promise<GodBook[]> {
-    return await getBooksMatchingKeyword(keyword);
+  public async getBooksMatchingKeyword(keyword?: string, title?: string, author?: string, tags?: string[]): Promise<GodBook[]> {
+    return await getBooksMatchingKeyword(keyword, title, author, tags);
   }
 }
