@@ -230,3 +230,15 @@ export class CommentUpvoteNotFound implements DropboxReadsError {
     this.type = this.constructor.name;
   }
 }
+
+export class ObjectAlreadyExists implements DropboxReadsError {
+  readonly message?: string = "Object already exists";
+  readonly error?: any;
+  readonly type: string;
+
+  constructor(message?: string, error?: any) {
+    this.message = message;
+    this.error = error;
+    this.type = this.constructor.name;
+  }
+}

@@ -1,4 +1,5 @@
 import { DocumentType } from "@typegoose/typegoose";
+import { ObjectAlreadyExists } from "../../../errors";
 import { BookModel } from "../../../models";
 import Book from "../models/Book";
 
@@ -10,6 +11,10 @@ export default async function createBook(
   coverImage?: string
 ): Promise<DocumentType<Book>> {
   try {
+    if (await BookModel.exists({googleId: googleId})) {
+      throw new ObjectAlreadyExists();
+    }
+
     return await BookModel.create({
       googleId,
       title,
