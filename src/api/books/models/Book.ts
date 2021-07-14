@@ -2,8 +2,8 @@ import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Author from "../../authors/models/Author";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
-import BookUpvote from "../../bookupvotes/models/BookUpvote";
 import BookTag from "../../booktags/models/BookTag";
+import BookUpvote from "../../bookupvotes/models/BookUpvote";
 import Comment from "../../comments/models/Comment";
 import Review from "../../reviews/models/Review";
 import User from "../../users/models/User";
@@ -30,6 +30,10 @@ export default class Book {
   @Field()
   @prop()
   coverImage?: string;
+
+  @Field()
+  @prop()
+  description!: string;
 
   @Field(() => ID)
   @prop({ ref: () => Author })
@@ -60,7 +64,7 @@ export default class Book {
   bookCommentIds?: string[];
 
   public async toGodBook(this: DocumentType<Book>): Promise<GodBook> {
-    const godBook = new RealGodBook(this._id, this.title, this.googleId, this.coverImage);
+    const godBook = new RealGodBook(this._id, this.title, this.description, this.googleId, this.coverImage);
 
     await godBook.populate({
       authorId: this.authorId,
@@ -69,7 +73,7 @@ export default class Book {
       bookshelfIds: this.bookshelfIds,
       reviewIds: this.reviewIds,
       bookUpvoteIds: this.bookUpvoteIds,
-      bookCommentIds: this.bookCommentIds,
+      bookCommentIds: this.bookCommentIds
     });
 
     return godBook;
