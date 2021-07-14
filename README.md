@@ -126,9 +126,9 @@ SECRET_OR_KEY=<SECRET OR KEY>
    ```sh
    yarn install
    ```
-3. Run start script
+3. Run dev script
    ```sh
-   yarn start
+   yarn run dev
    ```
 
 ### Manual Testing
