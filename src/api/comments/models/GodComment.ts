@@ -55,7 +55,7 @@ export class RealGodComment implements GodComment {
       this.user = (comment.userId as DocumentType<User>).toSafeUser();
       this.review = comment.reviewId as DocumentType<Review>;
 
-      this.parentComment = await (comment.parentCommentId as DocumentType<Comment>).toGodComment();
+      if (comment.parentCommentId) this.parentComment = await (comment.parentCommentId as DocumentType<Comment>).toGodComment();
 
       const childrenComments = [];
 
@@ -68,7 +68,7 @@ export class RealGodComment implements GodComment {
       this.commentUpvotes = comment.commentUpvoteIds as DocumentType<CommentUpvote>[];
       this.commentReactions = comment.commentReactionIds as DocumentType<CommentReaction>[];
 
-      this.book = await (comment.bookId as DocumentType<Book>).toGodBook();
+      if (comment.bookId) this.book = await (comment.bookId as DocumentType<Book>).toGodBook();
     } catch (error) {
       throw error;
     }
