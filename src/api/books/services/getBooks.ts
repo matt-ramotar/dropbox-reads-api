@@ -1,10 +1,14 @@
-import { DocumentType } from "@typegoose/typegoose";
 import { BookModel } from "../../../models";
 import Book from "../models/Book";
 
-export default async function getBooks(): Promise<DocumentType<Book>[]> {
+export default async function getBooks(): Promise<Book[]> {
   try {
-    return await BookModel.find({});
+    const pojos = [];
+    const books = await BookModel.find();
+    for (const book of books) {
+      pojos.push(await book.toPojo());
+    }
+    return pojos;
   } catch (error) {
     throw error;
   }

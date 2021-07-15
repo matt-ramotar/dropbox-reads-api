@@ -1,4 +1,3 @@
-import { DocumentType } from "@typegoose/typegoose";
 import { ObjectAlreadyExists } from "../../../errors";
 import { BookModel } from "../../../models";
 import Book from "../models/Book";
@@ -9,19 +8,21 @@ export default async function createBook(
   authorId: string,
   userId: string,
   coverImage?: string
-): Promise<DocumentType<Book>> {
+): Promise<Book> {
   try {
-    if (await BookModel.exists({googleId: googleId})) {
+    if (await BookModel.exists({ googleId: googleId })) {
       throw new ObjectAlreadyExists();
     }
 
-    return await BookModel.create({
+    const book = await BookModel.create({
       googleId,
       title,
       coverImage,
       authorId,
       userAddedById: userId
     });
+
+    return await book.toPojo();
   } catch (error) {
     throw error;
   }
