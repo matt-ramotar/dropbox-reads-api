@@ -21,20 +21,20 @@ export class BookTagController extends Controller {
 
     const bookTag = await new RealBookTagService().createBookTag(bookId, tagId, userId);
 
-    await userService.addBookTag(bookTag._id, userId);
-    await new RealBookService().addBookTag(bookId, bookTag._id);
+    await userService.addBookTag(bookTag.id, userId);
+    await new RealBookService().addBookTag(bookId, bookTag.id);
     await new RealTagService().addBook(bookId, tagId);
 
     const action = await new RealActionService().createAction({
       type: ActionType.AddTagToBook,
       userId,
       bookId,
-      bookTagId: bookTag._id,
+      bookTagId: bookTag.id,
       tagId
     });
 
-    await userService.addAction(action._id, userId);
-    await userService.publishAction(action._id, userId);
+    await userService.addAction(action.id, userId);
+    await userService.publishAction(action.id, userId);
 
     return bookTag;
   }
