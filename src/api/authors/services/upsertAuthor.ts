@@ -8,7 +8,7 @@ export default async function upsertAuthor(input: CreateAuthorInput): Promise<Au
 
     let author = await AuthorModel.findOne({ firstName, lastName });
     if (!author) author = await AuthorModel.create({ firstName, lastName });
-    return author;
+    return author.toPojo();
   } catch (error) {
     throw error;
   }
