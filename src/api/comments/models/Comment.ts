@@ -54,4 +54,11 @@ export default class Comment {
     await godComment.populate();
     return godComment;
   }
+
+  public async toPojo(this: DocumentType<Comment>): Promise<Comment> {
+    const pojo = this.toObject();
+    pojo.id = pojo._id;
+    delete pojo._id;
+    return pojo;
+  }
 }

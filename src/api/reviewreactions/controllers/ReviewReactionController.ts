@@ -23,17 +23,17 @@ export class ReviewReactionController extends Controller {
     const userService = new RealUserService();
 
     const reaction = await reactionService.upsertReaction(reactionInput);
-    const reviewReaction = await reviewReactionService.createReviewReaction(reviewId, userId, reaction._id);
+    const reviewReaction = await reviewReactionService.createReviewReaction(reviewId, userId, reaction.id);
 
     const action = await actionService.createAction({
       type: ActionType.ReactToReview,
       userId,
       reviewId,
-      reviewReactionId: reviewReaction._id
+      reviewReactionId: reviewReaction.id
     });
 
-    await reviewService.addReviewReaction(reviewId, reviewReaction._id);
-    await userService.addReviewReaction(userId, reviewReaction._id);
+    await reviewService.addReviewReaction(reviewId, reviewReaction.id);
+    await userService.addReviewReaction(userId, reviewReaction.id);
 
     await userService.addAction(action._id, userId);
     await userService.publishAction(action._id, userId);

@@ -1,4 +1,4 @@
-import { prop } from "@typegoose/typegoose";
+import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
 import User from "../../users/models/User";
@@ -20,4 +20,11 @@ export default class BookUpvote {
   @Field(() => ID)
   @prop({ ref: () => User })
   userId!: string;
+
+  public async toPojo(this: DocumentType<BookUpvote>): Promise<BookUpvote> {
+    const pojo = this.toObject();
+    pojo.id = pojo._id;
+    delete pojo._id;
+    return pojo;
+  }
 }

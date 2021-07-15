@@ -1,4 +1,4 @@
-import { prop } from "@typegoose/typegoose";
+import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Reaction from "../../reactions/models/Reaction";
 import { default as Review, default as User } from "../../reviews/models/Review";
@@ -24,4 +24,11 @@ export default class ReviewReaction {
   @Field(() => ID)
   @prop({ ref: () => Reaction })
   reactionId!: string;
+
+  public async toPojo(this: DocumentType<ReviewReaction>): Promise<ReviewReaction> {
+    const pojo = this.toObject();
+    pojo.id = pojo._id;
+    delete pojo._id;
+    return pojo;
+  }
 }

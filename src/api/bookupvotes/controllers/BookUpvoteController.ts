@@ -1,11 +1,11 @@
-import { ActionType } from "../../actions/models/ActionType";
 import { Body, Controller, Post, Route, Tags } from "tsoa";
-import BookUpvote from "../../bookupvotes/models/BookUpvote";
-import { CreateBookUpvoteInput } from "../entities/CreateBookUpvoteInput";
+import { ActionType } from "../../actions/models/ActionType";
 import RealActionService from "../../actions/services/ActionService";
-import RealBookUpvoteService from "../services/BookUpvoteService";
 import RealBookService from "../../books/services/BookService";
+import BookUpvote from "../../bookupvotes/models/BookUpvote";
 import RealUserService from "../../users/services/UserService";
+import { CreateBookUpvoteInput } from "../entities/CreateBookUpvoteInput";
+import RealBookUpvoteService from "../services/BookUpvoteService";
 
 @Route("bookupvotes")
 @Tags("BookUpvote")
@@ -18,13 +18,13 @@ export class BookUpvoteController extends Controller {
 
     const bookUpvote = await new RealBookUpvoteService().createBookUpvote(bookId, userId);
 
-    await new RealBookService().addBookUpvote(bookId, bookUpvote._id);
-    await userService.addBookUpvote(userId, bookUpvote._id);
+    await new RealBookService().addBookUpvote(bookId, bookUpvote.id);
+    await userService.addBookUpvote(userId, bookUpvote.id);
 
     const action = await new RealActionService().createAction({
       type: ActionType.UpvoteBook,
       userId: userId,
-      bookId: bookId,
+      bookId: bookId
     });
 
     await userService.addAction(action._id, userId);
