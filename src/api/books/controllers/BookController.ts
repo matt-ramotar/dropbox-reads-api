@@ -25,8 +25,8 @@ export class BookController extends Controller {
     for (const tagId of tagIds) {
       const bookTag = await bookTagService.createBookTag(book.id, tagId, userId);
 
-      await userService.addBookTag(bookTag._id, userId);
-      await bookService.addBookTag(book.id, bookTag._id);
+      await userService.addBookTag(bookTag.id, userId);
+      await bookService.addBookTag(book.id, bookTag.id);
     }
 
     const action = await new RealActionService().createAction({

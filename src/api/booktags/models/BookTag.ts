@@ -37,4 +37,11 @@ export default class BookTag {
     await godBookTag.populate();
     return godBookTag;
   }
+
+  public async toPojo(this: DocumentType<BookTag>): Promise<BookTag> {
+    const pojo = this.toObject();
+    pojo.id = pojo._id;
+    delete pojo._id;
+    return pojo;
+  }
 }
