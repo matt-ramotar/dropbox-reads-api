@@ -1,4 +1,4 @@
-import { prop } from "@typegoose/typegoose";
+import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 
 /**
@@ -34,4 +34,11 @@ export default class Reaction {
   @Field()
   @prop()
   imageUrl?: string;
+
+  public async toPojo(this: DocumentType<Reaction>): Promise<Reaction> {
+    const pojo = this.toObject();
+    pojo.id = pojo._id;
+    delete pojo._id;
+    return pojo;
+  }
 }

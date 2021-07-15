@@ -1,4 +1,4 @@
-import { prop } from "@typegoose/typegoose";
+import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 
 /**
@@ -18,4 +18,11 @@ export default class Author {
   @Field()
   @prop()
   lastName!: string;
+
+  public async toPojo(this: DocumentType<Author>): Promise<Author> {
+    const pojo = this.toObject();
+    pojo.id = pojo._id;
+    delete pojo._id;
+    return pojo;
+  }
 }

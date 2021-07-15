@@ -1,18 +1,15 @@
-import { DocumentType } from "@typegoose/typegoose";
 import { ReviewReactionModel } from "../../../models";
 import ReviewReaction from "../models/ReviewReaction";
 
-export default async function createReviewReaction(
-  reviewId: string,
-  userId: string,
-  reactionId: string
-): Promise<DocumentType<ReviewReaction>> {
+export default async function createReviewReaction(reviewId: string, userId: string, reactionId: string): Promise<ReviewReaction> {
   try {
-    return await ReviewReactionModel.create({
+    const reviewReaction = await ReviewReactionModel.create({
       reviewId,
       userId,
       reactionId
     });
+
+    return await reviewReaction.toPojo();
   } catch (error) {
     throw error;
   }

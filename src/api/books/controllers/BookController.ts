@@ -14,28 +14,28 @@ export class BookController extends Controller {
   /** Create book */
   @Post()
   async createBook(@Body() input: CreateBookInput): Promise<Book> {
-    const { googleId, title, coverImage, authorId, tagIds, userId } = input;
+    const { googleId, title, description, coverImage, authorId, tagIds, userId } = input;
 
     const bookService = new RealBookService();
     const bookTagService = new RealBookTagService();
     const userService = new RealUserService();
 
-    const book = await new RealBookService().createBook(googleId, title, authorId, userId, coverImage);
+    const book = await new RealBookService().createBook(googleId, title, description, authorId, userId, coverImage);
 
     for (const tagId of tagIds) {
-      const bookTag = await bookTagService.createBookTag(book._id, tagId, userId);
+      const bookTag = await bookTagService.createBookTag(book.id, tagId, userId);
 
-      await userService.addBookTag(bookTag._id, userId);
-      await bookService.addBookTag(book._id, bookTag._id);
+      await userService.addBookTag(bookTag.id, userId);
+      await bookService.addBookTag(book.id, bookTag.id);
     }
 
     const action = await new RealActionService().createAction({
       type: ActionType.CreateBook,
       userId,
-      bookId: book._id
+      bookId: book.id
     });
 
-    await userService.addBook(book._id, userId);
+    await userService.addBook(book.id, userId);
     await userService.addAction(action._id, userId);
     await userService.publishAction(action._id, userId);
 
@@ -46,5 +46,11 @@ export class BookController extends Controller {
   @Get("{bookId}/god")
   async getGodBookById(@Path() bookId: string): Promise<GodBook> {
     return await new RealBookService().getGodBookById(bookId);
+  }
+
+  /** Get books */
+  @Get()
+  async getBooks(): Promise<GodBook[]> {
+    return await new RealBookService().getBooks();
   }
 }

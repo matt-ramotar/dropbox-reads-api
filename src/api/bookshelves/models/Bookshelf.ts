@@ -40,4 +40,11 @@ export default class Bookshelf {
     await godBookshelf.populate();
     return godBookshelf;
   }
+
+  public async toPojo(this: DocumentType<Bookshelf>): Promise<Bookshelf> {
+    const pojo = this.toObject();
+    pojo.id = pojo._id;
+    delete pojo._id;
+    return pojo;
+  }
 }
