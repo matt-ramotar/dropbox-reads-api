@@ -10,7 +10,7 @@ import {
 import { AuthorModel, BookshelfModel, BookTagModel, BookUpvoteModel, CommentModel, ReviewModel, UserModel } from "../../../models";
 import Author from "../../authors/models/Author";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
-import BookTag from "../../booktags/models/BookTag";
+import { GodBookTag } from "../../booktags/models/GodBookTag";
 import BookUpvote from "../../bookupvotes/models/BookUpvote";
 import { GodComment } from "../../comments/models/GodComment";
 import Review from "../../reviews/models/Review";
@@ -24,7 +24,7 @@ export interface GodBook {
   description: string;
   coverImage?: string;
   author?: Author;
-  bookTags?: BookTag[];
+  bookTags?: GodBookTag[];
   userAddedBy: SafeUser;
   bookshelves?: Bookshelf[];
   reviews?: Review[];
@@ -39,7 +39,7 @@ export class RealGodBook implements GodBook {
   readonly description: string;
   readonly coverImage?: string;
   author?: Author;
-  bookTags?: BookTag[];
+  bookTags?: GodBookTag[];
   userAddedBy!: SafeUser;
   bookshelves?: Bookshelf[];
   reviews?: Review[];
@@ -82,7 +82,7 @@ export class RealGodBook implements GodBook {
       for (const id of ids) {
         const bookTag = await BookTagModel.findById(id);
         if (!bookTag) throw new BookTagNotFound();
-        bookTags.push(bookTag);
+        bookTags.push(await bookTag.toGodBookTag());
       }
       this.bookTags = bookTags;
     } catch (error) {
