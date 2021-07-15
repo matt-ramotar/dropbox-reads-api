@@ -19,7 +19,7 @@ export class TagController extends Controller {
     return await new RealTagService().getTags();
   }
 
-  /** Get god tag by ID */
+  /** Get god tag by ID or by tag name */
   @Get("{tagId}/god")
   async getGodTagById(@Path() tagId: string): Promise<GodTag> {
     return await new RealTagService().getGodTagById(tagId);
