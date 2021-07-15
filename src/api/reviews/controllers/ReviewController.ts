@@ -24,14 +24,14 @@ export class ReviewController extends Controller {
       type: ActionType.CreateReview,
       userId: reviewerId,
       bookId,
-      reviewId: review._id
+      reviewId: review.id
     });
 
-    await userService.addReview(review._id, reviewerId);
+    await userService.addReview(review.id, reviewerId);
     await userService.addAction(action._id, reviewerId);
     await userService.publishAction(action._id, reviewerId);
 
-    await new RealBookService().addReview(bookId, review._id);
+    await new RealBookService().addReview(bookId, review.id);
 
     return review;
   }

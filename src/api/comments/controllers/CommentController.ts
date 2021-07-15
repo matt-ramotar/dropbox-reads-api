@@ -1,7 +1,7 @@
-import RealBookService from "../../books/services/BookService";
 import { Body, Controller, Post, Route, Tags } from "tsoa";
 import { ActionType } from "../../actions/models/ActionType";
 import RealActionService from "../../actions/services/ActionService";
+import RealBookService from "../../books/services/BookService";
 import RealReviewService from "../../reviews/services/ReviewService";
 import RealUserService from "../../users/services/UserService";
 import { CreateCommentInput } from "../entities/CreateCommentInput";
@@ -21,13 +21,13 @@ export class CommentController extends Controller {
 
     const comment = await commentService.createComment(input);
 
-    await userService.addComment(userId, comment._id);
+    await userService.addComment(userId, comment.id);
 
-    // if both bookId and reviewId are specified, the comment for the book will be taken in priority    
-    if (bookId) await new RealBookService().addComment(bookId, comment._id);
-    else if (reviewId) await new RealReviewService().addComment(comment._id, reviewId);
-    
-    if (parentCommentId) commentService.addChildComment(comment._id, parentCommentId);
+    // if both bookId and reviewId are specified, the comment for the book will be taken in priority
+    if (bookId) await new RealBookService().addComment(bookId, comment.id);
+    else if (reviewId) await new RealReviewService().addComment(comment.id, reviewId);
+
+    if (parentCommentId) commentService.addChildComment(comment.id, parentCommentId);
 
     let actionType = ActionType.AddCommentToComment;
     if (bookId) actionType = ActionType.AddCommentToBook;
@@ -36,10 +36,10 @@ export class CommentController extends Controller {
     const action = await new RealActionService().createAction({
       type: actionType,
       userId,
-      commentId: comment._id,
+      commentId: comment.id,
       otherCommentId: parentCommentId,
       reviewId,
-      bookId,
+      bookId
     });
 
     await userService.addAction(action._id, userId);

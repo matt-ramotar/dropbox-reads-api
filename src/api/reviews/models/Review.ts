@@ -50,4 +50,11 @@ export default class Review {
     await godReview.populate();
     return godReview;
   }
+
+  public async toPojo(this: DocumentType<Review>): Promise<Review> {
+    const pojo = this.toObject();
+    pojo.id = pojo._id;
+    delete pojo._id;
+    return pojo;
+  }
 }

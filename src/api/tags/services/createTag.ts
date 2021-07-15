@@ -7,11 +7,12 @@ export default async function createTag(input: CreateTagInput): Promise<Tag> {
   try {
     const { tag } = input;
 
-    if (await TagModel.exists({tag: tag})) {
+    if (await TagModel.exists({ tag: tag })) {
       throw new ObjectAlreadyExists();
     }
 
-    return await TagModel.create({ tag });
+    const tagObject = await TagModel.create({ tag });
+    return await tagObject.toPojo();
   } catch (error) {
     throw error;
   }

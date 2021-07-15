@@ -3,10 +3,12 @@ import ReviewUpvote from "../models/ReviewUpvote";
 
 export default async function createReviewUpvote(reviewId: string, userId: string): Promise<ReviewUpvote> {
   try {
-    return await ReviewUpvoteModel.create({
+    const reviewUpvote = await ReviewUpvoteModel.create({
       reviewId,
       userId
     });
+
+    return await reviewUpvote.toPojo();
   } catch (error) {
     throw error;
   }

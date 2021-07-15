@@ -177,4 +177,11 @@ export default class User {
         })
       );
   }
+
+  public async toPojo(this: DocumentType<User>): Promise<User> {
+    const pojo = this.toObject();
+    pojo.id = pojo._id;
+    delete pojo._id;
+    return pojo;
+  }
 }
