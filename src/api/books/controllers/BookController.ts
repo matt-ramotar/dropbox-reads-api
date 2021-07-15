@@ -50,7 +50,7 @@ export class BookController extends Controller {
 
   /** Get books */
   @Get()
-  async getBooks(): Promise<Book[]> {
+  async getBooks(): Promise<GodBook[]> {
     return await new RealBookService().getBooks();
   }
 }
