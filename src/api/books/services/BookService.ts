@@ -3,9 +3,11 @@ import Book from "../models/Book";
 import { GodBook } from "../models/GodBook";
 import addBookshelf from "./addBookshelf";
 import addBookTag from "./addBookTag";
-import addReview from "./addReview";
 import addBookUpvote from "./addBookUpvote";
+import addComment from "./addComment";
+import addReview from "./addReview";
 import createBook from "./createBook";
+import getBooks from "./getBooks";
 import getGodBookById from "./getGodBookById";
 import addComment from "./addComment";
 import getBooksMatchingKeyword from "./getBooksMatchingKeyword";
@@ -18,6 +20,7 @@ interface BookService {
   getGodBookById(bookId: string): Promise<GodBook>;
   addBookUpvote(bookId: string, upvoteId: string): Promise<void>;
   addComment(bookId: string, commentId: string): Promise<void>;
+  getBooks(): Promise<DocumentType<Book>[]>;
   getBooksMatchingKeyword(keyword?: string, title?: string, author?: string, tags?: string[]): Promise<GodBook[]>;
 }
 
@@ -56,6 +59,10 @@ export default class RealBookService implements BookService {
     return await addComment(bookId, commentId);
   }
 
+  public async getBooks(): Promise<DocumentType<Book>[]> {
+    return await getBooks();
+  }
+    
   public async getBooksMatchingKeyword(keyword?: string, title?: string, author?: string, tags?: string[]): Promise<GodBook[]> {
     return await getBooksMatchingKeyword(keyword, title, author, tags);
   }
