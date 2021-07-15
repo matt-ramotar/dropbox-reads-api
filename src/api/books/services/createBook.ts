@@ -5,6 +5,7 @@ import Book from "../models/Book";
 export default async function createBook(
   googleId: string,
   title: string,
+  description: string,
   authorId: string,
   userId: string,
   coverImage?: string
@@ -17,6 +18,7 @@ export default async function createBook(
     const book = await BookModel.create({
       googleId,
       title,
+      description,
       coverImage,
       authorId,
       userAddedById: userId

@@ -23,8 +23,16 @@ interface BookService {
 }
 
 export default class RealBookService implements BookService {
-  public async createBook(googleId: string, title: string, authorId: string, userId: string, coverImage?: string): Promise<Book> {
-    return await createBook(googleId, title, authorId, userId, coverImage);
+
+  public async createBook(
+    googleId: string,
+    title: string,
+    description: string,
+    authorId: string,
+    userId: string,
+    coverImage?: string
+  ): Promise<Book> {
+    return await createBook(googleId, title, description, authorId, userId, coverImage);
   }
 
   public async addBookshelf(bookId: string, bookshelfId: string): Promise<void> {

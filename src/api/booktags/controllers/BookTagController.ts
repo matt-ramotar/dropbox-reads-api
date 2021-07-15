@@ -33,8 +33,8 @@ export class BookTagController extends Controller {
       tagId
     });
 
-    await userService.addAction(action.id, userId);
-    await userService.publishAction(action.id, userId);
+    await userService.addAction(action._id, userId);
+    await userService.publishAction(action._id, userId);
 
     return bookTag;
   }

@@ -14,13 +14,13 @@ export class BookController extends Controller {
   /** Create book */
   @Post()
   async createBook(@Body() input: CreateBookInput): Promise<Book> {
-    const { googleId, title, coverImage, authorId, tagIds, userId } = input;
+    const { googleId, title, description, coverImage, authorId, tagIds, userId } = input;
 
     const bookService = new RealBookService();
     const bookTagService = new RealBookTagService();
     const userService = new RealUserService();
 
-    const book = await new RealBookService().createBook(googleId, title, authorId, userId, coverImage);
+    const book = await new RealBookService().createBook(googleId, title, description, authorId, userId, coverImage);
 
     for (const tagId of tagIds) {
       const bookTag = await bookTagService.createBookTag(book.id, tagId, userId);
