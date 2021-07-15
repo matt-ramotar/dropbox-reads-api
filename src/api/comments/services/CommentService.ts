@@ -1,4 +1,3 @@
-import { DocumentType } from "@typegoose/typegoose";
 import { CreateCommentInput } from "../entities/CreateCommentInput";
 import Comment from "../models/Comment";
 import addChildComment from "./addChildComment";
@@ -6,13 +5,13 @@ import addCommentReaction from "./addCommentReaction";
 import createComment from "./createComment";
 
 interface CommentService {
-  createComment(input: CreateCommentInput): Promise<DocumentType<Comment>>;
+  createComment(input: CreateCommentInput): Promise<Comment>;
   addChildComment(childId: string, parentId: string): Promise<void>;
   addCommentReaction(commentId: string, commentReactionId: string): Promise<void>;
 }
 
 export default class RealCommentService implements CommentService {
-  public async createComment(input: CreateCommentInput): Promise<DocumentType<Comment>> {
+  public async createComment(input: CreateCommentInput): Promise<Comment> {
     return await createComment(input);
   }
 
