@@ -6,7 +6,7 @@ export function caseInsensitiveIsIn(str: string, arr: string[]) {
   str = str.toLowerCase();
 
   for (const a of arr) {
-      if (a.toLowerCase() == str) {
+      if (a.toLowerCase() === str) {
           return true;
       }
   }
