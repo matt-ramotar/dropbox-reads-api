@@ -28,8 +28,8 @@ export class BookshelfController extends Controller {
     });
 
     await userService.addBookshelf(userId, bookshelf.id);
-    await userService.addAction(userId, action.id);
-    await userService.publishAction(userId, action.id);
+    await userService.addAction(action._id, userId);
+    await userService.publishAction(action._id, userId);
 
     return bookshelf;
   }
