@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Route, Tags } from "tsoa";
+import { Body, Controller, Get, Path, Post, Route, Tags } from "tsoa";
 import { ActionType } from "../../actions/models/ActionType";
 import RealActionService from "../../actions/services/ActionService";
 import RealBookService from "../../books/services/BookService";
@@ -6,6 +6,7 @@ import RealReviewService from "../../reviews/services/ReviewService";
 import RealUserService from "../../users/services/UserService";
 import { CreateCommentInput } from "../entities/CreateCommentInput";
 import Comment from "../models/Comment";
+import { GodComment } from "../models/GodComment";
 import RealCommentService from "../services/CommentService";
 
 @Route("comments")
@@ -46,5 +47,13 @@ export class CommentController extends Controller {
     await userService.publishAction(action._id, userId);
 
     return comment;
+  }
+
+  /** Get god comment */
+  @Get("{commentId}/god")
+  async getGodCommentById(@Path() commentId: string): Promise<GodComment> {
+    const commentService = new RealCommentService();
+    const godComment = await commentService.getGodCommentById(commentId);
+    return godComment;
   }
 }

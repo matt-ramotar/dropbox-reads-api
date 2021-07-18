@@ -35,13 +35,21 @@ export default class Bookshelf {
   @prop({ ref: () => Tag })
   tagIds?: string[];
 
+  @Field()
+  @prop()
+  mainImage?: string;
+
+  @Field()
+  @prop()
+  coverImage?: string;
+
   public async toGodBookshelf(this: DocumentType<Bookshelf>): Promise<GodBookshelf> {
-    const godBookshelf = new RealGodBookshelf(this._id, this.name, this.description);
+    const godBookshelf = new RealGodBookshelf(this._id, this.name, this.description, this.mainImage, this.coverImage);
     await godBookshelf.populate();
     return godBookshelf;
   }
 
-  public async toPojo(this: DocumentType<Bookshelf>): Promise<Bookshelf> {
+  public toPojo(this: DocumentType<Bookshelf>): Bookshelf {
     const pojo = this.toObject();
     pojo.id = pojo._id;
     delete pojo._id;

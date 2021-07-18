@@ -15,7 +15,7 @@ export default class Role {
   @prop()
   role!: string;
 
-  public async toPojo(this: DocumentType<Role>): Promise<Role> {
+  public toPojo(this: DocumentType<Role>): Role {
     const pojo = this.toObject();
     pojo.id = pojo._id;
     delete pojo._id;

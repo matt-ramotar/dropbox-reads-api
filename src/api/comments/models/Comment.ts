@@ -55,7 +55,7 @@ export default class Comment {
     return godComment;
   }
 
-  public async toPojo(this: DocumentType<Comment>): Promise<Comment> {
+  public toPojo(this: DocumentType<Comment>): Comment {
     const pojo = this.toObject();
     pojo.id = pojo._id;
     delete pojo._id;

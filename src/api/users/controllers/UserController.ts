@@ -26,6 +26,12 @@ export class UserController extends Controller {
     return await new RealUserService().getGodUserById(userId);
   }
 
+  /** Get users */
+  @Get()
+  async getUsers(): Promise<GodUser[]> {
+    return await new RealUserService().getUsers();
+  }
+
   /** Get user profile by username */
   @Get("{username}/profile")
   async getUserProfile(@Path() username: string): Promise<GodUser> {
@@ -94,8 +100,8 @@ export class UserController extends Controller {
   }
 
   /** Get feed */
-  @Get("{userId}/feed/{offset}")
-  async getFeed(@Path() userId: string, @Path() offset: string): Promise<Feed> {
-    return await new RealUserService().getFeed(userId, offset ? Number.parseInt(offset) : 0);
+  @Get("{userId}/feeds/{type}/{offset}")
+  async getFeed(@Path() userId: string, @Path() type: string, @Path() offset: string): Promise<Feed> {
+    return await new RealUserService().getFeed(userId, type, offset ? Number.parseInt(offset) : 0);
   }
 }

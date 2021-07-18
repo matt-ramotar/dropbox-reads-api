@@ -26,7 +26,7 @@ export default class CommentReaction {
   @prop({ ref: () => Reaction })
   reactionId!: string;
 
-  public async toPojo(this: DocumentType<CommentReaction>): Promise<CommentReaction> {
+  public toPojo(this: DocumentType<CommentReaction>): CommentReaction {
     const pojo = this.toObject();
     pojo.id = pojo._id;
     delete pojo._id;

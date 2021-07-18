@@ -90,4 +90,11 @@ export default class Action {
     });
     return godAction;
   }
+
+  public toPojo(this: DocumentType<Action>): Action {
+    const pojo = this.toObject();
+    pojo.id = pojo._id;
+    delete pojo._id;
+    return pojo;
+  }
 }

@@ -10,6 +10,8 @@ export interface GodBookshelf {
   id: string;
   name: string;
   description: string;
+  mainImage?: string;
+  coverImage?: string;
   books?: Book[];
   user: SafeUser;
   tags?: Tag[];
@@ -19,14 +21,18 @@ export class RealGodBookshelf implements GodBookshelf {
   readonly id: string;
   readonly name: string;
   readonly description: string;
+  readonly mainImage?: string;
+  readonly coverImage?: string;
   books?: Book[];
   user!: SafeUser;
   tags?: Tag[];
 
-  constructor(id: string, name: string, description: string) {
+  constructor(id: string, name: string, description: string, mainImage?: string, coverImage?: string) {
     this.id = id;
     this.name = name;
     this.description = description;
+    this.mainImage = mainImage;
+    this.coverImage = coverImage;
   }
 
   public async populate() {

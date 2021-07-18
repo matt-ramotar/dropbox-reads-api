@@ -18,6 +18,7 @@ import getFeed from "./getFeed";
 import getGodUserById from "./getGodUserById";
 import getGodUserByUsername from "./getGodUserByUsername";
 import getUser from "./getUser";
+import getUsers from "./getUsers";
 import publishAction from "./publishAction";
 import removeFollower from "./removeFollower";
 import unfollowTag from "./unfollowTag";
@@ -41,10 +42,11 @@ interface UserService {
   addComment(userId: string, commentId: string): Promise<void>;
   addReviewReaction(userId: string, reviewReactionId: string): Promise<void>;
   addCommentReaction(userId: string, commentReactionId: string): Promise<void>;
-  getFeed(userId: string, offset: number): Promise<Feed>;
+  getFeed(userId: string, type: string, offset: number): Promise<Feed>;
   getGodUserById(userId: string): Promise<GodUser>;
   getGodUserByUsername(username: string): Promise<GodUser>;
   addBookUpvote(userId: string, upvoteId: string): Promise<void>;
+  getUsers(): Promise<GodUser[]>;
 }
 
 export default class RealUserService implements UserService {
@@ -116,8 +118,8 @@ export default class RealUserService implements UserService {
     return await addCommentReaction(userId, commentReactionId);
   }
 
-  public async getFeed(userId: string, offset: number): Promise<Feed> {
-    return await getFeed(userId, offset);
+  public async getFeed(userId: string, type: string, offset: number): Promise<Feed> {
+    return await getFeed(userId, type, offset);
   }
 
   public async getGodUserById(userId: string): Promise<GodUser> {
@@ -130,5 +132,9 @@ export default class RealUserService implements UserService {
 
   public async addBookUpvote(userId: string, upvoteId: string): Promise<void> {
     return await addBookUpvote(userId, upvoteId);
+  }
+
+  public async getUsers(): Promise<GodUser[]> {
+    return await getUsers();
   }
 }

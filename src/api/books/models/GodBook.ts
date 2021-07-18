@@ -70,7 +70,7 @@ export class RealGodBook implements GodBook {
     try {
       const author = await AuthorModel.findById(id);
       if (!author) throw new AuthorNotFound();
-      else this.author = author;
+      else this.author = author.toPojo();
     } catch (error) {
       throw error;
     }
@@ -106,7 +106,7 @@ export class RealGodBook implements GodBook {
       for (const id of ids) {
         const bookshelf = await BookshelfModel.findById(id);
         if (!bookshelf) throw new BookshelfNotFound();
-        bookshelves.push(bookshelf);
+        bookshelves.push(bookshelf.toPojo());
       }
       this.bookshelves = bookshelves;
     } catch (error) {
@@ -120,7 +120,7 @@ export class RealGodBook implements GodBook {
       for (const id of ids) {
         const review = await ReviewModel.findById(id);
         if (!review) throw new ReviewNotFound();
-        reviews.push(review);
+        reviews.push(review.toPojo());
       }
       this.reviews = reviews;
     } catch (error) {
@@ -134,7 +134,7 @@ export class RealGodBook implements GodBook {
       for (const id of ids) {
         const upvote = await BookUpvoteModel.findById(id);
         if (!upvote) throw new BookUpvoteNotFound();
-        upvotes.push(upvote);
+        upvotes.push(upvote.toPojo());
       }
       this.bookUpvotes = upvotes;
     } catch (error) {

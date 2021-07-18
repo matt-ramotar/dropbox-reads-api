@@ -28,15 +28,15 @@ import Comment from "../../comments/models/Comment";
 import ReviewReaction from "../../reviewreactions/models/ReviewReaction";
 import Review from "../../reviews/models/Review";
 import Tag from "../../tags/models/Tag";
-import { SafeUser } from "../../users/models/SafeUser";
+import { GodUser } from "../../users/models/GodUser";
 import { Refs } from "../entities/Refs";
 
 export interface GodAction {
   id: string;
   type: string;
   datetime: Date;
-  user?: SafeUser;
-  otherUser?: SafeUser;
+  user?: GodUser;
+  otherUser?: GodUser;
   book?: Book;
   bookshelf?: Bookshelf;
   bookTag?: BookTag;
@@ -52,8 +52,8 @@ export class RealGodAction implements GodAction {
   readonly id: string;
   readonly type: string;
   readonly datetime: Date;
-  user?: SafeUser;
-  otherUser?: SafeUser;
+  user?: GodUser;
+  otherUser?: GodUser;
   book?: Book;
   bookshelf?: Bookshelf;
   bookTag?: BookTag;
@@ -102,7 +102,7 @@ export class RealGodAction implements GodAction {
     try {
       const user = await UserModel.findById(id);
       if (!user) throw new UserNotFound();
-      else this.user = user.toSafeUser();
+      else this.user = await user.toGodUser();
     } catch (error) {
       throw error;
     }
@@ -112,9 +112,9 @@ export class RealGodAction implements GodAction {
     try {
       const otherUser = await UserModel.findById(id);
       if (!otherUser) throw new UserNotFound();
-      else this.otherUser = otherUser.toSafeUser();
+      else this.otherUser = await otherUser.toGodUser();
     } catch (error) {
-      throw error;
+      this.otherUser = undefined;
     }
   }
 
@@ -122,9 +122,9 @@ export class RealGodAction implements GodAction {
     try {
       const book = await BookModel.findById(id);
       if (!book) throw new BookNotFound();
-      else this.book = book;
+      else this.book = book.toPojo();
     } catch (error) {
-      throw error;
+      this.book = undefined;
     }
   }
 
@@ -132,9 +132,9 @@ export class RealGodAction implements GodAction {
     try {
       const bookshelf = await BookshelfModel.findById(id);
       if (!bookshelf) throw new BookshelfNotFound();
-      else this.bookshelf = bookshelf;
+      else this.bookshelf = bookshelf.toPojo();
     } catch (error) {
-      throw error;
+      this.bookshelf = undefined;
     }
   }
 
@@ -142,9 +142,9 @@ export class RealGodAction implements GodAction {
     try {
       const bookTag = await BookTagModel.findById(id);
       if (!bookTag) throw new BookTagNotFound();
-      else this.bookTag = bookTag;
+      else this.bookTag = bookTag.toPojo();
     } catch (error) {
-      throw error;
+      this.bookTag = undefined;
     }
   }
 
@@ -152,9 +152,9 @@ export class RealGodAction implements GodAction {
     try {
       const tag = await TagModel.findById(id);
       if (!tag) throw new TagNotFound();
-      else this.tag = tag;
+      else this.tag = tag.toPojo();
     } catch (error) {
-      throw error;
+      this.tag = undefined;
     }
   }
 
@@ -162,9 +162,9 @@ export class RealGodAction implements GodAction {
     try {
       const review = await ReviewModel.findById(id);
       if (!review) throw new ReviewNotFound();
-      else this.review = review;
+      else this.review = review.toPojo();
     } catch (error) {
-      throw error;
+      this.review = undefined;
     }
   }
 
@@ -172,9 +172,9 @@ export class RealGodAction implements GodAction {
     try {
       const comment = await CommentModel.findById(id);
       if (!comment) throw new CommentNotFound();
-      else this.comment = comment;
+      else this.comment = comment.toPojo();
     } catch (error) {
-      throw error;
+      this.comment = undefined;
     }
   }
 
@@ -182,9 +182,9 @@ export class RealGodAction implements GodAction {
     try {
       const otherComment = await CommentModel.findById(id);
       if (!otherComment) throw new CommentNotFound();
-      else this.comment = otherComment;
+      else this.comment = otherComment.toPojo();
     } catch (error) {
-      throw error;
+      this.otherComment = undefined;
     }
   }
 
@@ -192,9 +192,9 @@ export class RealGodAction implements GodAction {
     try {
       const reviewReaction = await ReviewReactionModel.findById(id);
       if (!reviewReaction) throw new ReviewReactionNotFound();
-      else this.reviewReaction = reviewReaction;
+      else this.reviewReaction = reviewReaction.toPojo();
     } catch (error) {
-      throw error;
+      this.reviewReaction = undefined;
     }
   }
 
@@ -202,9 +202,9 @@ export class RealGodAction implements GodAction {
     try {
       const commentReaction = await CommentReactionModel.findById(id);
       if (!commentReaction) throw new CommentReactionNotFound();
-      else this.commentReaction = commentReaction;
+      else this.commentReaction = commentReaction.toPojo();
     } catch (error) {
-      throw error;
+      this.commentReaction = undefined;
     }
   }
 }

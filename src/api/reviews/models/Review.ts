@@ -51,7 +51,7 @@ export default class Review {
     return godReview;
   }
 
-  public async toPojo(this: DocumentType<Review>): Promise<Review> {
+  public toPojo(this: DocumentType<Review>): Review {
     const pojo = this.toObject();
     pojo.id = pojo._id;
     delete pojo._id;

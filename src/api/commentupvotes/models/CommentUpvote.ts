@@ -21,7 +21,7 @@ export default class CommentUpvote {
   @prop({ ref: () => User })
   userId!: string;
 
-  public async toPojo(this: DocumentType<CommentUpvote>): Promise<CommentUpvote> {
+  public toPojo(this: DocumentType<CommentUpvote>): CommentUpvote {
     const pojo = this.toObject();
     pojo.id = pojo._id;
     delete pojo._id;

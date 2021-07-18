@@ -35,7 +35,7 @@ export default class Reaction {
   @prop()
   imageUrl?: string;
 
-  public async toPojo(this: DocumentType<Reaction>): Promise<Reaction> {
+  public toPojo(this: DocumentType<Reaction>): Reaction {
     const pojo = this.toObject();
     pojo.id = pojo._id;
     delete pojo._id;

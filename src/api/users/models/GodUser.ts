@@ -1,22 +1,7 @@
+import { DocumentType } from "@typegoose/typegoose";
 import BookUpvote from "src/api/bookupvotes/models/BookUpvote";
-import { RoleNotFound } from "../../../errors";
-import {
-  ActionModel,
-  BookModel,
-  BookshelfModel,
-  BookTagModel,
-  BookTagUpvoteModel,
-  BookUpvoteModel,
-  CommentModel,
-  CommentReactionModel,
-  CommentUpvoteModel,
-  ReviewModel,
-  ReviewReactionModel,
-  ReviewUpvoteModel,
-  RoleModel,
-  TagModel,
-  UserModel
-} from "../../../models";
+import { UserNotFound } from "../../../errors";
+import { UserModel } from "../../../models";
 import Action from "../../actions/models/Action";
 import Book from "../../books/models/Book";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
@@ -30,8 +15,8 @@ import Review from "../../reviews/models/Review";
 import ReviewUpvote from "../../reviewupvotes/models/ReviewUpvote";
 import Role from "../../roles/models/Role";
 import Tag from "../../tags/models/Tag";
-import { Refs } from "../entities/Refs";
 import { SafeUser } from "./SafeUser";
+import User from "./User";
 
 export interface GodUser {
   id: string;
@@ -106,259 +91,42 @@ export class RealGodUser implements GodUser {
     this.googleId = googleId;
   }
 
-  public async populate(refs: Refs) {
-    const {
-      roleId,
-      usersFollowingIds,
-      usersFollowedByIds,
-      tagsFollowingIds,
-      bookshelfIds,
-      reviewIds,
-      commentIds,
-      reviewUpvoteIds,
-      reviewReactionIds,
-      commentReactionIds,
-      booksAddedIds,
-      bookTagsAddedIds,
-      bookTagUpvoteIds,
-      actionIds,
-      bookUpvoteIds,
-      commentUpvoteIds
-    } = refs;
-
-    if (roleId) await this.setRole(roleId);
-    if (usersFollowingIds) await this.setUsersFollowing(usersFollowingIds);
-    if (usersFollowedByIds) await this.setUsersFollowedBy(usersFollowedByIds);
-    if (tagsFollowingIds) await this.setTagsFollowing(tagsFollowingIds);
-    if (bookshelfIds) await this.setBookshelves(bookshelfIds);
-    if (reviewIds) await this.setReviews(reviewIds);
-    if (commentIds) await this.setComments(commentIds);
-    if (reviewUpvoteIds) await this.setReviewUpvotes(reviewUpvoteIds);
-    if (reviewReactionIds) await this.setReviewReactions(reviewReactionIds);
-    if (commentReactionIds) await this.setCommentReactions(commentReactionIds);
-    if (booksAddedIds) await this.setBooksAdded(booksAddedIds);
-    if (bookTagsAddedIds) await this.setBookTagsAdded(bookTagsAddedIds);
-    if (bookTagUpvoteIds) await this.setBookTagUpvotes(bookTagUpvoteIds);
-    if (actionIds) await this.setActions(actionIds);
-    if (bookUpvoteIds) await this.setBookUpvotes(bookUpvoteIds);
-    if (commentUpvoteIds) await this.setCommentUpvotes(commentUpvoteIds);
-  }
-
-  private async setRole(id: string): Promise<void> {
+  public async populate() {
     try {
-      const role = await RoleModel.findById(id);
-      if (!role) throw new RoleNotFound();
-      else this.role = role;
-    } catch (error) {
-      throw error;
-    }
-  }
+      const user = await UserModel.findById(this.id)
+        .populate("roleId")
+        .populate("usersFollowingIds")
+        .populate("usersFollowedByIds")
+        .populate("tagsFollowingIds")
+        .populate("bookshelfIds")
+        .populate("reviewIds")
+        .populate("commentIds")
+        .populate("reviewUpvoteIds")
+        .populate("commentUpvoteIds")
+        .populate("reviewReactionIds")
+        .populate("commentReactionIds")
+        .populate("booksAddedIds")
+        .populate("bookTagsAddedIds")
+        .populate("bookTagUpvoteIds")
+        .populate("actionIds")
+        .populate("bookUpvoteIds")
+        .exec();
 
-  private async setUsersFollowing(ids: string[]): Promise<void> {
-    try {
-      const users = [];
-      for (const id of ids) {
-        const user = await UserModel.findById(id);
-        if (!user) continue;
-        users.push(user.toSafeUser());
-      }
-      this.usersFollowing = users;
-    } catch (error) {
-      throw error;
-    }
-  }
+      if (!user) throw new UserNotFound();
 
-  private async setUsersFollowedBy(ids: string[]): Promise<void> {
-    try {
-      const users = [];
-      for (const id of ids) {
-        const user = await UserModel.findById(id);
-        if (!user) continue;
-        users.push(user.toSafeUser());
-      }
-      this.usersFollowedBy = users;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async setTagsFollowing(ids: string[]): Promise<void> {
-    try {
-      const tags = [];
-      for (const id of ids) {
-        const tag = await TagModel.findById(id);
-        if (!tag) continue;
-        tags.push(tag);
-      }
-      this.tagsFollowing = tags;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async setBookshelves(ids: string[]): Promise<void> {
-    try {
-      const bookshelves = [];
-      for (const id of ids) {
-        const bookshelf = await BookshelfModel.findById(id);
-        if (!bookshelf) continue;
-        bookshelves.push(bookshelf);
-      }
-      this.bookshelves = bookshelves;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async setReviews(ids: string[]): Promise<void> {
-    try {
-      const reviews = [];
-      for (const id of ids) {
-        const review = await ReviewModel.findById(id);
-        if (!review) continue;
-        reviews.push(review);
-      }
-      this.reviews = reviews;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async setComments(ids: string[]): Promise<void> {
-    try {
-      const comments = [];
-      for (const id of ids) {
-        const comment = await CommentModel.findById(id);
-        if (!comment) continue;
-        comments.push(comment);
-      }
-      this.comments = comments;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async setReviewUpvotes(ids: string[]): Promise<void> {
-    try {
-      const reviewUpvotes = [];
-      for (const id of ids) {
-        const reviewUpvote = await ReviewUpvoteModel.findById(id);
-        if (!reviewUpvote) continue;
-        reviewUpvotes.push(reviewUpvote);
-      }
-      this.reviewUpvotes = reviewUpvotes;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async setReviewReactions(ids: string[]): Promise<void> {
-    try {
-      const reviewReactions = [];
-      for (const id of ids) {
-        const reviewReaction = await ReviewReactionModel.findById(id);
-        if (!reviewReaction) continue;
-        reviewReactions.push(reviewReaction);
-      }
-      this.reviewReactions = reviewReactions;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async setCommentReactions(ids: string[]): Promise<void> {
-    try {
-      const commentReactions = [];
-      for (const id of ids) {
-        const commentReaction = await CommentReactionModel.findById(id);
-        if (!commentReaction) continue;
-        commentReactions.push(commentReaction);
-      }
-      this.commentReactions = commentReactions;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async setBooksAdded(ids: string[]): Promise<void> {
-    try {
-      const booksAdded = [];
-      for (const id of ids) {
-        const book = await BookModel.findById(id);
-        if (!book) continue;
-        booksAdded.push(book);
-      }
-      this.booksAdded = booksAdded;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async setBookTagsAdded(ids: string[]): Promise<void> {
-    try {
-      const bookTagsAdded = [];
-      for (const id of ids) {
-        const tag = await BookTagModel.findById(id);
-        if (!tag) continue;
-        bookTagsAdded.push(tag);
-      }
-      this.bookTagsAdded = bookTagsAdded;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async setBookTagUpvotes(ids: string[]): Promise<void> {
-    try {
-      const bookTagUpvotes = [];
-      for (const id of ids) {
-        const upvote = await BookTagUpvoteModel.findById(id);
-        if (!upvote) continue;
-        bookTagUpvotes.push(upvote);
-      }
-      this.bookTagUpvotes = bookTagUpvotes;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async setActions(ids: string[]): Promise<void> {
-    try {
-      const actions = [];
-      for (const id of ids) {
-        const action = await ActionModel.findById(id);
-        if (!action) continue;
-        actions.push(action);
-      }
-      this.actions = actions;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async setBookUpvotes(ids: string[]): Promise<void> {
-    try {
-      const upvotes = [];
-      for (const id of ids) {
-        const upvote = await BookUpvoteModel.findById(id);
-        if (!upvote) continue;
-        upvotes.push(upvote);
-      }
-      this.bookUpvotes = upvotes;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async setCommentUpvotes(ids: string[]): Promise<void> {
-    try {
-      const upvotes = [];
-      for (const id of ids) {
-        const upvote = await CommentUpvoteModel.findById(id);
-        if (!upvote) continue;
-        upvotes.push(upvote);
-      }
-      this.commentUpvotes = upvotes;
+      this.role = user.roleId ? (user.roleId as DocumentType<Role>).toPojo() : undefined;
+      this.usersFollowing = (user.usersFollowingIds as DocumentType<User>[]).map((user) => user.toSafeUser());
+      this.usersFollowedBy = (user.usersFollowedByIds as DocumentType<User>[]).map((user) => user.toSafeUser());
+      this.tagsFollowing = (user.tagsFollowingIds as DocumentType<Tag>[]).map((tag) => tag.toPojo());
+      this.bookshelves = (user.bookshelfIds as DocumentType<Bookshelf>[]).map((bookshelf) => bookshelf.toPojo());
+      this.reviews = (user.reviewIds as DocumentType<Review>[]).map((review) => review.toPojo());
+      this.comments = (user.commentIds as DocumentType<Comment>[]).map((comment) => comment.toPojo());
+      this.reviewUpvotes = (user.reviewUpvoteIds as DocumentType<ReviewUpvote>[]).map((upvote) => upvote.toPojo());
+      this.commentUpvotes = (user.commentUpvoteIds as DocumentType<CommentUpvote>[]).map((upvote) => upvote.toPojo());
+      this.booksAdded = (user.booksAddedIds as DocumentType<Book>[]).map((book) => book.toPojo());
+      this.bookTagsAdded = (user.bookTagsAddedIds as DocumentType<BookTag>[]).map((bookTag) => bookTag.toPojo());
+      this.actions = (user.actionIds as DocumentType<Action>[]).map((action) => action.toPojo());
+      this.bookUpvotes = (user.bookUpvoteIds as DocumentType<BookUpvote>[]).map((upvote) => upvote.toPojo());
     } catch (error) {
       throw error;
     }

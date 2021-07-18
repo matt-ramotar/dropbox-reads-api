@@ -79,7 +79,7 @@ export default class Book {
     return godBook;
   }
 
-  public async toPojo(this: DocumentType<Book>): Promise<Book> {
+  public toPojo(this: DocumentType<Book>): Book {
     const pojo = this.toObject();
     pojo.id = pojo._id;
     delete pojo._id;

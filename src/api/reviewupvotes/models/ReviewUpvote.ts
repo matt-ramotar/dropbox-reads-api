@@ -20,7 +20,7 @@ export default class ReviewUpvote {
   @prop({ ref: () => User })
   userId!: string;
 
-  public async toPojo(this: DocumentType<ReviewUpvote>): Promise<ReviewUpvote> {
+  public toPojo(this: DocumentType<ReviewUpvote>): ReviewUpvote {
     const pojo = this.toObject();
     pojo.id = pojo._id;
     delete pojo._id;

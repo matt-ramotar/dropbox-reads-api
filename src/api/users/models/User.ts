@@ -144,23 +144,7 @@ export default class User {
       this.isLoggedIn
     );
 
-    await godUser.populate({
-      roleId: this.roleId,
-      usersFollowingIds: this.usersFollowingIds,
-      usersFollowedByIds: this.usersFollowedByIds,
-      tagsFollowingIds: this.tagsFollowingIds,
-      bookshelfIds: this.bookshelfIds,
-      reviewIds: this.reviewIds,
-      commentIds: this.commentIds,
-      reviewUpvoteIds: this.reviewUpvoteIds,
-      reviewReactionIds: this.reviewReactionIds,
-      commentReactionIds: this.commentReactionIds,
-      booksAddedIds: this.booksAddedIds,
-      bookTagsAddedIds: this.bookTagsAddedIds,
-      bookTagUpvoteIds: this.bookTagUpvoteIds,
-      actionIds: this.actionIds,
-      bookUpvoteIds: this.bookUpvoteIds
-    });
+    await godUser.populate();
 
     return godUser;
   }
@@ -178,7 +162,7 @@ export default class User {
       );
   }
 
-  public async toPojo(this: DocumentType<User>): Promise<User> {
+  public toPojo(this: DocumentType<User>): User {
     const pojo = this.toObject();
     pojo.id = pojo._id;
     delete pojo._id;

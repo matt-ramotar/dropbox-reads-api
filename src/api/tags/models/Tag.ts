@@ -32,7 +32,7 @@ export default class Tag {
     return godTag;
   }
 
-  public async toPojo(this: DocumentType<Tag>): Promise<Tag> {
+  public toPojo(this: DocumentType<Tag>): Tag {
     const pojo = this.toObject();
     pojo.id = pojo._id;
     delete pojo._id;

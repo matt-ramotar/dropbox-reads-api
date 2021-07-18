@@ -19,7 +19,7 @@ export default class Author {
   @prop()
   lastName!: string;
 
-  public async toPojo(this: DocumentType<Author>): Promise<Author> {
+  public toPojo(this: DocumentType<Author>): Author {
     const pojo = this.toObject();
     pojo.id = pojo._id;
     delete pojo._id;

@@ -25,7 +25,7 @@ export default class ReviewReaction {
   @prop({ ref: () => Reaction })
   reactionId!: string;
 
-  public async toPojo(this: DocumentType<ReviewReaction>): Promise<ReviewReaction> {
+  public toPojo(this: DocumentType<ReviewReaction>): ReviewReaction {
     const pojo = this.toObject();
     pojo.id = pojo._id;
     delete pojo._id;
