@@ -1,14 +1,14 @@
 import { BookModel } from "../../../models";
-import { GodBook } from "../models/GodBook";
+import Book from "../models/Book";
 
-export default async function getBooks(): Promise<GodBook[]> {
+export default async function getBooks(): Promise<Book[]> {
   try {
-    const godBooks = [];
+    const pojos = [];
     const books = await BookModel.find();
     for (const book of books) {
-      godBooks.push(await book.toGodBook());
+      pojos.push(book.toPojo());
     }
-    return godBooks;
+    return pojos;
   } catch (error) {
     throw error;
   }

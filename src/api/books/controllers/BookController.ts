@@ -42,15 +42,21 @@ export class BookController extends Controller {
     return book;
   }
 
+  /** Get books */
+  @Get()
+  async getBooks(): Promise<Book[]> {
+    return await new RealBookService().getBooks();
+  }
+
+  /** Get god books */
+  @Get("/god")
+  async getGodBooks(): Promise<GodBook[]> {
+    return await new RealBookService().getGodBooks();
+  }
+
   /** Get god book by ID */
   @Get("{bookId}/god")
   async getGodBookById(@Path() bookId: string): Promise<GodBook> {
     return await new RealBookService().getGodBookById(bookId);
-  }
-
-  /** Get books */
-  @Get()
-  async getBooks(): Promise<GodBook[]> {
-    return await new RealBookService().getBooks();
   }
 }
