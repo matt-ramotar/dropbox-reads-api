@@ -5,7 +5,6 @@ import RealBookService from "../../books/services/BookService";
 import RealReviewService from "../../reviews/services/ReviewService";
 import RealUserService from "../../users/services/UserService";
 import { CreateCommentInput } from "../entities/CreateCommentInput";
-import Comment from "../models/Comment";
 import { GodComment } from "../models/GodComment";
 import RealCommentService from "../services/CommentService";
 
@@ -14,7 +13,7 @@ import RealCommentService from "../services/CommentService";
 export class CommentController extends Controller {
   /** Create comment */
   @Post()
-  async createComment(@Body() input: CreateCommentInput): Promise<Comment> {
+  async createComment(@Body() input: CreateCommentInput): Promise<GodComment> {
     const { userId, reviewId, bookId, parentCommentId } = input;
 
     const commentService = new RealCommentService();

@@ -1,8 +1,8 @@
 import { CommentModel } from "../../../models";
 import { CreateCommentInput } from "../entities/CreateCommentInput";
-import Comment from "../models/Comment";
+import { GodComment } from "../models/GodComment";
 
-export default async function createComment(input: CreateCommentInput): Promise<Comment> {
+export default async function createComment(input: CreateCommentInput): Promise<GodComment> {
   try {
     const { userId, reviewId, parentCommentId, body } = input;
 
@@ -13,7 +13,7 @@ export default async function createComment(input: CreateCommentInput): Promise<
       body
     });
 
-    return await comment.toPojo();
+    return await comment.toGodComment();
   } catch (error) {
     throw error;
   }
