@@ -1,13 +1,12 @@
-import { CreateAuthorInput } from "../entities/CreateAuthorInput";
 import Author from "../models/Author";
-import upsertAuthor from "./upsertAuthor";
+import createAuthor from "./createAuthor";
 
 interface AuthorService {
-  upsertAuthor(input: CreateAuthorInput): Promise<Author>;
+  createAuthor(firstName: string, lastName: string, name: string): Promise<Author>;
 }
 
 export default class RealAuthorService implements AuthorService {
-  public async upsertAuthor(input: CreateAuthorInput): Promise<Author> {
-    return await upsertAuthor(input);
+  public async createAuthor(firstName: string, lastName: string, name: string): Promise<Author> {
+    return await createAuthor(firstName, lastName, name);
   }
 }
