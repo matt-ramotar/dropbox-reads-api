@@ -24,7 +24,7 @@ export default async function createBook(
       userAddedById: userId
     });
 
-    return await book.toPojo();
+    return book.toPojo();
   } catch (error) {
     throw error;
   }

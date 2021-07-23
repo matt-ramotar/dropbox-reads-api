@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Path, Post, Route, Tags } from "tsoa";
+import { BookModel } from "../../../models";
 import { ActionType } from "../../actions/models/ActionType";
 import RealActionService from "../../actions/services/ActionService";
 import RealBookTagService from "../../booktags/services/BookTagService";
@@ -11,10 +12,12 @@ import RealBookService from "../services/BookService";
 @Route("books")
 @Tags("Book")
 export class BookController extends Controller {
-  /** Create book */
+  /** Upsert book */
   @Post()
   async createBook(@Body() input: CreateBookInput): Promise<Book> {
     const { googleId, title, description, coverImage, authorIds, tagIds, userId } = input;
+
+    if (await BookModel.findOne({ googleId })) return (await BookModel.findOne({ googleId }))!.toPojo();
 
     const bookService = new RealBookService();
     const bookTagService = new RealBookTagService();
