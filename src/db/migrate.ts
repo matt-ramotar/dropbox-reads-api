@@ -15,7 +15,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch((err) => console.log(err));
 
-async function main() {
+async function migrate() {
   try {
     for (const response of responses) {
       const { email, role, googleId, tags: tagString, reason } = response;
@@ -114,4 +114,4 @@ async function main() {
   // create review
 }
 
-main();
+migrate();
