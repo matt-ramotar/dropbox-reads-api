@@ -1,9 +1,9 @@
 export interface CreateBookInput {
   googleId: string;
   title: string;
-  description: string,
+  description: string;
   coverImage?: string;
-  authorId: string;
+  authorIds: string[];
   tagIds: string[];
   userId: string;
 }

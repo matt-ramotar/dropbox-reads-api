@@ -35,9 +35,9 @@ export default class Book {
   @prop()
   description!: string;
 
-  @Field(() => ID)
+  @Field(() => [ID])
   @prop({ ref: () => Author })
-  authorId!: string;
+  authorIds!: string[];
 
   @Field(() => [ID])
   @prop({ ref: () => BookTag })
@@ -67,7 +67,7 @@ export default class Book {
     const godBook = new RealGodBook(this._id, this.title, this.description, this.googleId, this.coverImage);
 
     await godBook.populate({
-      authorId: this.authorId,
+      authorIds: this.authorIds,
       bookTagIds: this.bookTagIds,
       userAddedById: this.userAddedById,
       bookshelfIds: this.bookshelfIds,

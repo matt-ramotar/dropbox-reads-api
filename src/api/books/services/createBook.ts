@@ -6,7 +6,7 @@ export default async function createBook(
   googleId: string,
   title: string,
   description: string,
-  authorId: string,
+  authorIds: string[],
   userId: string,
   coverImage?: string
 ): Promise<Book> {
@@ -20,7 +20,7 @@ export default async function createBook(
       title,
       description,
       coverImage,
-      authorId,
+      authorIds,
       userAddedById: userId
     });
 

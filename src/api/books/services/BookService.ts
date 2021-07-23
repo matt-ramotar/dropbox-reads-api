@@ -12,7 +12,7 @@ import getGodBookById from "./getGodBookById";
 import getGodBooks from "./getGodBooks";
 
 interface BookService {
-  createBook(googleId: string, title: string, authorId: string, userId: string, coverImage?: string): Promise<Book>;
+  createBook(googleId: string, title: string, description: string, authorIds: string[], userId: string, coverImage?: string): Promise<Book>;
   addBookshelf(bookId: string, bookshelfId: string): Promise<void>;
   addBookTag(bookId: string, bookTagId: string): Promise<void>;
   addReview(bookId: string, reviewId: string): Promise<void>;
@@ -25,15 +25,8 @@ interface BookService {
 }
 
 export default class RealBookService implements BookService {
-  public async createBook(
-    googleId: string,
-    title: string,
-    description: string,
-    authorId: string,
-    userId: string,
-    coverImage?: string
-  ): Promise<Book> {
-    return await createBook(googleId, title, description, authorId, userId, coverImage);
+  public async createBook(googleId: string, title: string, description: string, authorIds: string[], userId: string, coverImage?: string): Promise<Book> {
+    return await createBook(googleId, title, description, authorIds, userId, coverImage);
   }
 
   public async addBookshelf(bookId: string, bookshelfId: string): Promise<void> {

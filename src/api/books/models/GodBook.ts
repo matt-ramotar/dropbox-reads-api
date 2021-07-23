@@ -1,12 +1,4 @@
-import {
-  AuthorNotFound,
-  BookshelfNotFound,
-  BookTagNotFound,
-  BookUpvoteNotFound,
-  CommentNotFound,
-  ReviewNotFound,
-  UserNotFound
-} from "../../../errors";
+import { AuthorNotFound, BookshelfNotFound, BookTagNotFound, BookUpvoteNotFound, CommentNotFound, ReviewNotFound, UserNotFound } from "../../../errors";
 import { AuthorModel, BookshelfModel, BookTagModel, BookUpvoteModel, CommentModel, ReviewModel, UserModel } from "../../../models";
 import Author from "../../authors/models/Author";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
@@ -23,7 +15,7 @@ export interface GodBook {
   title: string;
   description: string;
   coverImage?: string;
-  author?: Author;
+  authors?: Author[];
   bookTags?: GodBookTag[];
   userAddedBy: SafeUser;
   bookshelves?: Bookshelf[];
@@ -38,7 +30,7 @@ export class RealGodBook implements GodBook {
   readonly title: string;
   readonly description: string;
   readonly coverImage?: string;
-  author?: Author;
+  authors?: Author[];
   bookTags?: GodBookTag[];
   userAddedBy!: SafeUser;
   bookshelves?: Bookshelf[];
@@ -55,9 +47,9 @@ export class RealGodBook implements GodBook {
   }
 
   public async populate(refs: Refs) {
-    const { authorId, bookTagIds, userAddedById, bookshelfIds, reviewIds, bookUpvoteIds, bookCommentIds } = refs;
+    const { authorIds, bookTagIds, userAddedById, bookshelfIds, reviewIds, bookUpvoteIds, bookCommentIds } = refs;
 
-    if (authorId) await this.setAuthor(authorId);
+    if (authorIds) await this.setAuthors(authorIds);
     if (bookTagIds) await this.setBookTags(bookTagIds);
     if (userAddedById) await this.setUserAddedBy(userAddedById);
     if (bookshelfIds) await this.setBookshelves(bookshelfIds);
@@ -66,11 +58,15 @@ export class RealGodBook implements GodBook {
     if (bookCommentIds) await this.setBookComments(bookCommentIds);
   }
 
-  private async setAuthor(id: string): Promise<void> {
+  private async setAuthors(ids: string[]): Promise<void> {
     try {
-      const author = await AuthorModel.findById(id);
-      if (!author) throw new AuthorNotFound();
-      else this.author = author.toPojo();
+      const authors = [];
+      for (const id of ids) {
+        const author = await AuthorModel.findById(id);
+        if (!author) throw new AuthorNotFound();
+        authors.push(author.toPojo());
+      }
+      this.authors = authors;
     } catch (error) {
       throw error;
     }

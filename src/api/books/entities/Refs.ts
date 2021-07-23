@@ -1,5 +1,5 @@
 export interface Refs {
-  authorId?: string;
+  authorIds?: string[];
   bookTagIds?: string[];
   userAddedById: string;
   bookshelfIds?: string[];
