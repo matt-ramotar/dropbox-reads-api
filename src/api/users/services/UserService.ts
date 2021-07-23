@@ -1,6 +1,8 @@
+import { DocumentType } from "@typegoose/typegoose";
 import { Feed } from "../../actions/models/Feed";
 import { GodUser } from "../models/GodUser";
 import { SafeUser } from "../models/SafeUser";
+import User from "../models/User";
 import addAction from "./addAction";
 import addBook from "./addBook";
 import addBookshelf from "./addBookshelf";
@@ -12,6 +14,7 @@ import addFollower from "./addFollower";
 import addReview from "./addReview";
 import addReviewReaction from "./addReviewReaction";
 import addReviewUpvote from "./addReviewUpvote";
+import createUser from "./createUser";
 import followTag from "./followTag";
 import followUser from "./followUser";
 import getFeed from "./getFeed";
@@ -47,6 +50,14 @@ interface UserService {
   getGodUserByUsername(username: string): Promise<GodUser>;
   addBookUpvote(userId: string, upvoteId: string): Promise<void>;
   getUsers(): Promise<GodUser[]>;
+  createUser(
+    firstName: string,
+    lastName: string,
+    username: string,
+    email: string,
+    googleId?: string,
+    picture?: string
+  ): Promise<DocumentType<User>>;
 }
 
 export default class RealUserService implements UserService {
@@ -136,5 +147,16 @@ export default class RealUserService implements UserService {
 
   public async getUsers(): Promise<GodUser[]> {
     return await getUsers();
+  }
+
+  public async createUser(
+    firstName: string,
+    lastName: string,
+    username: string,
+    email: string,
+    googleId?: string,
+    picture?: string
+  ): Promise<DocumentType<User>> {
+    return await createUser(firstName, lastName, username, email, googleId, picture);
   }
 }

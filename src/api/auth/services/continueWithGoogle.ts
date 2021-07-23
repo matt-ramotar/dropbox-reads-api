@@ -2,28 +2,28 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { UserModel } from "../../../models";
 import { KEYS } from "../../../util/secrets";
+import RealBookshelfService from "../../bookshelves/services/BookshelfService";
+import RealUserService from "../../users/services/UserService";
 import { ContinueWithGoogleSuccess } from "../entities/responses";
-
-interface ContinueWithGoogleInput {
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  googleId: string;
-  picture: string;
-}
 
 export default async function continueWithGoogle(
   request: Request,
   response: Response,
   _: NextFunction
 ): Promise<Response<ContinueWithGoogleSuccess>> {
-  const { firstName, lastName, username, email, googleId, picture }: ContinueWithGoogleInput = request.body;
+  const { firstName, lastName, username, email, googleId, picture } = request.body;
 
-  let user = await UserModel.findOne({ googleId });
+  const userService = new RealUserService();
+  const bookshelfService = new RealBookshelfService();
+
+  let user = await UserModel.findOne({ username });
 
   if (!user) {
-    user = new UserModel({ firstName, lastName, username, email, googleId, picture });
+    user = await userService.createUser(firstName, lastName, username, email, googleId, picture);
+    const name = "Recommendations";
+    const description = `${firstName}'s Recommendations`;
+    const bookshelf = await bookshelfService.createBookshelf(name, description, user._id);
+    await userService.addBookshelf(user._id, bookshelf.id);
   }
 
   user.isLoggedIn = true;

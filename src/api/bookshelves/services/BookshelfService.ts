@@ -11,7 +11,7 @@ interface BookshelfService {
 }
 
 export default class RealBookshelfService implements BookshelfService {
-  public async createBookshelf(name: string, description: string, ownerId: string, tagIds: string[]): Promise<Bookshelf> {
+  public async createBookshelf(name: string, description: string, ownerId: string, tagIds?: string[]): Promise<Bookshelf> {
     return await createBookshelf(name, description, ownerId, tagIds);
   }
 

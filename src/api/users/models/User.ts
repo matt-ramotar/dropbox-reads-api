@@ -2,6 +2,7 @@ import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Action from "../../actions/models/Action";
 import Book from "../../books/models/Book";
+import BookshelfBook from "../../bookshelfbooks/models/BookshelfBook";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookTag from "../../booktags/models/BookTag";
 import BookTagUpvote from "../../booktagupvotes/models/BookTagUpvote";
@@ -123,6 +124,10 @@ export default class User {
   @Field(() => [ID])
   @prop({ ref: () => BookUpvote })
   bookUpvoteIds?: string[];
+
+  @Field(() => [ID])
+  @prop({ ref: () => BookshelfBook })
+  bookshelfBookIds?: string[];
 
   public toSafeUser(this: DocumentType<User>): SafeUser {
     return new RealSafeUser(this._id, this.firstName, this.lastName, this.email, this.username, this.picture, this.isLoggedIn);
