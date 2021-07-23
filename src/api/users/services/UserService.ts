@@ -20,6 +20,7 @@ import followUser from "./followUser";
 import getFeed from "./getFeed";
 import getGodUserById from "./getGodUserById";
 import getGodUserByUsername from "./getGodUserByUsername";
+import getRecommendationsBookshelfId from "./getRecommendationsBookshelfId";
 import getUser from "./getUser";
 import getUsers from "./getUsers";
 import publishAction from "./publishAction";
@@ -50,14 +51,8 @@ interface UserService {
   getGodUserByUsername(username: string): Promise<GodUser>;
   addBookUpvote(userId: string, upvoteId: string): Promise<void>;
   getUsers(): Promise<GodUser[]>;
-  createUser(
-    firstName: string,
-    lastName: string,
-    username: string,
-    email: string,
-    googleId?: string,
-    picture?: string
-  ): Promise<DocumentType<User>>;
+  createUser(firstName: string, lastName: string, username: string, email: string, googleId?: string, picture?: string): Promise<DocumentType<User>>;
+  getRecommendationsBookshelfId(userId: string): Promise<string>;
 }
 
 export default class RealUserService implements UserService {
@@ -158,5 +153,9 @@ export default class RealUserService implements UserService {
     picture?: string
   ): Promise<DocumentType<User>> {
     return await createUser(firstName, lastName, username, email, googleId, picture);
+  }
+
+  public async getRecommendationsBookshelfId(userId: string): Promise<string> {
+    return await getRecommendationsBookshelfId(userId);
   }
 }

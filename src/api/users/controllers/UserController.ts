@@ -104,4 +104,10 @@ export class UserController extends Controller {
   async getFeed(@Path() userId: string, @Path() type: string, @Path() offset: string): Promise<Feed> {
     return await new RealUserService().getFeed(userId, type, offset ? Number.parseInt(offset) : 0);
   }
+
+  /** Get recommendations bookshelf ID */
+  @Get("{userId}/bookshelves/recommendations")
+  async getRecommendationsBookshelfId(@Path() userId: string): Promise<string> {
+    return await new RealUserService().getRecommendationsBookshelfId(userId);
+  }
 }
