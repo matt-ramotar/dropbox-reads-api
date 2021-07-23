@@ -40,5 +40,5 @@ build/**/*
 # ignore package-lock.json
 package-lock.json
 
-src/db
+src/db/**/*
 yarn.lock
