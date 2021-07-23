@@ -13,6 +13,10 @@ export default class Author {
 
   @Field()
   @prop()
+  name?: string;
+
+  @Field()
+  @prop()
   firstName!: string;
 
   @Field()
