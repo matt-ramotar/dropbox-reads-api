@@ -5,7 +5,6 @@
   "main": "build/src/server.js",
   "scripts": {
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes -i input.yml\"",
-    "db": "ts-node src/db/main.ts",
     "build": "tsoa spec-and-routes -i input.yml && tsc",
     "start": "node build/src/server.js",
     "prod": "npm run build && npm run start"
