@@ -15,3 +15,4 @@ export const ROOT_AWS_S3 = process.env.ROOT_AWS_S3;
 export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 export const DBX_REFRESH_TOKEN = process.env.DBX_REFRESH_TOKEN;
+export const DBX_PAPER_ACCESS_TOKEN = process.env.DBX_PAPER_ACCESS_TOKEN;

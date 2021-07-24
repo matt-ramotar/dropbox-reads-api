@@ -23,7 +23,7 @@ export class BookController extends Controller {
     const bookTagService = new RealBookTagService();
     const userService = new RealUserService();
 
-    const book = await new RealBookService().createBook(googleId, title, description, authorIds, userId, coverImage);
+    const book = await bookService.createBook(googleId, title, description, authorIds, userId, coverImage);
 
     for (const tagId of tagIds) {
       const bookTag = await bookTagService.createBookTag(book.id, tagId, userId);
@@ -31,6 +31,9 @@ export class BookController extends Controller {
       await userService.addBookTag(bookTag.id, userId);
       await bookService.addBookTag(book.id, bookTag.id);
     }
+
+    const dropboxPaperUrl = await bookService.createDropboxPaper(book);
+    await bookService.addDropboxPaperUrl(book.id, dropboxPaperUrl);
 
     const action = await new RealActionService().createAction({
       type: ActionType.CreateBook,

@@ -4,8 +4,10 @@ import addBookshelf from "./addBookshelf";
 import addBookTag from "./addBookTag";
 import addBookUpvote from "./addBookUpvote";
 import addComment from "./addComment";
+import addDropboxPaperUrl from "./addDropboxPaperUrl";
 import addReview from "./addReview";
 import createBook from "./createBook";
+import createDropboxPaper from "./createDropboxPaper";
 import getBooks from "./getBooks";
 import getBooksMatchingKeyword from "./getBooksMatchingKeyword";
 import getGodBookById from "./getGodBookById";
@@ -22,6 +24,8 @@ interface BookService {
   getGodBooks(): Promise<GodBook[]>;
   getBooks(): Promise<Book[]>;
   getBooksMatchingKeyword(keyword?: string, title?: string, author?: string, tags?: string[]): Promise<GodBook[]>;
+  createDropboxPaper(book: Book): Promise<string>;
+  addDropboxPaperUrl(bookId: string, dropboxPaperUrl: string): Promise<void>;
 }
 
 export default class RealBookService implements BookService {
@@ -63,5 +67,13 @@ export default class RealBookService implements BookService {
 
   public async getBooksMatchingKeyword(keyword?: string, title?: string, author?: string, tags?: string[]): Promise<GodBook[]> {
     return await getBooksMatchingKeyword(keyword, title, author, tags);
+  }
+
+  public async createDropboxPaper(book: Book): Promise<string> {
+    return await createDropboxPaper(book);
+  }
+
+  public async addDropboxPaperUrl(bookId: string, dropboxPaperUrl: string): Promise<void> {
+    return await addDropboxPaperUrl(bookId, dropboxPaperUrl);
   }
 }
