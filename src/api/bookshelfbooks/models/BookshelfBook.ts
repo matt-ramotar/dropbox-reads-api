@@ -1,4 +1,4 @@
-import { prop } from "@typegoose/typegoose";
+import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
@@ -25,4 +25,11 @@ export default class BookshelfBook {
   @Field()
   @prop()
   reason?: string;
+
+  public toPojo(this: DocumentType<BookshelfBook>): BookshelfBook {
+    const pojo = this.toObject();
+    pojo.id = pojo._id;
+    delete pojo._id;
+    return pojo;
+  }
 }

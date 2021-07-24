@@ -35,6 +35,10 @@ export default class Book {
   @prop()
   description!: string;
 
+  @Field()
+  @prop()
+  authorId?: string;
+
   @Field(() => [ID])
   @prop({ ref: () => Author })
   authorIds!: string[];

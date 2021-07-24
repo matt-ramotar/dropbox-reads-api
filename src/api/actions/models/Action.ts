@@ -1,6 +1,7 @@
 import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
+import BookshelfBook from "../../bookshelfbooks/models/BookshelfBook";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookTag from "../../booktags/models/BookTag";
 import CommentReaction from "../../commentreactions/models/CommentReaction";
@@ -42,6 +43,10 @@ export default class Action {
   bookId?: string;
 
   @Field(() => ID)
+  @prop({ ref: () => BookshelfBook })
+  bookshelfBookId?: string;
+
+  @Field(() => ID)
   @prop({ ref: () => Bookshelf })
   bookshelfId?: string;
 
@@ -79,6 +84,7 @@ export default class Action {
       userId: this.userId,
       otherUserId: this.otherUserId,
       bookId: this.bookId,
+      bookshelfBookId: this.bookshelfBookId,
       bookshelfId: this.bookshelfId,
       bookTagId: this.bookTagId,
       tagId: this.tagId,

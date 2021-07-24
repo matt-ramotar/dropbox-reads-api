@@ -1,6 +1,7 @@
 import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
 import Book from "../../books/models/Book";
+import BookshelfBook from "../../bookshelfbooks/models/BookshelfBook";
 import Tag from "../../tags/models/Tag";
 import User from "../../users/models/User";
 import { GodBookshelf, RealGodBookshelf } from "./GodBookshelf";
@@ -26,6 +27,10 @@ export default class Bookshelf {
   @Field(() => ID)
   @prop({ ref: () => Book })
   bookIds?: string[];
+
+  @Field(() => [ID])
+  @prop({ ref: () => BookshelfBook })
+  bookshelfBookIds?: string[];
 
   @Field(() => ID)
   @prop({ ref: () => User })

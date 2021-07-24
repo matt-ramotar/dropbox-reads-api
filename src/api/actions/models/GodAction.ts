@@ -1,5 +1,6 @@
 import {
   BookNotFound,
+  BookshelfBookNotFound,
   BookshelfNotFound,
   BookTagNotFound,
   CommentNotFound,
@@ -11,6 +12,7 @@ import {
 } from "../../../errors";
 import {
   BookModel,
+  BookshelfBookModel,
   BookshelfModel,
   BookTagModel,
   CommentModel,
@@ -21,6 +23,7 @@ import {
   UserModel
 } from "../../../models";
 import Book from "../../books/models/Book";
+import BookshelfBook from "../../bookshelfbooks/models/BookshelfBook";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
 import BookTag from "../../booktags/models/BookTag";
 import CommentReaction from "../../commentreactions/models/CommentReaction";
@@ -38,6 +41,7 @@ export interface GodAction {
   user?: GodUser;
   otherUser?: GodUser;
   book?: Book;
+  bookshelfBook?: BookshelfBook;
   bookshelf?: Bookshelf;
   bookTag?: BookTag;
   tag?: Tag;
@@ -55,6 +59,7 @@ export class RealGodAction implements GodAction {
   user?: GodUser;
   otherUser?: GodUser;
   book?: Book;
+  bookshelfBook?: BookshelfBook;
   bookshelf?: Bookshelf;
   bookTag?: BookTag;
   tag?: Tag;
@@ -75,6 +80,7 @@ export class RealGodAction implements GodAction {
       userId,
       otherUserId,
       bookId,
+      bookshelfBookId,
       bookshelfId,
       bookTagId,
       tagId,
@@ -88,6 +94,7 @@ export class RealGodAction implements GodAction {
     if (userId) await this.setUser(userId);
     if (otherUserId) await this.setOtherUser(otherUserId);
     if (bookId) await this.setBook(bookId);
+    if (bookshelfBookId) await this.setBookshelfBook(bookshelfBookId);
     if (bookshelfId) await this.setBookshelf(bookshelfId);
     if (bookTagId) await this.setBookTag(bookTagId);
     if (tagId) await this.setTag(tagId);
@@ -125,6 +132,16 @@ export class RealGodAction implements GodAction {
       else this.book = book.toPojo();
     } catch (error) {
       this.book = undefined;
+    }
+  }
+
+  private async setBookshelfBook(id: string): Promise<void> {
+    try {
+      const bookshelfBook = await BookshelfBookModel.findById(id);
+      if (!bookshelfBook) throw new BookshelfBookNotFound();
+      else this.bookshelfBook = bookshelfBook.toPojo();
+    } catch (error) {
+      this.bookshelfBook = undefined;
     }
   }
 

@@ -5,6 +5,7 @@ export interface CreateActionInput {
   userId: string;
   otherUserId?: string;
   bookId?: string;
+  bookshelfBookId?: string;
   bookshelfId?: string;
   bookTagId?: string;
   tagId?: string;
