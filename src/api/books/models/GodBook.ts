@@ -22,6 +22,7 @@ export interface GodBook {
   reviews?: Review[];
   bookUpvotes?: BookUpvote[];
   bookComments?: GodComment[];
+  dropboxPaperUrl?: string;
 }
 
 export class RealGodBook implements GodBook {
@@ -30,6 +31,7 @@ export class RealGodBook implements GodBook {
   readonly title: string;
   readonly description: string;
   readonly coverImage?: string;
+  readonly dropboxPaperUrl?: string;
   authors?: Author[];
   bookTags?: GodBookTag[];
   userAddedBy!: SafeUser;
@@ -38,12 +40,13 @@ export class RealGodBook implements GodBook {
   bookUpvotes?: BookUpvote[];
   bookComments?: GodComment[];
 
-  constructor(id: string, title: string, description: string, googleId?: string, coverImage?: string) {
+  constructor(id: string, title: string, description: string, googleId?: string, coverImage?: string, dropboxPaperUrl?: string) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.googleId = googleId;
     this.coverImage = coverImage;
+    this.dropboxPaperUrl = dropboxPaperUrl;
   }
 
   public async populate(refs: Refs) {

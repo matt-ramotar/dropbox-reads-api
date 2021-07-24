@@ -67,8 +67,12 @@ export default class Book {
   @prop({ ref: () => Comment })
   bookCommentIds?: string[];
 
+  @Field()
+  @prop()
+  dropboxPaperUrl?: string;
+
   public async toGodBook(this: DocumentType<Book>): Promise<GodBook> {
-    const godBook = new RealGodBook(this._id, this.title, this.description, this.googleId, this.coverImage);
+    const godBook = new RealGodBook(this._id, this.title, this.description, this.googleId, this.coverImage, this.dropboxPaperUrl);
 
     await godBook.populate({
       authorIds: this.authorIds,
