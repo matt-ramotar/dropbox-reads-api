@@ -9,6 +9,7 @@ export enum ActionType {
   CreateReview = "CREATE REVIEW",
   FollowUser = "FOLLOW USER",
   FollowTag = "FOLLOW TAG",
+  ReactToAction = "REACT TO ACTION",
   ReactToComment = "REACT TO COMMENT",
   ReactToReview = "REACT TO REVIEW",
   UpvoteBook = "UPVOTE BOOK",

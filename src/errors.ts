@@ -39,6 +39,18 @@ export class ActionNotFound implements DropboxReadsError {
   }
 }
 
+export class ActionReactionNotFound implements DropboxReadsError {
+  readonly message?: string = "Action reaction not found";
+  readonly error?: any;
+  readonly type: string;
+
+  constructor(message?: string, error?: any) {
+    this.message = message;
+    this.error = error;
+    this.type = this.constructor.name;
+  }
+}
+
 export class AuthorNotFound implements DropboxReadsError {
   readonly message?: string = "Author not found";
   readonly error?: any;

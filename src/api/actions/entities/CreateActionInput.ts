@@ -14,4 +14,5 @@ export interface CreateActionInput {
   otherCommentId?: string;
   reviewReactionId?: string;
   commentReactionId?: string;
+  actionReactionId?: string;
 }

@@ -1,4 +1,5 @@
 import {
+  ActionReactionNotFound,
   BookNotFound,
   BookshelfBookNotFound,
   BookshelfNotFound,
@@ -11,6 +12,7 @@ import {
   UserNotFound
 } from "../../../errors";
 import {
+  ActionReactionModel,
   BookModel,
   BookshelfBookModel,
   BookshelfModel,
@@ -22,6 +24,7 @@ import {
   TagModel,
   UserModel
 } from "../../../models";
+import { GodActionReaction } from "../../actionreactions/models/GodActionReaction";
 import Book from "../../books/models/Book";
 import BookshelfBook from "../../bookshelfbooks/models/BookshelfBook";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
@@ -50,6 +53,8 @@ export interface GodAction {
   otherComment?: Comment;
   reviewReaction?: ReviewReaction;
   commentReaction?: CommentReaction;
+  actionReactions?: GodActionReaction[];
+  actionReaction?: GodActionReaction;
 }
 
 export class RealGodAction implements GodAction {
@@ -68,6 +73,8 @@ export class RealGodAction implements GodAction {
   otherComment?: Comment;
   reviewReaction?: ReviewReaction;
   commentReaction?: CommentReaction;
+  actionReactions?: GodActionReaction[];
+  actionReaction?: GodActionReaction;
 
   constructor(id: string, type: string, datetime: Date) {
     this.id = id;
@@ -88,7 +95,9 @@ export class RealGodAction implements GodAction {
       commentId,
       otherCommentId,
       reviewReactionId,
-      commentReactionId
+      commentReactionId,
+      actionReactionIds,
+      actionReactionId
     } = refs;
 
     if (userId) await this.setUser(userId);
@@ -103,6 +112,8 @@ export class RealGodAction implements GodAction {
     if (otherCommentId) await this.setOtherComment(otherCommentId);
     if (reviewReactionId) await this.setReviewReaction(reviewReactionId);
     if (commentReactionId) await this.setCommentReaction(commentReactionId);
+    if (actionReactionIds) await this.setActionReactions(actionReactionIds);
+    if (actionReactionId) await this.setActionReaction(actionReactionId);
   }
 
   private async setUser(id: string): Promise<void> {
@@ -222,6 +233,30 @@ export class RealGodAction implements GodAction {
       else this.commentReaction = commentReaction.toPojo();
     } catch (error) {
       this.commentReaction = undefined;
+    }
+  }
+
+  private async setActionReactions(ids: string[]): Promise<void> {
+    try {
+      const actionReactions = [];
+      for (const id of ids) {
+        const actionReaction = await ActionReactionModel.findById(id);
+        if (!actionReaction) throw new ActionReactionNotFound();
+        actionReactions.push(await actionReaction.toGodActionReaction());
+      }
+      this.actionReactions = actionReactions;
+    } catch (error) {
+      this.actionReactions = undefined;
+    }
+  }
+
+  private async setActionReaction(id: string): Promise<void> {
+    try {
+      const actionReaction = await ActionReactionModel.findById(id);
+      if (!actionReaction) throw new ActionReactionNotFound();
+      else this.actionReaction = await actionReaction.toGodActionReaction();
+    } catch (error) {
+      this.actionReaction = undefined;
     }
   }
 }

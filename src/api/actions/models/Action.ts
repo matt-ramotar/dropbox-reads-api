@@ -1,5 +1,6 @@
 import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
+import ActionReaction from "../../actionreactions/models/ActionReaction";
 import Book from "../../books/models/Book";
 import BookshelfBook from "../../bookshelfbooks/models/BookshelfBook";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
@@ -78,6 +79,14 @@ export default class Action {
   @prop({ ref: () => CommentReaction })
   commentReactionId?: string;
 
+  @Field(() => ID)
+  @prop({ ref: () => ActionReaction })
+  actionReactionId?: string;
+
+  @Field(() => [ID])
+  @prop({ ref: () => ActionReaction })
+  actionReactionIds?: string[];
+
   public async toGodAction(this: DocumentType<Action>): Promise<GodAction> {
     const godAction = new RealGodAction(this._id, this.type, this.datetime);
     await godAction.populate({
@@ -92,7 +101,9 @@ export default class Action {
       commentId: this.commentId,
       otherCommentId: this.otherCommentId,
       reviewReactionId: this.reviewReactionId,
-      commentReactionId: this.commentReactionId
+      commentReactionId: this.commentReactionId,
+      actionReactionId: this.actionReactionId,
+      actionReactionIds: this.actionReactionIds
     });
     return godAction;
   }

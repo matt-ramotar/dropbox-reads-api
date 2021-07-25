@@ -4,6 +4,7 @@ import { GodUser } from "../models/GodUser";
 import { SafeUser } from "../models/SafeUser";
 import User from "../models/User";
 import addAction from "./addAction";
+import addActionReaction from "./addActionReaction";
 import addBook from "./addBook";
 import addBookshelf from "./addBookshelf";
 import addBookTag from "./addBookTag";
@@ -53,6 +54,7 @@ interface UserService {
   getUsers(): Promise<GodUser[]>;
   createUser(firstName: string, lastName: string, username: string, email: string, googleId?: string, picture?: string): Promise<DocumentType<User>>;
   getRecommendationsBookshelfId(userId: string): Promise<string>;
+  addActionReaction(userId: string, actionReactionId: string): Promise<void>;
 }
 
 export default class RealUserService implements UserService {
@@ -157,5 +159,9 @@ export default class RealUserService implements UserService {
 
   public async getRecommendationsBookshelfId(userId: string): Promise<string> {
     return await getRecommendationsBookshelfId(userId);
+  }
+
+  public async addActionReaction(userId: string, actionReactionId: string): Promise<void> {
+    return await addActionReaction(userId, actionReactionId);
   }
 }

@@ -2,6 +2,7 @@ import { DocumentType } from "@typegoose/typegoose";
 import BookUpvote from "src/api/bookupvotes/models/BookUpvote";
 import { UserNotFound } from "../../../errors";
 import { UserModel } from "../../../models";
+import ActionReaction from "../../actionreactions/models/ActionReaction";
 import Action from "../../actions/models/Action";
 import Book from "../../books/models/Book";
 import Bookshelf from "../../bookshelves/models/Bookshelf";
@@ -37,6 +38,7 @@ export interface GodUser {
   reviewUpvotes?: ReviewUpvote[];
   reviewReactions?: ReviewReaction[];
   commentReactions?: CommentReaction[];
+  actionReactions?: ActionReaction[];
   booksAdded?: Book[];
   bookTagsAdded?: BookTag[];
   bookTagUpvotes?: BookTagUpvote[];
@@ -64,6 +66,7 @@ export class RealGodUser implements GodUser {
   reviewUpvotes?: ReviewUpvote[];
   reviewReactions?: ReviewReaction[];
   commentReactions?: CommentReaction[];
+  actionReactions?: ActionReaction[];
   booksAdded?: Book[];
   bookTagsAdded?: BookTag[];
   bookTagUpvotes?: BookTagUpvote[];
@@ -71,16 +74,7 @@ export class RealGodUser implements GodUser {
   bookUpvotes?: BookUpvote[];
   commentUpvotes?: CommentUpvote[];
 
-  constructor(
-    id: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    username: string,
-    googleId: string,
-    picture?: string,
-    isLoggedIn?: boolean
-  ) {
+  constructor(id: string, firstName: string, lastName: string, email: string, username: string, googleId: string, picture?: string, isLoggedIn?: boolean) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -105,6 +99,7 @@ export class RealGodUser implements GodUser {
         .populate("commentUpvoteIds")
         .populate("reviewReactionIds")
         .populate("commentReactionIds")
+        .populate("actionReactionIds")
         .populate("booksAddedIds")
         .populate("bookTagsAddedIds")
         .populate("bookTagUpvoteIds")
@@ -123,6 +118,9 @@ export class RealGodUser implements GodUser {
       this.comments = (user.commentIds as DocumentType<Comment>[]).map((comment) => comment.toPojo());
       this.reviewUpvotes = (user.reviewUpvoteIds as DocumentType<ReviewUpvote>[]).map((upvote) => upvote.toPojo());
       this.commentUpvotes = (user.commentUpvoteIds as DocumentType<CommentUpvote>[]).map((upvote) => upvote.toPojo());
+      this.reviewReactions = (user.reviewReactionIds as DocumentType<ReviewReaction>[]).map((reaction) => reaction.toPojo());
+      this.commentReactions = (user.commentReactionIds as DocumentType<CommentReaction>[]).map((reaction) => reaction.toPojo());
+      this.actionReactions = (user.actionReactionIds as DocumentType<ActionReaction>[]).map((reaction) => reaction.toPojo());
       this.booksAdded = (user.booksAddedIds as DocumentType<Book>[]).map((book) => book.toPojo());
       this.bookTagsAdded = (user.bookTagsAddedIds as DocumentType<BookTag>[]).map((bookTag) => bookTag.toPojo());
       this.actions = (user.actionIds as DocumentType<Action>[]).map((action) => action.toPojo());

@@ -10,6 +10,7 @@ type Query {
 """User model"""
 type User {
   actionIds: [ID!]!
+  actionReactionIds: [ID!]!
   bookTagUpvoteIds: [ID!]!
   bookTagsAddedIds: [ID!]!
   bookUpvoteIds: [ID!]!

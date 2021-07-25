@@ -11,4 +11,6 @@ export interface Refs {
   otherCommentId?: string;
   reviewReactionId?: string;
   commentReactionId?: string;
+  actionReactionIds?: string[];
+  actionReactionId?: string;
 }

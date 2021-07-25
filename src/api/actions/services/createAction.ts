@@ -18,7 +18,8 @@ export default async function createAction(input: CreateActionInput): Promise<Do
       commentId,
       otherCommentId,
       reviewReactionId,
-      commentReactionId
+      commentReactionId,
+      actionReactionId
     } = input;
 
     return await ActionModel.create({
@@ -35,7 +36,8 @@ export default async function createAction(input: CreateActionInput): Promise<Do
       commentId,
       otherCommentId,
       reviewReactionId,
-      commentReactionId
+      commentReactionId,
+      actionReactionId
     });
   } catch (error) {
     throw error;

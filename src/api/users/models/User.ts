@@ -1,5 +1,6 @@
 import { DocumentType, prop } from "@typegoose/typegoose";
 import { Field, ID, ObjectType } from "type-graphql";
+import ActionReaction from "../../actionreactions/models/ActionReaction";
 import Action from "../../actions/models/Action";
 import Book from "../../books/models/Book";
 import BookshelfBook from "../../bookshelfbooks/models/BookshelfBook";
@@ -102,6 +103,10 @@ export default class User {
   commentReactionIds?: string[];
 
   @Field(() => [ID])
+  @prop({ ref: () => ActionReaction })
+  actionReactionIds?: string[];
+
+  @Field(() => [ID])
   @prop({ ref: () => Book })
   booksAddedIds?: string[];
 
@@ -138,16 +143,7 @@ export default class User {
   }
 
   public async toGodUser(this: DocumentType<User>): Promise<GodUser> {
-    const godUser = new RealGodUser(
-      this._id,
-      this.firstName,
-      this.lastName,
-      this.email,
-      this.username,
-      this.googleId,
-      this.picture,
-      this.isLoggedIn
-    );
+    const godUser = new RealGodUser(this._id, this.firstName, this.lastName, this.email, this.username, this.googleId, this.picture, this.isLoggedIn);
 
     await godUser.populate();
 
