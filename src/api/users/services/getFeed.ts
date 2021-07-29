@@ -13,7 +13,7 @@ export default async function getFeed(userId: string, type: string, offset: numb
         if (!user.feed) return new RealFeed([]);
 
         const startA = Math.max(0, offset - 1);
-        const endA = Math.min(user.feed.length, offset + 9);
+        const endA = Math.min(user.feed.length, offset + 29);
         const actionIdsA = user.feed.reverse().slice(startA, endA);
 
         const godActionsA = [];
@@ -30,7 +30,7 @@ export default async function getFeed(userId: string, type: string, offset: numb
       case FeedType.ProfileFeed:
         if (!user.actionIds) return new RealFeed([]);
         const start = Math.max(0, offset - 1);
-        const end = Math.min(user.actionIds.length, offset + 9);
+        const end = Math.min(user.actionIds.length, offset + 29);
         const actionIds = user.actionIds.reverse().slice(start, end);
 
         const godActions = [];
